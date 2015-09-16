@@ -132,6 +132,7 @@
     <repositories>
         <repository>
             <id>xpert-framework</id>
+            <name>xpert-framework</name>
             <url>http://xpert-framework.github.io/maven/</url>
         </repository>
     </repositories>
