@@ -26,6 +26,13 @@ public class PessoaExemploMB extends AbstractBaseBean<PessoaExemplo> implements 
     }
 
     @Override
+    public void save() {
+        super.save();
+    }
+    
+    
+
+    @Override
     public String getDataModelOrder() {
         return "id";
     }
