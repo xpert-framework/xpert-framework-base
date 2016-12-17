@@ -6,7 +6,7 @@
                  xmlns:x="http://xpert.com/faces"
                  xmlns:custom="http://java.sun.com/jsf/composite/components"
                  >
-    <h:form id="formDetailErroSistema">
+    <h:form id="formDetailErroSistema" styleClass="uix-form-detail">
 
 
         <p:accordionPanel multiple="true" activeIndex="0,1">
@@ -32,7 +32,7 @@
                         </div>
                         <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                             <h:outputLabel value="#{msg['erroSistema.url']}:" styleClass="control-label" /><br/>
-                            <h:outputText value="#{erroSistemaMB.entity.url}"/>
+                            <h:outputText value="#{erroSistemaMB.entity.url}" styleClass="uix-content-detail"/>
                         </div>
                     </div>
                     <div class="row">
