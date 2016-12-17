@@ -131,6 +131,11 @@
     </dependencies>
     <repositories>
         <repository>
+            <id>prime-repo</id>
+            <name>Prime Repo</name>
+            <url>http://repository.primefaces.org</url>
+        </repository>
+        <repository>
             <id>xpert-framework</id>
             <name>xpert-framework</name>
             <url>http://xpert-framework.github.io/maven/</url>
