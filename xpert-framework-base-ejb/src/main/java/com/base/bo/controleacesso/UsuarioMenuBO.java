@@ -236,7 +236,7 @@ public class UsuarioMenuBO {
         DefaultMenuItem item = new DefaultMenuItem();
         item.setValue(I18N.get("menu.home"));
         item.setIcon("ui-icon-home");
-        item.setUrl("/view/home.jsf");
+        item.setOutcome("/view/home.jsf");
         return item;
     }
 
@@ -271,7 +271,7 @@ public class UsuarioMenuBO {
                 DefaultMenuItem item = new DefaultMenuItem();
                 item.setId(permissao.getId().toString());
                 item.setValue(permissao.getNomeMenuVerificado());
-                item.setUrl(permissao.getUrlMenuVerificado());
+                item.setOutcome(permissao.getUrlMenuVerificado());
                 itemMenuMap.put(permissao, item);
                 permissaoMap.put(item, permissao);
                 //adicionar ao submenu quando encontrado, senao adicionar ao root
