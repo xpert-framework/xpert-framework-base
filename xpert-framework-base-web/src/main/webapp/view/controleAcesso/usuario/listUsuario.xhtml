@@ -99,17 +99,17 @@
                     <f:facet name="header">
                         <h:outputText value="#{xmsg['actions']}"/>
                     </f:facet>
-                    <p:commandButton oncomplete="PF('widgetUsuarioDetail').show();"  icon="ui-icon-zoomin"
+                    <p:commandButton oncomplete="PF('widgetUsuarioDetail').show();"  icon="fas fa-search-plus"
                                      action="#{usuarioMB.detail}" process="@form" update=":formDetailUsuario" >
                         <f:setPropertyActionListener value="#{usuario}" target="#{usuarioMB.entity}" />
                     </p:commandButton>
                     <x:securityArea rolesAllowed="usuario.create">
-                        <p:button icon="ui-icon-pencil" outcome="createUsuario" >
+                        <p:button icon="fas fa-edit" outcome="createUsuario" >
                             <f:param name="id" value="#{usuario.id}" />
                         </p:button>
                     </x:securityArea>
                     <x:securityArea rolesAllowed="usuario.delete">
-                        <p:commandButton icon="ui-icon-trash" process="@form" update="@form" action="#{usuarioMB.delete}" >
+                        <p:commandButton icon="fas fa-trash" process="@form" update="@form" action="#{usuarioMB.delete}" >
                             <f:setPropertyActionListener value="#{usuario.id}" target="#{usuarioMB.id}" />
                             <x:confirmation message="#{xmsg['confirmDelete']} - #{usuario}" />
                         </p:commandButton>

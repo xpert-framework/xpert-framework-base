@@ -7,7 +7,7 @@
                  >
     <h:form>
         <x:modalMessages/>
-        <p:fieldset legend="#{msg['dadosGerais']}">
+        <p:panel>
             <div class="container-fluid">
                 <div class="row">
 
@@ -44,26 +44,20 @@
 
                 </div>
             </div>
-        </p:fieldset>
-        <p:fieldset legend="#{msg['modeloEmail.layout']}">
 
-            <h:panelGroup id="panelLayout">
+            <h:outputLabel value="* #{msg['modeloEmail.layout']}:" />
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
 
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
-
-                            <h:panelGroup rendered="#{empty viewScope.exibirTexto or viewScope.exibirTexto == false}" >
-                                <p:textEditor value="#{modeloEmailMB.entity.layout}" style="width: 100%;" width="700"/>
-                            </h:panelGroup>
-                        </div>
+                        <h:panelGroup rendered="#{empty viewScope.exibirTexto or viewScope.exibirTexto == false}" >
+                            <p:textEditor value="#{modeloEmailMB.entity.layout}" style="width: 100%;" />
+                        </h:panelGroup>
                     </div>
                 </div>
+            </div>
 
-            </h:panelGroup>
-
-
-        </p:fieldset>
+        </p:panel>
         <h:outputText value="#{xmsg['requiredFieldsForm']}"/>
         <div style="text-align: center;">
             <x:securityArea rolesAllowed="modeloEmail.create">

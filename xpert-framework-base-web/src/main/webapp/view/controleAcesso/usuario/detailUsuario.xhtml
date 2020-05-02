@@ -88,7 +88,7 @@
                     <p:column styleClass="uix-datatable-actions" exportable="false">
                         <p:commandButton oncomplete="PF('widgetPerfilDetail').show();"  
                                          action="#{perfilMB.detail}"
-                                         icon="ui-icon-zoomin" process="@form" update=":formDetailPerfil" >
+                                         icon="fas fa-search-plus" process="@form" update=":formDetailPerfil" >
                             <f:setPropertyActionListener value="#{perfil}" target="#{perfilMB.entity}" />
                         </p:commandButton>
                     </p:column>

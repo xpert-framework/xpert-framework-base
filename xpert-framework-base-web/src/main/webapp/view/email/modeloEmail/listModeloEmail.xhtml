@@ -49,17 +49,17 @@
                     <f:facet name="header">
                         <h:outputText value="#{xmsg['actions']}"/>
                     </f:facet>
-                    <p:commandButton oncomplete="PF('widgetModeloEmailDetail').show();"  icon="ui-icon-zoomin" 
+                    <p:commandButton oncomplete="PF('widgetModeloEmailDetail').show();"  icon="fas fa-search-plus" 
                                      process="@form" update=":formDetailModeloEmail" title="#{xmsg['detail']}" >
                         <f:setPropertyActionListener value="#{modeloEmail}" target="#{modeloEmailMB.entity}" />
                     </p:commandButton>
                     <x:securityArea rolesAllowed="modeloEmail.create">
-                        <p:button icon="ui-icon-pencil" outcome="createModeloEmail" title="#{xmsg['edit']}">
+                        <p:button icon="fas fa-edit" outcome="createModeloEmail" title="#{xmsg['edit']}">
                             <f:param name="id" value="#{modeloEmail.id}" />
                         </p:button>
                     </x:securityArea>
                     <x:securityArea rolesAllowed="modeloEmail.delete">
-                        <p:commandButton icon="ui-icon-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                        <p:commandButton icon="fas fa-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
                                          action="#{modeloEmailMB.delete}" >
                             <f:setPropertyActionListener value="#{modeloEmail.id}" target="#{modeloEmailMB.id}" />
                             <x:confirmation message="#{xmsg['confirmDelete']} - #{modeloEmail}" />

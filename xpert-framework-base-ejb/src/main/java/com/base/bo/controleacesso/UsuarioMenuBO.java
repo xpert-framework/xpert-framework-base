@@ -235,7 +235,7 @@ public class UsuarioMenuBO {
     public DefaultMenuItem getMenuHome() {
         DefaultMenuItem item = new DefaultMenuItem();
         item.setValue(I18N.get("menu.home"));
-        item.setIcon("ui-icon-home");
+        item.setIcon("fas fa-home");
         item.setOutcome("/view/home.jsf");
         return item;
     }
@@ -243,7 +243,7 @@ public class UsuarioMenuBO {
     public DefaultMenuItem getMenuSair() {
         DefaultMenuItem item = new DefaultMenuItem();
         item.setValue(I18N.get("menu.sair"));
-        item.setIcon("ui-icon-close");
+        item.setIcon("fas fa-sign-out-alt");
         item.setCommand("#{loginMB.logout}");
         return item;
     }
@@ -270,6 +270,9 @@ public class UsuarioMenuBO {
             if (permissaoPai == null || submenu != null) {
                 DefaultMenuItem item = new DefaultMenuItem();
                 item.setId(permissao.getId().toString());
+                if (permissao.getIcone() != null && !permissao.getIcone().trim().isEmpty()) {
+                    item.setIcon(permissao.getIcone());
+                }
                 item.setValue(permissao.getNomeMenuVerificado());
                 item.setOutcome(permissao.getUrlMenuVerificado());
                 itemMenuMap.put(permissao, item);
@@ -294,6 +297,9 @@ public class UsuarioMenuBO {
                     if (submenu == null) {
                         submenu = new DefaultSubMenu();
                         submenu.setId(permissao.getId().toString());
+                        if (permissao.getIcone() != null && !permissao.getIcone().trim().isEmpty()) {
+                            submenu.setIcon(permissao.getIcone());
+                        }
                         submenu.setLabel(permissao.getNomeMenuVerificado());
                         subMenuMap.put(permissao, submenu);
                         permissaoMap.put(submenu, permissao);

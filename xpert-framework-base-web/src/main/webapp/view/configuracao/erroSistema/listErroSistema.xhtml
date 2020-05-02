@@ -63,16 +63,16 @@
                     <f:facet name="header">
                         <h:outputText value="#{xmsg['actions']}"/>
                     </f:facet>
-                    <p:commandButton oncomplete="PF('widgetErroSistemaDetail').show();"  icon="ui-icon-zoomin" process="@form" update=":formDetailErroSistema" >
+                    <p:commandButton oncomplete="PF('widgetErroSistemaDetail').show();"  icon="fas fa-search-plus" process="@form" update=":formDetailErroSistema" >
                         <f:setPropertyActionListener value="#{erroSistema}" target="#{erroSistemaMB.entity}" />
                     </p:commandButton>
                     <x:securityArea rolesAllowed="erroSistema.create">
-                        <p:button icon="ui-icon-pencil" outcome="createErroSistema" >
+                        <p:button icon="fas fa-edit" outcome="createErroSistema" >
                             <f:param name="id" value="#{erroSistema.id}" />
                         </p:button>
                     </x:securityArea>
                     <x:securityArea rolesAllowed="erroSistema.delete">
-                        <p:commandButton icon="ui-icon-trash" process="@form" update="@form" action="#{erroSistemaMB.delete}" >
+                        <p:commandButton icon="fas fa-trash" process="@form" update="@form" action="#{erroSistemaMB.delete}" >
                             <f:setPropertyActionListener value="#{erroSistema.id}" target="#{erroSistemaMB.id}" />
                             <x:confirmation message="#{xmsg['confirmDelete']} - #{erroSistema}" />
                         </p:commandButton>

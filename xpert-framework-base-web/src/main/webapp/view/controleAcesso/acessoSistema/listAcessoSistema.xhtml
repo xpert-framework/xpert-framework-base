@@ -71,11 +71,11 @@
                     <f:facet name="header">
                         <h:outputText value="#{xmsg['actions']}"/>
                     </f:facet>
-                    <p:commandButton oncomplete="PF('widgetAcessoSistemaDetail').show();"  icon="ui-icon-zoomin" process="@form" update=":formDetailAcessoSistema" >
+                    <p:commandButton oncomplete="PF('widgetAcessoSistemaDetail').show();"  icon="fas fa-search-plus" process="@form" update=":formDetailAcessoSistema" >
                         <f:setPropertyActionListener value="#{acessoSistema}" target="#{acessoSistemaMB.entity}" />
                     </p:commandButton>
                     <x:securityArea rolesAllowed="acessoSistema.create">
-                        <p:button icon="ui-icon-pencil" outcome="createAcessoSistema" >
+                        <p:button icon="fas fa-edit" outcome="createAcessoSistema" >
                             <f:param name="id" value="#{acessoSistema.id}" />
                         </p:button>
                     </x:securityArea>
