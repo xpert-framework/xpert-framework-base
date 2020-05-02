@@ -55,6 +55,14 @@
                                 <h:outputText value="#{usuarioMB.entity.senhaCadastrada}" converter ="yesNoConverter" />
                             </span>
                         </div>
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <h:outputLabel value="#{msg['usuario.dataUltimoAcesso']}:" styleClass="control-label"/><br/>
+                            <span class="uix-content-detail">
+                                <h:outputText value="#{usuarioMB.entity.dataUltimoAcesso}" >
+                                    <f:convertDateTime pattern="#{formatMB.format.dataHoraMinutoSegundo}"/>
+                                </h:outputText>
+                            </span>
+                        </div>
                         <h:panelGroup rendered="#{sessaoUsuarioMB.user.superUsuario}" >
                             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                                 <h:outputLabel value="#{msg['usuario.superUsuario']}:" styleClass="control-label"/><br/>

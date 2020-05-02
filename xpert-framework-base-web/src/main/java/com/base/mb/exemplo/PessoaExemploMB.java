@@ -4,16 +4,16 @@ package com.base.mb.exemplo;
 import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import com.base.bo.exemplo.PessoaExemploBO;
 import com.base.modelo.exemplo.PessoaExemplo;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 
 /**
  *
  * @author Ayslan
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class PessoaExemploMB extends AbstractBaseBean<PessoaExemplo> implements Serializable {
 

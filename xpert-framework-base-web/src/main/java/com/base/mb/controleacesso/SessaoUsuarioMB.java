@@ -11,8 +11,8 @@ import com.xpert.security.session.AbstractUserSession;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 import org.primefaces.model.menu.MenuModel;
 
 /**
@@ -20,7 +20,7 @@ import org.primefaces.model.menu.MenuModel;
  *
  * @author ayslan
  */
-@ManagedBean
+@Named
 @SessionScoped
 public class SessaoUsuarioMB extends AbstractUserSession implements Serializable {
 

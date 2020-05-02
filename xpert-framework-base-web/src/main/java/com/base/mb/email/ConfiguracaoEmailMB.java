@@ -6,10 +6,10 @@ import com.base.modelo.email.ConfiguracaoEmail;
 import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import com.xpert.core.exception.BusinessException;
 import com.xpert.faces.utils.FacesMessageUtils;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -17,7 +17,7 @@ import org.hibernate.validator.constraints.NotBlank;
  *
  * @author ayslan
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class ConfiguracaoEmailMB extends AbstractBaseBean<ConfiguracaoEmail> implements Serializable {
     

@@ -3,8 +3,9 @@ package com.base.mb;
 import com.base.GeracaoDadosSistema;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
+import javax.ejb.Startup;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 
 /**
  * Como esse managed bean tem o escopo de "Application" e a opcao "eager = true"
@@ -12,7 +13,8 @@ import javax.faces.bean.ManagedBean;
  *
  * @author ayslan
  */
-@ManagedBean(eager = true)
+@Named
+@Startup
 @ApplicationScoped
 public class ApplicationMB {
 

@@ -30,7 +30,7 @@ public class PermissaoDAOImpl extends BaseDAOImpl<Permissao> implements Permissa
     public List<Permissao> getPermissoes(boolean apenasAtivas) {
         StringBuilder builder = new StringBuilder();
         //trazer todas permissoes
-        builder.append("SELECT p FROM ").append(Permissao.class.getName()).append(" p ");
+        builder.append("SELECT p FROM ").append(Permissao.class.getName()).append(" p LEFT JOIN FETCH p.permissoesFilhas pf ");
         if (apenasAtivas == true) {
             builder.append(" WHERE p.ativo = true ");
         }
@@ -49,11 +49,11 @@ public class PermissaoDAOImpl extends BaseDAOImpl<Permissao> implements Permissa
     public List<Permissao> getPermissoes(Usuario usuario, boolean apenasAtivas) {
         StringBuilder builder = new StringBuilder();
 
-        builder.append("SELECT DISTINCT p FROM ").append(Permissao.class.getName()).append(" p ");
+        builder.append("SELECT DISTINCT p FROM ").append(Permissao.class.getName()).append(" p LEFT JOIN FETCH p.permissoesFilhas pf ");
         builder.append("LEFT JOIN p.perfis pe ");
         builder.append("LEFT JOIN pe.usuarios u ");
         builder.append("WHERE (u = :usuario or p.global = true) ");
-        
+
         if (apenasAtivas == true) {
             builder.append(" AND (p.ativo = true) ");
         }

@@ -21,6 +21,9 @@ public class Usuario implements Serializable, User {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCadastro;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dataUltimoAcesso;
 
     @NotBlank
     private String nome;
@@ -98,6 +101,14 @@ public class Usuario implements Serializable, User {
         return emailCadastroEnviado;
     }
 
+    public Date getDataUltimoAcesso() {
+        return dataUltimoAcesso;
+    }
+
+    public void setDataUltimoAcesso(Date dataUltimoAcesso) {
+        this.dataUltimoAcesso = dataUltimoAcesso;
+    }
+    
     public void setEmailCadastroEnviado(Boolean emailCadastroEnviado) {
         this.emailCadastroEnviado = emailCadastroEnviado;
     }

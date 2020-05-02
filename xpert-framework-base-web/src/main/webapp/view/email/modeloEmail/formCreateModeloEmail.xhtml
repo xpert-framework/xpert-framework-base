@@ -54,23 +54,8 @@
                         <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
 
                             <h:panelGroup rendered="#{empty viewScope.exibirTexto or viewScope.exibirTexto == false}" >
-                                <p:editor value="#{modeloEmailMB.entity.layout}" style="width: 100%;" width="700"/>
+                                <p:textEditor value="#{modeloEmailMB.entity.layout}" style="width: 100%;" width="700"/>
                             </h:panelGroup>
-
-                            <h:panelGroup rendered="#{viewScope.exibirTexto == true}" >
-                                <p:inputTextarea autoResize="false" value="#{modeloEmailMB.entity.layout}"  rows="10"
-                                                 styleClass="form-control" />
-                            </h:panelGroup>
-                        </div>
-                        <div class="form-group col-lg-12 col-md-12 col-sm-6 col-xs-12">
-                            <div class="checkbox">
-                                <label>
-                                    <h:selectBooleanCheckbox value="#{viewScope.exibirTexto}" id="exibirTexto">
-                                        <p:ajax process="panelLayout" update="panelLayout"/>
-                                    </h:selectBooleanCheckbox>
-                                    Exibir editor de texto
-                                </label>
-                            </div>
                         </div>
                     </div>
                 </div>

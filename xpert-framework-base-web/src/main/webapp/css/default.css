@@ -50,7 +50,6 @@ select{padding: 4px;}
 .ui-dialog.ui-widget-content .ui-dialog-content {font-size: 12px; margin-bottom: 10px;}
 .ui-fieldset{margin: 3px 0;}
 .ui-fieldset-legend{width: auto;font-size: 13px;height: auto;padding: 0px 15px;margin: 5px 0 5px 5px;}
-.ui-menu .ui-menu-parent .ui-menu-child {min-width: 180px; width: auto;}
 .grid-permissao a{text-decoration: none;}
 .grid-permissao .ui-panel-content{padding: 2px;}
 .grid-permissao .ui-datagrid-content{border: 0;}
@@ -69,13 +68,14 @@ input[type="radio"], input[type="checkbox"] {margin: 0; min-height: 0; padding-l
 .ui-toolbar .ui-button span{font-size: 14px;}
 .navbar .ui-panelmenu .ui-panelmenu-header{font-size: 14px;}
 /*menu bar*/
-.ui-menu.ui-menubar{}
+/*.ui-menu.ui-menubar{}
+.ui-menu .ui-menu-parent .ui-menu-child {min-width: 180px; width: auto;}
 .ui-menu .ui-menuitem {margin: 0;}
 .ui-menu.ui-menubar .ui-menu-parent .ui-menu-child {padding: 0;}
 .ui-menu > ul > li > a{padding: 10px 10px !important;border: 0}
 .ui-menu > ul > li ul li{width: 230px !important;}
 .ui-menu > ul > li > ul > li{width: 190px !important;}
-.ui-menu > ul > li ul .ui-menuitem-link {padding: 8px 0 !important; font-size: 13px;}
+.ui-menu > ul > li ul .ui-menuitem-link {padding: 8px 0 !important; font-size: 13px;}*/
 .acesso-rapido .ui-autocomplete-input {height: 34px;}
 select.form-control{height: 34px;}
 section.conteudo {padding: 0 20px; font-size: 12px;}
@@ -99,3 +99,7 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
 .ui-datatable table{ table-layout: auto; }
 .ui-datatable tr.ui-widget-content:hover, .ui-panelgrid tr.ui-widget-content:hover, .ui-treetable tr.ui-widget-content:hover{background-color: #EBEBEB;}
 .uix-form-detail .control-label { margin-bottom: 0; margin-top: 8px;}
+
+.ui-tree {
+   min-width: 500px;
+}

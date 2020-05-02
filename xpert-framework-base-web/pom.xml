@@ -4,7 +4,7 @@
     <parent>
         <artifactId>xpert-framework-base</artifactId>
         <groupId>com.xpert.base</groupId>
-        <version>1.3</version>
+        <version>1.4</version>
     </parent>
 
     <groupId>com.xpert.base</groupId>
@@ -35,12 +35,12 @@
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
-            <version>1.2.2</version>
+            <version>1.4</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
-            <artifactId>javaee-web-api</artifactId>
-            <version>6.0</version>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
             <scope>provided</scope>
         </dependency>
         

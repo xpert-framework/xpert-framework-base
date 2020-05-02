@@ -1,10 +1,14 @@
 package com.base.filter;
 
+import com.base.mb.controleacesso.SessaoUsuarioMB;
 import com.xpert.security.filter.AbstractSecurityFilter;
+import com.xpert.security.session.AbstractUserSession;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.inject.spi.CDI;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.annotation.WebFilter;
 
 /**
@@ -25,6 +29,11 @@ public class SecurityFilter extends AbstractSecurityFilter {
      * lista de URLs a serem ignoradas pelo controle de acesso
      */
     private static final String[] IGNORE_URL = {"/view/home.jsf"};
+
+    @Override
+    public AbstractUserSession getSessionBean(ServletRequest request) {
+        return CDI.current().select(SessaoUsuarioMB.class).get();
+    }
 
     @Override
     public String getUserSessionName() {

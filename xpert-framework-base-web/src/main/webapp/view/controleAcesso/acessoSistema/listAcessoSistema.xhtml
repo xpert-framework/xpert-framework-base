@@ -26,10 +26,18 @@
                 </p:column>
                 <p:column sortBy="#{acessoSistema.dataHora}"
                           filterBy="#{acessoSistema.dataHora}"
-                          style="text-align: center;">
+                          style="text-align: center;" exportable="false">
                     <f:facet name="header">
                         #{msg['acessoSistema.dataHora']}
                         <x:dateFilter/>
+                    </f:facet>
+                    <h:outputText value="#{acessoSistema.dataHora}">
+                        <f:convertDateTime pattern="#{formatMB.format.dataHoraMinutoSegundo}"/>
+                    </h:outputText>
+                </p:column>
+                <p:column style="text-align: center; display: none;">
+                    <f:facet name="header">
+                        #{msg['acessoSistema.dataHora']}
                     </f:facet>
                     <h:outputText value="#{acessoSistema.dataHora}">
                         <f:convertDateTime pattern="#{formatMB.format.dataHoraMinutoSegundo}"/>
