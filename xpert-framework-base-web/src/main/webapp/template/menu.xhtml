@@ -19,10 +19,9 @@
                                         itemValue="#{permissao}" scrollHeight="300"
                                         var="permissao" itemLabel="#{permissao.urlMenuVerificado}">
                             <p:ajax event="query" global="false" />
+                            <p:ajax event="itemSelect" global="false" onstart="navegarMenuBar()" />
                             <p:column>
-                                <div  onclick="window.location.href = '#{request.contextPath}' +'#{permissao.urlMenuVerificado}'">
-                                    <h:outputText  value="#{permissao.caminhoPermissao}" escape="false"/>
-                                </div>
+                                <h:outputText  value="#{permissao.caminhoPermissao}" escape="false"/>
                             </p:column>
                         </p:autoComplete>
                     </h:panelGroup>
@@ -45,5 +44,12 @@
             </nav>
         </div>
     </h:form>
+
+    <script>
+        function navegarMenuBar() {
+            var url = $('.acesso-rapido input').val();
+            window.location.href = "#{request.contextPath}" + url;
+        }
+    </script>
 
 </ui:composition>

@@ -48,7 +48,7 @@ public class GeracaoPermissao {
         create(new Permissao("controleAcesso", "Controle de Acesso", true, "fas fa-shield-alt"), "administracaoSistema");
 
         //Permissao
-        create(new Permissao("permissao", "Permissão", true), "controleAcesso");
+        create(new Permissao("permissao", "Permissão", true, "fas fa-user-shield"), "controleAcesso");
         create(new Permissao("permissao.create", "Cadastro de Permissão", "/view/controleAcesso/permissao/createPermissao.jsf", true), "permissao");
         create(new Permissao("permissao.list", "Consulta de Permissão", "/view/controleAcesso/permissao/listPermissao.jsf", true), "permissao");
         create(new Permissao("permissao.audit", "Auditoria de Permissão"), "permissao");
@@ -64,7 +64,7 @@ public class GeracaoPermissao {
         create(new Permissao("usuario.delete", "Exclusão de Usuário"), "usuario");
 
         //Perfil
-        create(new Permissao("perfil", "Perfil", true), "controleAcesso");
+        create(new Permissao("perfil", "Perfil", true, "fas fa-users"), "controleAcesso");
         create(new Permissao("perfil.create", "Cadastro de Perfil", "/view/controleAcesso/perfil/createPerfil.jsf", true), "perfil");
         create(new Permissao("perfil.list", "Consulta de Perfil", "/view/controleAcesso/perfil/listPerfil.jsf", true), "perfil");
         create(new Permissao("perfil.audit", "Auditoria de Perfil"), "perfil");
@@ -74,7 +74,7 @@ public class GeracaoPermissao {
         create(new Permissao("acessoSistema.list", "Relatório de Acessos", "/view/controleAcesso/acessoSistema/listAcessoSistema.jsf", true, "fas fa-file-signature"), "controleAcesso");
 
         //Solicitacao recuperacao senha
-        create(new Permissao("solicitacaoRecuperacaoSenha", "Recuperação de Senha", true), "controleAcesso");
+        create(new Permissao("solicitacaoRecuperacaoSenha", "Recuperação de Senha", true, "fas fa-key"), "controleAcesso");
         create(new Permissao("solicitacaoRecuperacaoSenha.list", "Consulta Recuperação de Senha", "/view/controleAcesso/solicitacaoRecuperacaoSenha/listSolicitacaoRecuperacaoSenha.jsf", true), "solicitacaoRecuperacaoSenha");
         create(new Permissao("solicitacaoRecuperacaoSenha.audit", "Auditoria de Recuperação de Senha"), "solicitacaoRecuperacaoSenha");
 
@@ -84,14 +84,14 @@ public class GeracaoPermissao {
         create(new Permissao("email", "Email", true, "fas fa-envelope"), "administracaoSistema");
 
         //Modelo email
-        create(new Permissao("modeloEmail", "Modelo de Email", true), "email");
+        create(new Permissao("modeloEmail", "Modelo de Email", true, "far fa-envelope"), "email");
         create(new Permissao("modeloEmail.create", "Cadastro de Modelo de Email", "/view/email/modeloEmail/createModeloEmail.jsf", true), "modeloEmail");
         create(new Permissao("modeloEmail.list", "Consulta de Modelo de Email", "/view/email/modeloEmail/listModeloEmail.jsf", true), "modeloEmail");
         create(new Permissao("modeloEmail.audit", "Auditoria de Modelo de Email"), "modeloEmail");
         create(new Permissao("modeloEmail.delete", "Exclusão de Modelo de Email"), "modeloEmail");
 
         //Configuracao email
-        create(new Permissao("configuracaoEmail", "Configuração de Email", true), "email");
+        create(new Permissao("configuracaoEmail", "Configuração de Email", true, "fas fa-at"), "email");
         create(new Permissao("configuracaoEmail.create", "Cadastro de Configuração de Email", "/view/email/configuracaoEmail/createConfiguracaoEmail.jsf", true), "configuracaoEmail");
         create(new Permissao("configuracaoEmail.list", "Consulta de Configuração de Email", "/view/email/configuracaoEmail/listConfiguracaoEmail.jsf", true), "configuracaoEmail");
         create(new Permissao("configuracaoEmail.audit", "Auditoria de Configuração de Email"), "configuracaoEmail");
@@ -133,6 +133,15 @@ public class GeracaoPermissao {
             return;
         }
 
+        //nova permissao no banco setar os icones
+        if (permissao.getIcone() == null || permissao.getIcone().isEmpty()) {
+            if (permissao.getKey().contains(".create")) {
+                permissao.setIcone("fas fa-plus");
+            } else if (permissao.getKey().contains(".list")) {
+                permissao.setIcone("fas fa-search");
+            }
+        }
+
         Permissao permissaoDB = permissoes.get(permissao.getKey());
 
         if (pai != null && !pai.isEmpty()) {
@@ -151,6 +160,8 @@ public class GeracaoPermissao {
             permissaoDB.setPossuiMenu(permissao.isPossuiMenu());
             permissaoDB.setGlobal(permissao.isGlobal());
             permissao = permissaoDB;
+        } else {
+
         }
 
         permissao = permissaoDAO.merge(permissao, false);

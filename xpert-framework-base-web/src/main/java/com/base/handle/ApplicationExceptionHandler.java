@@ -2,6 +2,7 @@ package com.base.handle;
 
 import com.base.util.SessaoUtils;
 import com.base.bo.configuracao.ErroSistemaBO;
+import com.base.constante.Constantes;
 import com.base.modelo.configuracao.ErroSistema;
 import com.xpert.faces.utils.FacesMessageUtils;
 import com.xpert.faces.utils.FacesUtils;
@@ -16,7 +17,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.servlet.http.HttpServletRequest;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 
 /**
  * ExceptionHandler que trata os erros da aplicacao, caso seja um
@@ -68,7 +70,7 @@ public class ApplicationExceptionHandler extends ExceptionHandlerWrapper {
             } catch (Throwable ex) {
                 //caso aconteça alguma exceção ao salva o erro, exibir o erro no log e mostrar na tela
                 logger.log(Level.SEVERE, "Erro ao registrar exceção lançada", ex);
-                FacesUtils.addToSession("erroSistema", pilhaErro);
+                FacesUtils.addToSession("erroSistema", Jsoup.clean(pilhaErro, Constantes.WHITE_LIST_HTML));
                 FacesUtils.redirect(ERRO);
             } finally {
                 //sempre remover a execeção

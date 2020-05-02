@@ -1,5 +1,7 @@
 package com.base.constante;
 
+import org.jsoup.safety.Whitelist;
+
 /**
  *
  * @author Ayslan
@@ -23,6 +25,18 @@ public class Constantes {
      * Define o tempo em minutos de validade da recuperacao de senha
      */
     public static final int MINUTOS_VALIDADE_RECUPERACAO_SENHA = 30;
+    
+    public static final String[] WHITE_LIST_HTML_ATTRIBUTES = {"href", "class", "style", "title"};
+    /**
+     * Para quando utilizar espape="false" no XHTML tentar "limpar" o HTML para previnir XSS 
+     */
+    public static final Whitelist WHITE_LIST_HTML = Whitelist.relaxed()
+            .addAttributes("a", WHITE_LIST_HTML_ATTRIBUTES)
+            .addAttributes("i", WHITE_LIST_HTML_ATTRIBUTES)
+            .addAttributes("b", WHITE_LIST_HTML_ATTRIBUTES)
+            .addAttributes("div", WHITE_LIST_HTML_ATTRIBUTES)
+            .addAttributes("span", WHITE_LIST_HTML_ATTRIBUTES);
+    
 
     private Constantes() {
     }

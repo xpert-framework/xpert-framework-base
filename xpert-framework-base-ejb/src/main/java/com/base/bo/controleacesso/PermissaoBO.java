@@ -1,5 +1,6 @@
 package com.base.bo.controleacesso;
 
+import com.base.constante.Constantes;
 import com.base.dao.controleacesso.PermissaoDAO;
 import com.base.modelo.controleacesso.Perfil;
 import com.base.modelo.controleacesso.Permissao;
@@ -17,6 +18,7 @@ import javax.ejb.Stateless;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import org.jsoup.Jsoup;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -360,17 +362,27 @@ public class PermissaoBO extends AbstractBusinessObject<Permissao> {
                 Collections.reverse(permissoes);
                 for (int i = 0; i < permissoes.size(); i++) {
                     if (adicionarPropriaPermissao == true || !permissoes.get(i).equals(permissao)) {
+
+                        Permissao per = permissoes.get(i);
+
+
                         if (i > 0) {
                             builder.append(" > ");
                         }
-                        if (permissoes.get(i).equals(permissao)) {
-                            builder.append("<b style='font-size: 13px;'>").append(permissoes.get(i).getNomeMenuVerificado()).append("</b>");
+                        
+                        if (per.getIcone() != null && !per.getIcone().isEmpty()) {
+                            builder.append("<i class='").append(per.getIcone()).append("'></i> ");
+                        }
+                        
+                        if (per.equals(permissao)) {
+                            builder.append("<b style='font-size: 1.1em;'>").append(per.getNomeMenuVerificado()).append("</b>");
                         } else {
-                            builder.append(permissoes.get(i).getNomeMenuVerificado());
+                            builder.append(per.getNomeMenuVerificado());
                         }
                     }
                 }
-                permissao.setCaminhoPermissao(builder.toString());
+                //limpar o HTML, para previnir possivel XSS
+                permissao.setCaminhoPermissao(Jsoup.clean(builder.toString(), Constantes.WHITE_LIST_HTML));
             }
         }
     }

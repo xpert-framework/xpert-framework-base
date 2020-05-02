@@ -20,9 +20,10 @@
                             <div class="panel panel-default panel-permissao">
                                 <div class="panel-body">
                                     <h:link outcome="#{permissao.urlMenuVerificado}" styleClass="link-permissao" >
-                                        <h:outputText value="#{permissao.caminhoPermissao}" class="caminho-permissao"/>
+                                        <h:outputText value="#{permissao.caminhoPermissao}" styleClass="caminho-permissao" escape="false"/>
                                         <span class="nome-permissao">
-                                            <h:outputText value="#{permissao.nomeMenuVerificado}"/>
+                                            <i title="#{permissao.icone}" class="#{permissao.icone}"></i> 
+                                            <h:outputText value=" #{permissao.nomeMenuVerificado}"/>
                                         </span>
                                     </h:link>
                                 </div>
