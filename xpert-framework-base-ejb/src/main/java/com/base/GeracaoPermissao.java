@@ -53,8 +53,8 @@ public class GeracaoPermissao {
         create(new Permissao("permissao.list", "Consulta de Permissão", "/view/controleAcesso/permissao/listPermissao.jsf", true), "permissao");
         create(new Permissao("permissao.audit", "Auditoria de Permissão"), "permissao");
         create(new Permissao("permissao.delete", "Exclusão de Permissão"), "permissao");
-        create(new Permissao("permissao.ativacao", "Ativação de Permissão"), "permissao");
-        create(new Permissao("permissao.inativacao", "Inativação de Permissão"), "permissao");
+        create(new Permissao("permissao.ativacao", "Ativação de Permissão" , false, "fas fa-check"), "permissao");
+        create(new Permissao("permissao.inativacao", "Inativação de Permissão", false, "fas fa-times"), "permissao");
 
         //Usuario
         create(new Permissao("usuario", "Usuário", true, "fas fa-user"), "controleAcesso");
@@ -139,6 +139,10 @@ public class GeracaoPermissao {
                 permissao.setIcone("fas fa-plus");
             } else if (permissao.getKey().contains(".list")) {
                 permissao.setIcone("fas fa-search");
+            }else if (permissao.getKey().contains(".audit")) {
+                permissao.setIcone("fas fa-history");
+            }else if (permissao.getKey().contains(".delete")) {
+                permissao.setIcone("fas fa-trash");
             }
         }
 

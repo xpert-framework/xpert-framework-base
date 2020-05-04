@@ -40,9 +40,9 @@ public class GeracaoModeloEmail {
             configuracaoEmail.setUsuario(email);
             configuracaoEmail.setSenha("xpert@12345");
             configuracaoEmail.setHostName("smtp.gmail.com");
-            configuracaoEmail.setSsl(true);
+            configuracaoEmail.setSsl(false);
             configuracaoEmail.setTls(true);
-            configuracaoEmail.setSmtpPort(465);
+            configuracaoEmail.setSmtpPort(587);
             configuracaoEmail = getDAO(ConfiguracaoEmail.class).merge(configuracaoEmail, false);
         }
 
