@@ -37,6 +37,8 @@ public class Constantes {
             .addAttributes("div", WHITE_LIST_HTML_ATTRIBUTES)
             .addAttributes("span", WHITE_LIST_HTML_ATTRIBUTES);
     
+    public static final String TEMA_PADRAO = "nova-dark";
+    
 
     private Constantes() {
     }

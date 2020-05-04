@@ -38,7 +38,7 @@ public class GeracaoModeloEmail {
             configuracaoEmail.setNome("[xpert-framework-base]");
             configuracaoEmail.setEmail(email);
             configuracaoEmail.setUsuario(email);
-            configuracaoEmail.setSenha("xpert123456");
+            configuracaoEmail.setSenha("xpert@12345");
             configuracaoEmail.setHostName("smtp.gmail.com");
             configuracaoEmail.setSsl(true);
             configuracaoEmail.setTls(true);

@@ -11,13 +11,20 @@ import com.xpert.persistence.dao.BaseDAO;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
 import com.xpert.core.validation.UniqueFields;
+import com.xpert.faces.utils.FacesUtils;
+import com.xpert.security.SecuritySessionManager;
+import com.xpert.security.model.Role;
 import com.xpert.utils.CollectionsUtils;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -365,15 +372,14 @@ public class PermissaoBO extends AbstractBusinessObject<Permissao> {
 
                         Permissao per = permissoes.get(i);
 
-
                         if (i > 0) {
                             builder.append(" > ");
                         }
-                        
+
                         if (per.getIcone() != null && !per.getIcone().isEmpty()) {
                             builder.append("<i class='").append(per.getIcone()).append("'></i> ");
                         }
-                        
+
                         if (per.equals(permissao)) {
                             builder.append("<b style='font-size: 1.1em;'>").append(per.getNomeMenuVerificado()).append("</b>");
                         } else {
@@ -411,5 +417,18 @@ public class PermissaoBO extends AbstractBusinessObject<Permissao> {
         CollectionsUtils.orderAsc(permissoes, "caminhoPermissao");
 
         return permissoes;
+    }
+
+    /**
+     * Retorna a permissao da view atual baseada nas permissoes passadas por
+     * parametro
+     *
+     * @return
+     */
+    public Permissao getPermissaoViewAtual() {
+        HttpServletRequest request = FacesUtils.getRequest();
+        //caso exista outra maneira no projeto de pegar a URL (algum framework na frente por exemplo que controle URL amigavel) aqui deve ser alterado
+        String viewAtual = request.getServletPath();
+        return (Permissao) SecuritySessionManager.getRoleByUrl(viewAtual);
     }
 }

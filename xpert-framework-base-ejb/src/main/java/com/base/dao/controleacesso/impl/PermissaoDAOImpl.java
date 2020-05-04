@@ -114,4 +114,19 @@ public class PermissaoDAOImpl extends BaseDAOImpl<Permissao> implements Permissa
 
         return query.getResultList();
     }
+
+    @Override
+    public List<Permissao> getPermissoesFavoritas(Usuario usuario) {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("SELECT DISTINCT p FROM ").append(Usuario.class.getName()).append(" u ");
+        builder.append(" INNER JOIN u.favoritos p ");
+        builder.append("WHERE u = :usuario AND p.url IS NOT NULL AND p.ativo = true ");
+        builder.append("ORDER BY p.descricao ");
+
+        Query query = getEntityManager().createQuery(builder.toString());
+        query.setParameter("usuario", usuario);
+
+        return query.getResultList();
+    }
 }

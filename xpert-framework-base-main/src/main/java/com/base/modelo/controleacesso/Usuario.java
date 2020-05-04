@@ -21,7 +21,7 @@ public class Usuario implements Serializable, User {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCadastro;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataUltimoAcesso;
 
@@ -60,6 +60,10 @@ public class Usuario implements Serializable, User {
     @JoinTable(name = "usuario_perfil", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "perfil_id"))
     private List<Perfil> perfis;
 
+    @ManyToMany(targetEntity = Permissao.class, fetch = FetchType.LAZY)
+    @JoinTable(name = "usuario_favoritos", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "permissao_id"))
+    private List<Permissao> favoritos;
+
     @NotAudited
     @OrderBy("dataSituacao DESC")
     @OneToMany(mappedBy = "usuario")
@@ -70,6 +74,8 @@ public class Usuario implements Serializable, User {
     private Boolean emailCadastroEnviado;
 
     private Boolean senhaCadastrada;
+    
+    private String tema;
 
     public Usuario() {
         senhaCadastrada = false;
@@ -101,6 +107,22 @@ public class Usuario implements Serializable, User {
         return emailCadastroEnviado;
     }
 
+    public String getTema() {
+        return tema;
+    }
+
+    public void setTema(String tema) {
+        this.tema = tema;
+    }
+    
+    public List<Permissao> getFavoritos() {
+        return favoritos;
+    }
+
+    public void setFavoritos(List<Permissao> favoritos) {
+        this.favoritos = favoritos;
+    }
+
     public Date getDataUltimoAcesso() {
         return dataUltimoAcesso;
     }
@@ -108,7 +130,7 @@ public class Usuario implements Serializable, User {
     public void setDataUltimoAcesso(Date dataUltimoAcesso) {
         this.dataUltimoAcesso = dataUltimoAcesso;
     }
-    
+
     public void setEmailCadastroEnviado(Boolean emailCadastroEnviado) {
         this.emailCadastroEnviado = emailCadastroEnviado;
     }
@@ -252,7 +274,6 @@ public class Usuario implements Serializable, User {
         }
         return true;
     }
-    
 
     @Override
     public String toString() {

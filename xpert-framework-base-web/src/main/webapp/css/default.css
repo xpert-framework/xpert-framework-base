@@ -54,9 +54,10 @@ select{padding: 4px;}
 .grid-permissao .ui-panel-content{padding: 2px;}
 .grid-permissao .ui-datagrid-content{border: 0;}
 .panel-permissao{margin-bottom: 5px;}
-.link-permissao{vertical-align:middle;display:block;}
+.link-permissao{vertical-align:middle;display:block; color: #000;}
+.link-permissao:hover{text-decoration: none;}
 .caminho-permissao {font-size: 10px;  display: block; line-height: 11px; font-weight: normal; padding-top: 3px;text-align: center; color: #8B8989;}
-.nome-permissao {display: block;font-size: 15px; font-weight: bold; padding-top: 3px; text-align: center; color: #000}
+.nome-permissao {display: block;font-size: 15px; font-weight: bold; padding-top: 3px; text-align: center; }
 .radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"] {float: left; margin-right: 2px; margin-left: 0;}
 input[type="radio"], input[type="checkbox"] {min-height: 0; padding-left: 0; margin-right: 3px;}
 .radio, .checkbox {padding-left: 0; margin: 0;}
@@ -76,7 +77,6 @@ input[type="radio"], input[type="checkbox"] {min-height: 0; padding-left: 0; mar
 .ui-menu > ul > li > a{padding: 10px 10px !important;border: 0}
 .ui-menu > ul > li > ul > li{width: 190px !important;}
 .ui-menu > ul > li ul .ui-menuitem-link {padding: 8px 0 !important; font-size: 13px;}*/
-.acesso-rapido .ui-autocomplete-input {height: 34px;}
 select.form-control{height: 34px;}
 section.conteudo {padding: 0 20px; font-size: 12px;}
 section.conteudo .page-header {margin: 10px 0 0 0; font-size: 20px }
@@ -104,3 +104,4 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
    min-width: 500px;
 }
 .uix-confirm-dialog{background-color: #fff}
+.ui-overlay-hidden{display: none;}

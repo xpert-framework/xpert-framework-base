@@ -30,7 +30,7 @@ public class ConfiguracaoEmailMB extends AbstractBaseBean<ConfiguracaoEmail> imp
     private String titulo = "Mensagem de Teste";
     
     @NotBlank(message="required.mensagem")
-    private String mensagem;
+    private String mensagem = "Esta é uma mensagem de teste";
     
     @NotBlank(message="required.email")
     @Email(message="business.emailInvalido")

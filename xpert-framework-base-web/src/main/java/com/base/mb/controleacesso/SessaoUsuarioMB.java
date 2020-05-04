@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.model.menu.MenuModel;
 
@@ -33,6 +34,8 @@ public class SessaoUsuarioMB extends AbstractUserSession implements Serializable
     private Usuario user;
     private List<Permissao> roles;
     private List<Permissao> atalhos;
+    @Inject
+    private SessaoFavoritosMB sessaoFavoritosMB;
     private MenuModel menuModel;
     private SolicitacaoRecuperacaoSenha solicitacaoRecuperacaoSenha;
 
@@ -42,6 +45,8 @@ public class SessaoUsuarioMB extends AbstractUserSession implements Serializable
         roles = permissaoBO.getPermissoes(user, true);
         //pegar atalhos do usuario
         atalhos = permissaoDAO.getPermissoesAtalhos(user);
+        //carregar os favoritos
+        sessaoFavoritosMB.carregarFavoritos();
         //criar o menu
         criarMenu();
         criarCaminhoPermissao();
@@ -49,6 +54,8 @@ public class SessaoUsuarioMB extends AbstractUserSession implements Serializable
         //iniciar lazy
         user.setPerfis(permissaoDAO.getInitialized(user.getPerfis()));
     }
+
+   
 
     public void criarMenu() {
         menuModel = usuarioMenuBO.criarMenu(roles);
@@ -62,6 +69,8 @@ public class SessaoUsuarioMB extends AbstractUserSession implements Serializable
     public List<Permissao> pesquisarPermissao(String query) {
         return permissaoBO.pesquisarPermissao(query, roles);
     }
+    
+   
 
     public MenuModel getMenuModel() {
         return menuModel;
@@ -101,4 +110,15 @@ public class SessaoUsuarioMB extends AbstractUserSession implements Serializable
     public void setSolicitacaoRecuperacaoSenha(SolicitacaoRecuperacaoSenha solicitacaoRecuperacaoSenha) {
         this.solicitacaoRecuperacaoSenha = solicitacaoRecuperacaoSenha;
     }
+
+    public SessaoFavoritosMB getSessaoFavoritosMB() {
+        return sessaoFavoritosMB;
+    }
+
+    public void setSessaoFavoritosMB(SessaoFavoritosMB sessaoFavoritosMB) {
+        this.sessaoFavoritosMB = sessaoFavoritosMB;
+    }
+
+    
+    
 }

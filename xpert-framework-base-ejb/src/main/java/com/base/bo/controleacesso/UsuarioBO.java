@@ -6,6 +6,7 @@ import com.base.dao.controleacesso.PerfilDAO;
 import com.base.dao.controleacesso.UsuarioDAO;
 import com.base.modelo.controleacesso.HistoricoSituacaoUsuario;
 import com.base.modelo.controleacesso.Perfil;
+import com.base.modelo.controleacesso.Permissao;
 import com.base.modelo.controleacesso.SituacaoUsuario;
 import com.base.modelo.controleacesso.TipoRecuperacaoSenha;
 import com.base.modelo.controleacesso.Usuario;
@@ -21,6 +22,7 @@ import javax.ejb.Stateless;
 import com.xpert.utils.Encryption;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.Map;
 import org.apache.commons.lang.RandomStringUtils;
 
 /**
@@ -35,6 +37,8 @@ public class UsuarioBO extends AbstractBusinessObject<Usuario> {
     private UsuarioDAO usuarioDAO;
     @EJB
     private PerfilDAO perfilDAO;
+    @EJB
+    private PermissaoBO permissaoBO;
     @EJB
     private HistoricoSituacaoUsuarioDAO historicoSituacaoUsuarioDAO;
     @EJB
@@ -84,12 +88,13 @@ public class UsuarioBO extends AbstractBusinessObject<Usuario> {
             }
         }
         //super usuario pode remover o perfil mesmo sem te-lo
-        if (SessaoUtils.getUser().isSuperUsuario() == false) {
+        Usuario usuarioSessao = SessaoUtils.getUser();
+        if (usuarioSessao.isSuperUsuario() == false) {
             /*
              caso nao venha o perfil marcado e esse o usuario que estiver cadastrando nao possuir esse perfil, ele deve ser adicionado, 
              pois nesse caso o usuario logado nao tem acesso a remover o perfil q ele nao tem acesso
              */
-            List<Perfil> perfisUsuarioLogado = SessaoUtils.getUser().getPerfis();
+            List<Perfil> perfisUsuarioLogado = usuarioSessao.getPerfis();
             List<Perfil> perfisNovosCadastro = usuario.getPerfis();
             if (usuario.getId() != null) {
                 List<Perfil> perfisAtuaisUsuario = perfilDAO.getPerfis(usuario);
@@ -110,7 +115,7 @@ public class UsuarioBO extends AbstractBusinessObject<Usuario> {
             historicoSituacaoUsuario.setDataSituacao(new Date());
             historicoSituacaoUsuario.setSituacaoUsuario(usuario.getSituacaoUsuario());
             historicoSituacaoUsuario.setUsuario(usuario);
-            historicoSituacaoUsuario.setUsuarioAlteracao(SessaoUtils.getUser());
+            historicoSituacaoUsuario.setUsuarioAlteracao(usuarioSessao);
             historicoSituacaoUsuarioDAO.merge(historicoSituacaoUsuario);
             //atualizar lista do objeto usuario
             usuario.setHistoricosSituacao(usuarioDAO.getInitialized(usuario.getHistoricosSituacao()));
@@ -142,5 +147,66 @@ public class UsuarioBO extends AbstractBusinessObject<Usuario> {
      */
     public Usuario getUsuario(String cpf) {
         return usuarioDAO.unique("cpf", cpf);
+    }
+
+    /**
+     * Adiciona a permissao aos favoritos do usuario
+     *
+     * @return A permissao encontrada a partir a url
+     */
+    public Permissao adicionarFavorito() {
+
+        Permissao permissaoAtual = permissaoBO.getPermissaoViewAtual();
+
+        //adicionar aos favoritos
+        if (permissaoAtual != null) {
+            Usuario usuario = SessaoUtils.getUser();
+            usuario = usuarioDAO.find(usuario.getId());
+            if (!usuario.getFavoritos().contains(permissaoAtual)) {
+                usuario.getFavoritos().add(permissaoAtual);
+                usuarioDAO.merge(usuario);
+            }
+        }
+        return permissaoAtual;
+
+    }
+
+    /**
+     * Remove a permissao aos favoritos do usuario
+     *
+     * @return A permissao encontrada a partir a url
+     */
+    public Permissao removerFavorito() {
+        Permissao permissaoAtual = permissaoBO.getPermissaoViewAtual();
+        return removerFavorito(permissaoAtual);
+    }
+
+    /**
+     * Remove a permissao aos favoritos do usuario
+     *
+     * @param permissao
+     * @return A permissao que foi passada no parametro
+     */
+    public Permissao removerFavorito(Permissao permissao) {
+
+        //remove aos favoritos
+        if (permissao != null) {
+            Usuario usuario = SessaoUtils.getUser();
+            usuario = usuarioDAO.find(usuario.getId());
+            usuario.getFavoritos().remove(permissao);
+            usuarioDAO.merge(usuario);
+        }
+        return permissao;
+
+    }
+
+    public void mudarTema(String tema) {
+
+        //buscar o usuario novamente do banco para garantir que esta atualizado
+        Usuario usuario = SessaoUtils.getUser();
+        usuario = usuarioDAO.find(usuario.getId());
+        usuario.setTema(tema);
+        usuarioDAO.merge(usuario);
+
     }
 }

@@ -18,7 +18,6 @@ import javax.faces.event.ExceptionQueuedEvent;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import org.jsoup.Jsoup;
-import org.jsoup.safety.Whitelist;
 
 /**
  * ExceptionHandler que trata os erros da aplicacao, caso seja um
