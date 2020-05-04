@@ -7,6 +7,7 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -17,7 +18,7 @@ import javax.inject.Named;
  * @author ayslanms
  */
 @Named
-@RequestScoped
+@SessionScoped
 public class UserThemeMB implements Serializable {
 
     @Inject
@@ -35,7 +36,7 @@ public class UserThemeMB implements Serializable {
      *
      */
     @PostConstruct
-    public void init() {
+    public void carregarTema() {
 
         //se o usuario estiver logado e possuir tema
         if (sessaoUsuarioMB != null && sessaoUsuarioMB.getUser() != null

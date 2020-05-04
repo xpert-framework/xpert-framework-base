@@ -34,7 +34,7 @@ public class SessaoFavoritosMB implements Serializable {
      */
     public void carregarFavoritos() {
         favoritos = permissaoDAO.getPermissoesFavoritas(SessaoUtils.getUser());
-        permissaoBO.criarCaminhoPermissao(favoritos, true);
+        permissaoBO.criarCaminhoPermissao(favoritos, false);
     }
 
     /**
@@ -44,7 +44,7 @@ public class SessaoFavoritosMB implements Serializable {
         Permissao permissao = usuarioBO.adicionarFavorito();
         if (permissao != null) {
             favoritos.add(permissao);
-            permissaoBO.criarCaminhoPermissao(favoritos, true);
+            permissaoBO.criarCaminhoPermissao(favoritos, false);
         }
     }
 

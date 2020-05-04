@@ -26,7 +26,12 @@
                                 <div class="row">
 
                                     <div class="text-right col-lg-12 info">
-                                        <i class="fas fa-user"></i><h:outputText  value=" #{sessaoUsuarioMB.user.nome}"/><br/>
+                                        <i class="fas fa-user"></i><h:outputText  value=" #{sessaoUsuarioMB.user.nome}"/>
+                                        <p:commandLink action="#{loginMB.logout}" title="#{msg['menu.sair']}" style="margin-left: 10px" >
+                                            <i class="fas fa-sign-out-alt"></i> #{msg['menu.sair']} 
+                                        </p:commandLink> 
+
+                                        <br/>
                                         <h:outputText value="#{now}" styleClass="font-11">
                                             <f:convertDateTime dateStyle="full" type="both" />
                                         </h:outputText><br/>
@@ -39,8 +44,8 @@
                                             </h:outputLink> |
                                             <h:outputLink id="favoritosButton"  value="#" title="#{msg['favoritos']}" style="margin-left: 10px" >
                                                 <i class="fas fa-star"></i> Favoritos 
-                                            </h:outputLink> 
-                                          
+                                            </h:outputLink>
+
                                         </div>
                                     </div>
                                 </div>
@@ -63,11 +68,10 @@
                 <h:panelGroup rendered="#{not empty title}">
                     <div class="row">
                         <div class="col-lg-12">
-
+                            <ui:include src="favoritos.xhtml"/>
                             <h1 class="page-header">
                                 #{title}
                             </h1>
-
                         </div>
                     </div>
                 </h:panelGroup>
@@ -85,7 +89,7 @@
                     </div>
                 </div>
             </footer>
-            <ui:include src="favoritos.xhtml"/>
+
             <ui:include src="themes.xhtml"/>
             <x:filterOnEnter/>
         </h:body>

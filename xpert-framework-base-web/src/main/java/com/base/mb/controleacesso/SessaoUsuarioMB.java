@@ -3,6 +3,7 @@ package com.base.mb.controleacesso;
 import com.base.bo.controleacesso.UsuarioMenuBO;
 import com.base.bo.controleacesso.PermissaoBO;
 import com.base.dao.controleacesso.PermissaoDAO;
+import com.base.mb.tema.UserThemeMB;
 import com.base.modelo.controleacesso.Permissao;
 import com.base.modelo.controleacesso.SolicitacaoRecuperacaoSenha;
 import com.base.modelo.controleacesso.Usuario;
@@ -36,6 +37,8 @@ public class SessaoUsuarioMB extends AbstractUserSession implements Serializable
     private List<Permissao> atalhos;
     @Inject
     private SessaoFavoritosMB sessaoFavoritosMB;
+    @Inject
+    private UserThemeMB userThemeMB;
     private MenuModel menuModel;
     private SolicitacaoRecuperacaoSenha solicitacaoRecuperacaoSenha;
 
@@ -47,6 +50,8 @@ public class SessaoUsuarioMB extends AbstractUserSession implements Serializable
         atalhos = permissaoDAO.getPermissoesAtalhos(user);
         //carregar os favoritos
         sessaoFavoritosMB.carregarFavoritos();
+        //carregar tema
+        userThemeMB.carregarTema();
         //criar o menu
         criarMenu();
         criarCaminhoPermissao();
@@ -117,6 +122,14 @@ public class SessaoUsuarioMB extends AbstractUserSession implements Serializable
 
     public void setSessaoFavoritosMB(SessaoFavoritosMB sessaoFavoritosMB) {
         this.sessaoFavoritosMB = sessaoFavoritosMB;
+    }
+
+    public UserThemeMB getUserThemeMB() {
+        return userThemeMB;
+    }
+
+    public void setUserThemeMB(UserThemeMB userThemeMB) {
+        this.userThemeMB = userThemeMB;
     }
 
     

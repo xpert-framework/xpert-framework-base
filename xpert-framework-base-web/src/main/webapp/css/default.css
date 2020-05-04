@@ -101,7 +101,18 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
 .uix-form-detail .control-label { margin-bottom: 0; margin-top: 8px;}
 
 .ui-tree {
-   min-width: 500px;
+    min-width: 500px;
 }
 .uix-confirm-dialog{background-color: #fff}
 .ui-overlay-hidden{display: none;}
+/*CSS para a escolha do favorito*/
+.favoritos-overlay .ui-overlaypanel-content{background-color: #fff}
+.favoritos-overlay .ui-datatable .ui-datatable-data>tr {background-color: #fff;}
+.favoritos-overlay .ui-datatable .ui-datatable-data>tr.ui-datatable-even {background-color: #EBEBEB; }
+/*CSS para a escolha do tema*/
+.themes-overlay .ui-overlaypanel-content{background-color: #fff}
+.themes-overlay ul{list-style: none;padding-left: 0;}
+.themes-overlay ul li{border-bottom: 1px solid #ebebeb; padding: 3px; white-space: nowrap; }
+.themes-overlay ul li a{display: block; color: #000;}
+.themes-overlay ul li a img{width: 30px; height: 30px;margin-right: 2px;}
+.themes-overlay ul li.selected{background-color: #EBEBEB }

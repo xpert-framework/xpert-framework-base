@@ -5,33 +5,20 @@
                 xmlns:o="http://omnifaces.org/ui"
                 xmlns:p="http://primefaces.org/ui">
 
-    <p:overlayPanel id="overlayTema" for="temaButton" appendTo="@(body)"  >
+    <p:overlayPanel id="overlayTema" styleClass="themes-overlay" for="temaButton" appendTo="@(body)"  >
         <h:form>
 
-            <ul class="themes-overlay" style="list-style: none;padding-left: 0;">
+            <ul>
                 <ui:repeat value="#{applicationThemeMB.themes}" var="theme">
-                    <li style="border-bottom: 1px solid #ebebeb; padding: 3px; white-space: nowrap; #{userThemeMB.theme eq theme.name ? 'background-color: red' : ''}">
-                        <p:commandLink action="#{userThemeMB.mudarTema}" oncomplete="PrimeFaces.changeTheme('#{theme.name}')" style="display: block;" update="@form" process="@this">
+                    <li class="#{userThemeMB.theme eq theme.name ? 'selected' : ''}">
+                        <p:commandLink action="#{userThemeMB.mudarTema}" oncomplete="PrimeFaces.changeTheme('#{theme.name}')" update="@form" process="@this">
                             <f:setPropertyActionListener target="#{userThemeMB.theme}" value="#{theme.name}" />
-                            <h:graphicImage style="width: 30px; height: 30px;margin-right: 2px;"  value="/images/theme/#{theme.name}.png" alt="#{theme.name}"/>
+                            <h:graphicImage  value="/images/theme/#{theme.name}.png" alt="#{theme.name}"/>
                             <span>#{theme.displayName}</span>
                         </p:commandLink>
                     </li>
                 </ui:repeat>
             </ul>
-            <ui:remove>
-                <p:themeSwitcher height="400"  value="#{userThemeMB.theme}" var="t" >
-                    <f:selectItem itemLabel="Escolha o Tema" itemValue="#{null}" />
-                    <f:selectItems value="#{applicationThemeMB.themes}" var="theme" itemLabel="#{theme.displayName}" itemValue="#{theme.name}" />
-                    <p:column>
-                        <h:graphicImage style="width: 30px; height: 30px;" value="/images/theme/#{t}.png" alt="#{t}" styleClass="ui-theme"/>
-                    </p:column>
-                    <p:column style="white-space: nowrap;">
-                        #{t}
-                    </p:column>
-                    <p:ajax listener="#{userThemeMB.mudarTema}" update="@form" />
-                </p:themeSwitcher>
-            </ui:remove>
         </h:form>
     </p:overlayPanel>
 
