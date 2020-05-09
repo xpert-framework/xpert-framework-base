@@ -4,7 +4,6 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:x="http://xpert.com/faces"
-                 xmlns:custom="http://java.sun.com/jsf/composite/components"
                  >
     <h:form id="formDetailUsuario" styleClass="uix-form-detail">
 
@@ -94,7 +93,7 @@
                     <p:column styleClass="uix-datatable-actions" exportable="false">
                         <p:commandButton oncomplete="PF('widgetPerfilDetail').show();"  
                                          action="#{perfilMB.detail}"
-                                         icon="fas fa-search-plus" process="@form" update=":formDetailPerfil" >
+                                         icon="#{icons.detail}" process="@form" update=":formDetailPerfil" >
                             <f:setPropertyActionListener value="#{perfil}" target="#{perfilMB.entity}" />
                         </p:commandButton>
                     </p:column>

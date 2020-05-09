@@ -72,8 +72,6 @@ public class SessaoFavoritosMB implements Serializable {
      * @return
      */
     public boolean paginaPossuiPermissao() {
-        System.out.println(FacesContext.getCurrentInstance().getCurrentPhaseId());
-        System.out.println("paginaPossuiPermissao " + (permissaoBO.getPermissaoViewAtual() != null));
         return permissaoBO.getPermissaoViewAtual() != null;
     }
 

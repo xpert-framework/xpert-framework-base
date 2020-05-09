@@ -28,10 +28,12 @@ public class Usuario implements Serializable, User {
     @NotBlank
     private String nome;
 
+    @Column(unique = true)
     @Size(max = 16)
     @NotBlank
     private String cpf;
 
+    @Column(unique = true)
     @NotBlank
     @Size(max = 150)
     @Email
@@ -43,6 +45,7 @@ public class Usuario implements Serializable, User {
     @Size(max = 230)
     private String rg;
 
+    @Column(unique = true)
     @NotBlank
     @Size(min = 4)
     private String userLogin;
@@ -74,7 +77,7 @@ public class Usuario implements Serializable, User {
     private Boolean emailCadastroEnviado;
 
     private Boolean senhaCadastrada;
-    
+
     private String tema;
 
     public Usuario() {
@@ -114,7 +117,7 @@ public class Usuario implements Serializable, User {
     public void setTema(String tema) {
         this.tema = tema;
     }
-    
+
     public List<Permissao> getFavoritos() {
         return favoritos;
     }

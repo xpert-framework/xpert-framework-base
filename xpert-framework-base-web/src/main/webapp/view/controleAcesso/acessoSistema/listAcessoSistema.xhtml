@@ -5,7 +5,6 @@
                  xmlns:p="http://primefaces.org/ui"
                  template="/template/mainTemplate.xhtml"
                  xmlns:x="http://xpert.com/faces"
-                 xmlns:custom="http://java.sun.com/jsf/composite/components"
                  >
     <ui:param name="title" value="#{msg['acessoSistema.list']}" />
     <ui:define name="body">
@@ -71,11 +70,11 @@
                     <f:facet name="header">
                         <h:outputText value="#{xmsg['actions']}"/>
                     </f:facet>
-                    <p:commandButton oncomplete="PF('widgetAcessoSistemaDetail').show();"  icon="fas fa-search-plus" process="@form" update=":formDetailAcessoSistema" >
+                    <p:commandButton oncomplete="PF('widgetAcessoSistemaDetail').show();"  icon="#{icons.detail}" process="@form" update=":formDetailAcessoSistema" >
                         <f:setPropertyActionListener value="#{acessoSistema}" target="#{acessoSistemaMB.entity}" />
                     </p:commandButton>
                     <x:securityArea rolesAllowed="acessoSistema.create">
-                        <p:button icon="fas fa-edit" outcome="createAcessoSistema" >
+                        <p:button icon="#{icons.edit}" outcome="createAcessoSistema" >
                             <f:param name="id" value="#{acessoSistema.id}" />
                         </p:button>
                     </x:securityArea>

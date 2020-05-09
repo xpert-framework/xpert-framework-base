@@ -1,6 +1,7 @@
 package com.base;
 
 import com.base.dao.DAO;
+import com.base.modelo.cadastros.Uf;
 import com.base.modelo.controleacesso.*;
 import com.xpert.persistence.dao.BaseDAO;
 import com.xpert.utils.Encryption;
@@ -101,10 +102,82 @@ public class GeracaoDadosSistema {
                 getDAO(HistoricoSituacaoUsuario.class).saveOrMerge(historicoSituacaoUsuario, false);
 
             }
+            
+            createUfs();
 
         } catch (Exception ex) {
             logger.log(Level.SEVERE, ex.getMessage(), ex);
         }
+    }
+
+    public void createUfs() {
+
+        /**
+         * Norte
+         */
+        createUf(new Uf(11L, "Rondônia", "RO", 1L, "Norte"));
+        createUf(new Uf(12L, "Acre", "AC", 1L, "Norte"));
+        createUf(new Uf(13L, "Amazonas", "AM", 1L, "Norte"));
+        createUf(new Uf(14L, "Roraima", "RR", 1L, "Norte"));
+        createUf(new Uf(15L, "Pará", "PA", 1L, "Norte"));
+        createUf(new Uf(16L, "Amapá", "AP", 1L, "Norte"));
+        createUf(new Uf(17L, "Tocantins", "TO", 1L, "Norte"));
+
+        /**
+         * Nordeste
+         */
+        createUf(new Uf(21L, "Maranhão", "MA", 2L, "Nordeste"));
+        createUf(new Uf(22L, "Piauí", "PI", 2L, "Nordeste"));
+        createUf(new Uf(23L, "Ceará", "CE", 2L, "Nordeste"));
+        createUf(new Uf(24L, "Rio Grande do Norte", "RN", 2L, "Nordeste"));
+        createUf(new Uf(25L, "Paraíba", "PB", 2L, "Nordeste"));
+        createUf(new Uf(26L, "Pernambuco", "PE", 2L, "Nordeste"));
+        createUf(new Uf(27L, "Alagoas", "AL", 2L, "Nordeste"));
+        createUf(new Uf(28L, "Sergipe", "SE", 2L, "Nordeste"));
+        createUf(new Uf(29L, "Bahia", "BA", 2L, "Nordeste"));
+
+        /**
+         * Sudeste
+         */
+         createUf(new Uf(31L, "Minas Gerais", "MG", 3L, "Sudeste"));
+         createUf(new Uf(32L, "Espírito Santo", "ES", 3L, "Sudeste"));
+         createUf(new Uf(33L, "Rio de Janeiro", "RJ", 3L, "Sudeste"));
+         createUf(new Uf(35L, "São Paulo", "SP", 3L, "Sudeste"));
+
+        /**
+         * Sul
+         */
+        
+        
+         createUf(new Uf(41L, "Paraná", "PR", 4L, "Sul"));
+         createUf(new Uf(42L, "Santa Catarina", "SC", 4L, "Sul"));
+         createUf(new Uf(43L, "Rio Grande do Sul", "RS", 4L, "Sul"));
+        
+        /**
+         * Centro Oeste
+         */
+        createUf(new Uf(50L, "Mato Grosso do Sul", "MS", 5L, "Centro-Oeste"));
+        createUf(new Uf(51L, "Mato Grosso", "MT", 5L, "Centro-Oeste"));
+        createUf(new Uf(52L, "Goiás", "GO", 5L, "Centro-Oeste"));
+        createUf(new Uf(53L, "Distrito Federal", "DF", 5L, "Centro-Oeste"));
+    }
+
+    public void createUf(Uf uf) {
+
+        BaseDAO<Uf> dao = getDAO(Uf.class);
+        //sigla deve ser unica
+        Uf ufBD = dao.unique("sigla", uf.getSigla());
+        if (ufBD == null) {
+            dao.save(uf);
+        } else {
+            ufBD.setSigla(uf.getSigla());
+            ufBD.setNome(uf.getNome());
+            ufBD.setNomeRegiao(uf.getNomeRegiao());
+            ufBD.setCodigoIbge(uf.getCodigoIbge());
+            ufBD.setCodigoIbgeRegiao(uf.getCodigoIbgeRegiao());
+            dao.merge(ufBD);
+        }
+
     }
 
 }

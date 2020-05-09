@@ -13,18 +13,14 @@ import com.xpert.core.exception.BusinessException;
 import com.xpert.core.validation.UniqueFields;
 import com.xpert.faces.utils.FacesUtils;
 import com.xpert.security.SecuritySessionManager;
-import com.xpert.security.model.Role;
 import com.xpert.utils.CollectionsUtils;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -327,7 +323,7 @@ public class PermissaoBO extends AbstractBusinessObject<Permissao> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return new UniqueFields().add("key");
+        return UniqueFields.from(Permissao.class);
     }
 
     @Override

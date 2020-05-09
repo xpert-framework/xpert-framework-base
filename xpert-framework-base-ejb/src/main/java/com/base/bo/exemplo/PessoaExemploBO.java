@@ -7,7 +7,8 @@ import com.xpert.core.exception.BusinessException;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import com.base.modelo.exemplo.PessoaExemplo;
+import com.base.modelo.cadastros.PessoaExemplo;
+import com.xpert.core.validation.UniqueFields;
 
 /**
  *
@@ -26,7 +27,7 @@ public class PessoaExemploBO extends AbstractBusinessObject<PessoaExemplo> {
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return null;
+        return UniqueFields.from(PessoaExemplo.class);
     }
 
     @Override

@@ -76,17 +76,17 @@
                     <f:facet name="header">
                         <h:outputText value="#{xmsg['actions']}"/>
                     </f:facet>
-                    <p:commandButton oncomplete="PF('widgetConfiguracaoEmailDetail').show();"  icon="fas fa-search-plus" 
+                    <p:commandButton oncomplete="PF('widgetConfiguracaoEmailDetail').show();"  icon="#{icons.detail}" 
                                      process="@form" update=":formDetailConfiguracaoEmail" title="#{xmsg['detail']}" >
                         <f:setPropertyActionListener value="#{configuracaoEmail}" target="#{configuracaoEmailMB.entity}" />
                     </p:commandButton>
                     <x:securityArea rolesAllowed="configuracaoEmail.create">
-                        <p:button icon="fas fa-edit" outcome="createConfiguracaoEmail" title="#{xmsg['edit']}">
+                        <p:button icon="#{icons.edit}" outcome="createConfiguracaoEmail" title="#{xmsg['edit']}">
                             <f:param name="id" value="#{configuracaoEmail.id}" />
                         </p:button>
                     </x:securityArea>
                     <x:securityArea rolesAllowed="configuracaoEmail.delete">
-                        <p:commandButton icon="fas fa-trash" title="#{xmsg['delete']}" process="@form" update="@form" 
+                        <p:commandButton icon="#{icons.delete}" title="#{xmsg['delete']}" process="@form" update="@form" 
                                          action="#{configuracaoEmailMB.delete}" >
                             <f:setPropertyActionListener value="#{configuracaoEmail.id}" target="#{configuracaoEmailMB.id}" />
                             <x:confirmation message="#{xmsg['confirmDelete']} - #{configuracaoEmail}" />

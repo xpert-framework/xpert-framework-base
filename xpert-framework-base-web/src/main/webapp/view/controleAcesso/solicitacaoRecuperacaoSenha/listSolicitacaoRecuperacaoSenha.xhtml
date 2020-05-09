@@ -67,7 +67,7 @@
                     <f:facet name="header">
                         <h:outputText value="#{xmsg['actions']}"/>
                     </f:facet>
-                    <p:commandButton oncomplete="PF('widgetSolicitacaoRecuperacaoSenhaDetail').show();"  icon="fas fa-search-plus" 
+                    <p:commandButton oncomplete="PF('widgetSolicitacaoRecuperacaoSenhaDetail').show();"  icon="#{icons.detail}" 
                                      process="@form" update=":formDetailSolicitacaoRecuperacaoSenha" title="#{xmsg['detail']}" >
                         <f:setPropertyActionListener value="#{solicitacaoRecuperacaoSenha}" target="#{solicitacaoRecuperacaoSenhaMB.entity}" />
                     </p:commandButton>

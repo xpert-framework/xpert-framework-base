@@ -1,4 +1,4 @@
-package com.base.modelo.exemplo;
+package com.base.modelo.cadastros;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -14,35 +14,41 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author Ayslan
  */
 @Entity
+@Table(
+        uniqueConstraints = {
+            @UniqueConstraint(columnNames = {"nome", "rg"})
+        }
+)
 public class PessoaExemplo implements Serializable {
 
     @Id
     @SequenceGenerator(name = "PessoaExemplo", allocationSize = 1, sequenceName = "pessoaexemplo_id_seq")
     @GeneratedValue(generator = "PessoaExemplo")
     private Long id;
-    
+
     @Size(max = 200)
     @NotBlank
     private String nome;
-    
+
+    @Column(unique = true)
     @Size(max = 100)
     @Email
     private String email;
-    
+
     private BigDecimal salary;
-    
+
     @NotNull
     @Temporal(TemporalType.DATE)
     private Date dataNascimento;
-    
+
     @NotNull
     @Temporal(TemporalType.TIME)
     private Date horario;
-    
+
     @NotBlank
-    @Size(max=10)
+    @Size(max = 10)
     private String rg;
-     
+
     private Boolean active;
 
     public PessoaExemplo() {
@@ -55,7 +61,7 @@ public class PessoaExemplo implements Serializable {
     public void setHorario(Date horario) {
         this.horario = horario;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -63,7 +69,6 @@ public class PessoaExemplo implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public String getEmail() {
         return email;
@@ -80,7 +85,6 @@ public class PessoaExemplo implements Serializable {
     public void setSalary(BigDecimal salary) {
         this.salary = salary;
     }
-
 
     public String getRg() {
         return rg;
@@ -113,15 +117,11 @@ public class PessoaExemplo implements Serializable {
     public void setDataNascimento(Date dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
-    
-    
 
     @Override
     public String toString() {
-        return nome+" - "+rg;
+        return nome + " - " + rg;
     }
-    
-    
 
     @Override
     public int hashCode() {
@@ -144,6 +144,5 @@ public class PessoaExemplo implements Serializable {
         }
         return true;
     }
-    
 
 }

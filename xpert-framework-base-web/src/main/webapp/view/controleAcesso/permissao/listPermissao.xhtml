@@ -5,7 +5,6 @@
                  xmlns:p="http://primefaces.org/ui"
                  template="/template/mainTemplate.xhtml"
                  xmlns:x="http://xpert.com/faces"
-                 xmlns:custom="http://java.sun.com/jsf/composite/components"
                  >
     <ui:param name="title" value="#{msg['permissao.list']}" />
     <ui:define name="body">
@@ -63,16 +62,16 @@
                             <f:facet name="header">
                                 <h:outputText value="#{xmsg['actions']}"/>
                             </f:facet>
-                            <p:commandButton oncomplete="PF('widgetPermissaoDetail').show();"  icon="fas fa-search-plus" process="@form" update=":formDetailPermissao" title="#{xmsg['detail']}">
+                            <p:commandButton oncomplete="PF('widgetPermissaoDetail').show();"  icon="#{icons.detail}" process="@form" update=":formDetailPermissao" title="#{xmsg['detail']}">
                                 <f:setPropertyActionListener value="#{permissao}" target="#{permissaoMB.entity}" />
                             </p:commandButton>
                             <x:securityArea rolesAllowed="permissao.create" >
-                                <p:button icon="fas fa-edit" outcome="createPermissao" title="#{xmsg['edit']}" >
+                                <p:button icon="#{icons.edit}" outcome="createPermissao" title="#{xmsg['edit']}" >
                                     <f:param name="id" value="#{permissao.id}" />
                                 </p:button>
                             </x:securityArea>
                             <x:securityArea rolesAllowed="permissao.delete">
-                                <p:commandButton icon="fas fa-trash" process="@form" update="@form" action="#{permissaoMB.delete}" title="#{xmsg['delete']}" >
+                                <p:commandButton icon="#{icons.delete}" process="@form" update="@form" action="#{permissaoMB.delete}" title="#{xmsg['delete']}" >
                                     <f:setPropertyActionListener value="#{permissao.id}" target="#{permissaoMB.id}" />
                                     <x:confirmation message="#{xmsg['confirmDelete']} - #{permissao.descricao}" />
                                 </p:commandButton>
@@ -95,12 +94,12 @@
                             </h:panelGroup>
                             <p:spacer width="5"/>
                             <h:panelGroup style="font-size: 10px;">
-                                <p:commandButton oncomplete="PF('widgetPermissaoDetail').show();"  icon="fas fa-search-plus" process="@this" update=":formDetailPermissao"
+                                <p:commandButton oncomplete="PF('widgetPermissaoDetail').show();"  icon="#{icons.detail}" process="@this" update=":formDetailPermissao"
                                                  title="#{xmsg['detail']}" >
                                     <f:setPropertyActionListener target="#{permissaoMB.entity}" value="#{permissao}"/>
                                 </p:commandButton>
                                 <x:securityArea rolesAllowed="permissao.create">
-                                    <p:button icon="fas fa-edit" outcome="createPermissao" title="#{xmsg['edit']}">
+                                    <p:button icon="#{icons.edit}" outcome="createPermissao" title="#{xmsg['edit']}">
                                         <f:param name="id" value="#{permissao.id}" />
                                     </p:button>
                                 </x:securityArea>
@@ -117,7 +116,7 @@
                                     </p:commandButton>
                                 </x:securityArea>
                                 <x:securityArea rolesAllowed="permissao.delete">
-                                    <p:commandButton icon="fas fa-trash" process="@this" update="@form" action="#{permissaoMB.deleteArvore}" title="#{xmsg['delete']}" >
+                                    <p:commandButton icon="#{icons.delete}" process="@this" update="@form" action="#{permissaoMB.deleteArvore}" title="#{xmsg['delete']}" >
                                         <f:setPropertyActionListener value="#{permissao.id}" target="#{permissaoMB.id}" />
                                         <x:confirmation message="#{xmsg['confirmDelete']} - #{permissao.descricao}" />
                                     </p:commandButton>

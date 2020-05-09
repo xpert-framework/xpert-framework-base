@@ -1,6 +1,6 @@
 package com.base.mb.padrao;
 
-import com.base.modelo.exemplo.PessoaExemplo;
+import com.base.modelo.cadastros.PessoaExemplo;
 import com.base.modelo.controleacesso.Permissao;
 import com.base.modelo.controleacesso.Usuario;
 import com.base.modelo.configuracao.ErroSistema;

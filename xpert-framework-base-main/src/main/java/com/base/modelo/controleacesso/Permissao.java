@@ -21,7 +21,7 @@ public class Permissao implements Serializable, Role {
     @NotBlank
     private String descricao;
 
-    @Column(name = "chave")
+    @Column(name = "chave", unique = true)
     @NotBlank
     private String key;
 

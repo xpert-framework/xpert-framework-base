@@ -21,7 +21,7 @@
                         </h:link>
                     </p:column>
                     <p:column>
-                        <p:commandButton icon="fas fa-trash-alt"  action="#{sessaoFavoritosMB.removerFavoritoSelecionado(permissao)}"
+                        <p:commandButton icon="#{icons.delete}"  action="#{sessaoFavoritosMB.removerFavoritoSelecionado(permissao)}"
                                          title="#{msg['favorito.remover']}" process="@this" update="@form :formAdicionarFavorito">
                         </p:commandButton>
                     </p:column>

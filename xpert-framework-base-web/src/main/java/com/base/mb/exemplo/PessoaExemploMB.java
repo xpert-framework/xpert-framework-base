@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.xpert.core.crud.AbstractBaseBean;
 import javax.ejb.EJB;
 import com.base.bo.exemplo.PessoaExemploBO;
-import com.base.modelo.exemplo.PessoaExemplo;
+import com.base.modelo.cadastros.PessoaExemplo;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 

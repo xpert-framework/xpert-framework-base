@@ -22,7 +22,6 @@ import javax.ejb.Stateless;
 import com.xpert.utils.Encryption;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
-import java.util.Map;
 import org.apache.commons.lang.RandomStringUtils;
 
 /**
@@ -56,10 +55,7 @@ public class UsuarioBO extends AbstractBusinessObject<Usuario> {
      */
     @Override
     public List<UniqueField> getUniqueFields() {
-        return new UniqueFields()
-                .add("cpf")
-                .add("userLogin")
-                .add("email");
+        return UniqueFields.from(Usuario.class);
     }
 
     public void enviarSenhaCadastro(Usuario usuario) throws BusinessException {
