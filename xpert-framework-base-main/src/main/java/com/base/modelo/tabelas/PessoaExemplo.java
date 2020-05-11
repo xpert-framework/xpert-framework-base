@@ -1,4 +1,4 @@
-package com.base.modelo.cadastros;
+package com.base.modelo.tabelas;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

@@ -1,6 +1,7 @@
-package com.base.modelo.cadastros;
+package com.base.modelo.tabelas;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,7 +32,6 @@ public class Municipio implements Serializable {
     @GeneratedValue(generator = "Municipio")
     private Long id;
 
-    @Column(unique = true)
     @NotNull
     private Long codigoIbge;
 
@@ -87,5 +87,37 @@ public class Municipio implements Serializable {
     public void setUf(Uf uf) {
         this.uf = uf;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 73 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Municipio other = (Municipio) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
+    
+    
 
 }

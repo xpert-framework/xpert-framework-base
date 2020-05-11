@@ -1,7 +1,8 @@
-package com.base.modelo.cadastros;
+package com.base.modelo.tabelas;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -54,10 +55,10 @@ public class Uf implements Serializable {
 
     public Uf(Long codigoIbge, String nome, String sigla, Long codigoIbgeRegiao, String nomeRegiao) {
         this.codigoIbge = codigoIbge;
-        this.nome = nome;
-        this.sigla = sigla;
+        this.nome = nome == null ? nome : nome.trim().toUpperCase();
+        this.sigla = sigla == null ? sigla : sigla.trim().toUpperCase();
         this.codigoIbgeRegiao = codigoIbgeRegiao;
-        this.nomeRegiao = nomeRegiao;
+        this.nomeRegiao = nomeRegiao == null ? nomeRegiao : nomeRegiao.trim().toUpperCase();
     }
 
     public Long getId() {
@@ -124,5 +125,37 @@ public class Uf implements Serializable {
         }
         this.nomeRegiao = nomeRegiao;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Uf other = (Uf) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return sigla;
+    }
+    
+    
 
 }

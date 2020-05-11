@@ -53,7 +53,7 @@ public class GeracaoPermissao {
         create(new Permissao("permissao.list", "Consulta de Permissão", "/view/controleAcesso/permissao/listPermissao.jsf", true), "permissao");
         create(new Permissao("permissao.audit", "Auditoria de Permissão"), "permissao");
         create(new Permissao("permissao.delete", "Exclusão de Permissão"), "permissao");
-        create(new Permissao("permissao.ativacao", "Ativação de Permissão" , false, "fas fa-check"), "permissao");
+        create(new Permissao("permissao.ativacao", "Ativação de Permissão", false, "fas fa-check"), "permissao");
         create(new Permissao("permissao.inativacao", "Inativação de Permissão", false, "fas fa-times"), "permissao");
 
         //Usuario
@@ -113,6 +113,26 @@ public class GeracaoPermissao {
         create(new Permissao("erroSistema.list", "Relatório de Erros", "/view/configuracao/erroSistema/listErroSistema.jsf", true, "fas fa-exclamation-circle"), "configuracaoSistema");
 
         /**
+         * Cadastro
+         */
+        create(new Permissao("tabelas", "Tabelas", true, "fas fa-table"), null);
+        
+        //Uf
+        create(new Permissao("uf", "UF", true, "fas fa-map-marked-alt"), "tabelas");
+        create(new Permissao("uf.create", "Cadastro de UF", "/view/tabelas/uf/createUf.jsf", true), "uf");
+        create(new Permissao("uf.list", "Consulta de UF", "/view/tabelas/uf/listUf.jsf", true), "uf");
+        create(new Permissao("uf.audit", "Auditoria de UF"), "uf");
+        create(new Permissao("uf.delete", "Exclusão de UF"), "uf");
+        
+        //Municipio
+        create(new Permissao("municipio", "Municipio", true, "fas fa-map-marker-alt"), "tabelas");
+        create(new Permissao("municipio.create", "Cadastro de Municipio", "/view/tabelas/municipio/createMunicipio.jsf", true), "municipio");
+        create(new Permissao("municipio.list", "Consulta de Municipio", "/view/tabelas/municipio/listMunicipio.jsf", true), "municipio");
+        create(new Permissao("municipio.audit", "Auditoria de Municipio"), "municipio");
+        create(new Permissao("municipio.delete", "Exclusão de Municipio"), "municipio");
+        
+
+        /**
          * Permissoes Globais (essas permissoes todos terao acessos)
          */
         //Alterar Senha
@@ -139,9 +159,9 @@ public class GeracaoPermissao {
                 permissao.setIcone("fas fa-plus");
             } else if (permissao.getKey().contains(".list")) {
                 permissao.setIcone("fas fa-search");
-            }else if (permissao.getKey().contains(".audit")) {
+            } else if (permissao.getKey().contains(".audit")) {
                 permissao.setIcone("fas fa-history");
-            }else if (permissao.getKey().contains(".delete")) {
+            } else if (permissao.getKey().contains(".delete")) {
                 permissao.setIcone("fas fa-trash");
             }
         }

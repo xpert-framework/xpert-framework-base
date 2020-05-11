@@ -1,6 +1,8 @@
 package com.base.mb.padrao;
 
-import com.base.modelo.cadastros.PessoaExemplo;
+import com.base.modelo.tabelas.Municipio;
+import com.base.modelo.tabelas.Uf;
+import com.base.modelo.tabelas.PessoaExemplo;
 import com.base.modelo.controleacesso.Permissao;
 import com.base.modelo.controleacesso.Usuario;
 import com.base.modelo.configuracao.ErroSistema;
@@ -67,6 +69,13 @@ public class ClassMB {
     }
     public Class getPessoaExemplo() {
         return PessoaExemplo.class;
+    }
+
+    public Class getMunicipio() {
+        return Municipio.class;
+    }
+    public Class getUf() {
+        return Uf.class;
     }
 
 }

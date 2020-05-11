@@ -2,7 +2,7 @@ package com.base.dao.exemplo.impl;
 
 import com.base.application.BaseDAOImpl;
 import com.base.dao.exemplo.PessoaExemploDAO;
-import com.base.modelo.cadastros.PessoaExemplo;
+import com.base.modelo.tabelas.PessoaExemplo;
 import javax.ejb.Stateless;
 
 /**

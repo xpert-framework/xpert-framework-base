@@ -1,7 +1,7 @@
 package com.base;
 
 import com.base.dao.DAO;
-import com.base.modelo.cadastros.Uf;
+import com.base.modelo.tabelas.Uf;
 import com.base.modelo.controleacesso.*;
 import com.xpert.persistence.dao.BaseDAO;
 import com.xpert.utils.Encryption;

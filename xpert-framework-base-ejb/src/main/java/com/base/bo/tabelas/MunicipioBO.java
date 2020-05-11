@@ -1,37 +1,37 @@
-package com.base.bo.exemplo;
+package com.base.bo.tabelas;
 
 import com.xpert.core.crud.AbstractBusinessObject;
-import com.base.dao.exemplo.PessoaExemploDAO;
+import com.base.dao.tabelas.MunicipioDAO;
 import com.xpert.core.validation.UniqueField;
 import com.xpert.core.exception.BusinessException;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import com.base.modelo.tabelas.PessoaExemplo;
+import com.base.modelo.tabelas.Municipio;
 import com.xpert.core.validation.UniqueFields;
 
 /**
  *
- * @author ayslan
+ * @author ayslanms
  */
 @Stateless
-public class PessoaExemploBO extends AbstractBusinessObject<PessoaExemplo> {
+public class MunicipioBO extends AbstractBusinessObject<Municipio> {
 
     @EJB
-    private PessoaExemploDAO pessoaExemploDAO;
-    
+    private MunicipioDAO municipioDAO;
+
     @Override
-    public PessoaExemploDAO getDAO() {
-        return pessoaExemploDAO;
+    public MunicipioDAO getDAO() {
+        return municipioDAO;
     }
 
     @Override
     public List<UniqueField> getUniqueFields() {
-        return UniqueFields.from(PessoaExemplo.class);
+        return UniqueFields.from(Municipio.class);
     }
 
     @Override
-    public void validate(PessoaExemplo pessoaExemplo) throws BusinessException {
+    public void validate(Municipio municipio) throws BusinessException {
     }
 
     @Override

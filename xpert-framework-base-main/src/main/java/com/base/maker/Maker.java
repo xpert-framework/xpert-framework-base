@@ -16,6 +16,7 @@ public class Maker extends MakerSwingFrame {
     public boolean isUseCDIBeans() {
         return true; 
     }
+    @Override
     public String getDefaultPackage() {
         return "com.base.modelo";
     }
