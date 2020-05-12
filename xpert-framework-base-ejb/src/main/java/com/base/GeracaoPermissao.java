@@ -137,7 +137,7 @@ public class GeracaoPermissao {
          */
         //Alterar Senha
         createGlobal(new Permissao("usuario.alterarSenha", "Alterar Senha", "/view/controleAcesso/password/alterPassword.jsf", true, "fas fa-unlock-alt"), "controleAcesso");
-        createGlobal(new Permissao("usuario.ultimosAcessos", "Últimos Acessos", "/view/controleAcesso/acessoSistema/ultimosAcessoSistema.jsf", true, "fas fa-user-lock"), "controleAcesso");
+        createGlobal(new Permissao("usuario.ultimosAcessos", "Meus Últimos Acessos", "/view/controleAcesso/acessoSistema/ultimosAcessoSistema.jsf", true, "fas fa-user-lock"), "controleAcesso");
 
     }
 

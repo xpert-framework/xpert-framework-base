@@ -21,6 +21,7 @@
                          paginatorTemplate="#{acessoSistemaMB.dataModel.paginatorTemplate}"
                          value="#{acessoSistemaMB.dataModel}" lazy="true" >
                 <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">-</f:facet>
                     <h:outputText value="#{index+1}"/>
                 </p:column>
                 <p:column sortBy="#{acessoSistema.dataHora}"
@@ -36,7 +37,7 @@
                 </p:column>
                 <p:column style="text-align: center; display: none;">
                     <f:facet name="header">
-                        #{msg['acessoSistema.dataHora']}
+                        <h:outputText value="#{msg['acessoSistema.dataHora']}"/>
                     </f:facet>
                     <h:outputText value="#{acessoSistema.dataHora}">
                         <f:convertDateTime pattern="#{formatMB.format.dataHoraMinutoSegundo}"/>

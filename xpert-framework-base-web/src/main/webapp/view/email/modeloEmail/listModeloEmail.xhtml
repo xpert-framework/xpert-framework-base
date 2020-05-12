@@ -21,6 +21,7 @@
                          paginatorTemplate="#{modeloEmailMB.dataModel.paginatorTemplate}"
                          value="#{modeloEmailMB.dataModel}" lazy="true" >
                 <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">-</f:facet>
                     <h:outputText value="#{index+1}"/>
                 </p:column>
                 <p:column headerText="#{msg['modeloEmail.assunto']}" sortBy="#{modeloEmail.assunto}"

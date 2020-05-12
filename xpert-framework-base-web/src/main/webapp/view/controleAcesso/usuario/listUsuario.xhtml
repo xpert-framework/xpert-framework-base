@@ -20,6 +20,7 @@
                          paginatorTemplate="#{usuarioMB.dataModel.paginatorTemplate}"
                          value="#{usuarioMB.dataModel}" lazy="true" >
                 <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">-</f:facet>
                     <h:outputText value="#{index+1}"/>
                 </p:column>
                 <p:column headerText="#{msg['usuario.nome']}" sortBy="#{usuario.nome}"
@@ -63,6 +64,15 @@
                     </f:facet>
                     <h:outputText value="#{usuario.situacaoUsuario.descricao}" />
                 </p:column>
+                <p:column headerText="#{msg['usuario.senhaCadastrada']}" sortBy="#{usuario.senhaCadastrada}"
+                          filterBy="#{usuario.senhaCadastrada}" 
+                          filterOptions="#{booleanSelectItensEmptyOption}"
+                          styleClass="text-center">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['usuario.senhaCadastrada']}"/>
+                    </f:facet>
+                    <h:outputText value="#{usuario.senhaCadastrada}" converter ="yesNoConverter" />
+                </p:column>
                 <p:column headerText="#{msg['usuario.superUsuario']}" sortBy="#{usuario.superUsuario}"
                           filterBy="#{usuario.superUsuario}" rendered="#{sessaoUsuarioMB.user.superUsuario}"
                           filterOptions="#{booleanSelectItensEmptyOption}"
@@ -84,10 +94,10 @@
                         <f:convertDateTime pattern="#{formatMB.format.dataHoraMinutoSegundo}"/>
                     </h:outputText>
                 </p:column>
-                
-                 <p:column style="text-align: center; display: none;">
+
+                <p:column style="text-align: center; display: none;">
                     <f:facet name="header">
-                        #{msg['usuario.dataUltimoAcesso']}
+                        <h:outputText value="#{msg['usuario.dataUltimoAcesso']}"/>
                     </f:facet>
                     <h:outputText value="#{usuario.dataUltimoAcesso}">
                         <f:convertDateTime pattern="#{formatMB.format.dataHoraMinutoSegundo}"/>

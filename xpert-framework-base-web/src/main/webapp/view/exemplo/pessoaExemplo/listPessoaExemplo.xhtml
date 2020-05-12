@@ -20,6 +20,7 @@
                          paginatorTemplate="#{pessoaExemploMB.dataModel.paginatorTemplate}"
                          value="#{pessoaExemploMB.dataModel}" lazy="true" >
                 <p:column styleClass="uix-datatable-index">
+                    <f:facet name="header">-</f:facet>
                     <h:outputText value="#{index+1}"/>
                 </p:column>
                 <p:column headerText="#{msg['pessoaExemplo.nome']}" sortBy="#{pessoaExemplo.nome}"

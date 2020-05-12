@@ -22,6 +22,9 @@
                 <p:column headerText="#{msg['erroSistema.id']}" sortBy="#{erroSistema.id}"
                           filterBy="#{erroSistema.id}"
                           styleClass="uix-datatable-index">
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['erroSistema.id']}"/>
+                    </f:facet>
                     <h:outputText value="#{erroSistema.id}"/>
                 </p:column>
                 <p:column sortBy="#{erroSistema.data}" filterBy="#{erroSistema.data}"

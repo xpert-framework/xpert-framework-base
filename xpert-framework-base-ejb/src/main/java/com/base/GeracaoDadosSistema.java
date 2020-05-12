@@ -77,6 +77,7 @@ public class GeracaoDadosSistema {
                 usuario.setSituacaoUsuario(SituacaoUsuario.ATIVO);
                 usuario.setMatricula("123");
                 usuario.setRg("123");
+                usuario.setSenhaCadastrada(true);
                 usuario.setCpf("12345678909");
                 usuario.setEmail("admin@xpertsistemas.com.br");
                 usuario.setNome("ADMINISTRADOR DO SISTEMA");
