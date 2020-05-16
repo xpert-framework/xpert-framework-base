@@ -1,6 +1,7 @@
 package com.base.modelo.tabelas;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -44,6 +45,30 @@ public class Municipio implements Serializable {
     @ManyToOne
     @NotNull
     private Uf uf;
+    
+    @Column(precision = 15, scale = 8)
+    private BigDecimal longitude;
+    
+    @Column(precision = 15, scale = 8)
+    private BigDecimal latitude;
+
+    public BigDecimal getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(BigDecimal longitude) {
+        this.longitude = longitude;
+    }
+
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
+    }
+    
+    
 
     public Long getId() {
         return id;

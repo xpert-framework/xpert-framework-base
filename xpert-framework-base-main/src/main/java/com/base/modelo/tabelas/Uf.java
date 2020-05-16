@@ -1,6 +1,7 @@
 package com.base.modelo.tabelas;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -46,6 +47,12 @@ public class Uf implements Serializable {
     @NotBlank
     private String nomeRegiao;
 
+    @Column(precision = 15, scale = 8)
+    private BigDecimal longitude;
+
+    @Column(precision = 15, scale = 8)
+    private BigDecimal latitude;
+
     @OrderBy("nome")
     @OneToMany(mappedBy = "uf")
     private List<Municipio> municipios;
@@ -53,12 +60,30 @@ public class Uf implements Serializable {
     public Uf() {
     }
 
-    public Uf(Long codigoIbge, String nome, String sigla, Long codigoIbgeRegiao, String nomeRegiao) {
+    public Uf(Long codigoIbge, String nome, String sigla, Long codigoIbgeRegiao, String nomeRegiao, String latitude, String longitude) {
         this.codigoIbge = codigoIbge;
         this.nome = nome == null ? nome : nome.trim().toUpperCase();
         this.sigla = sigla == null ? sigla : sigla.trim().toUpperCase();
         this.codigoIbgeRegiao = codigoIbgeRegiao;
         this.nomeRegiao = nomeRegiao == null ? nomeRegiao : nomeRegiao.trim().toUpperCase();
+        this.latitude = new BigDecimal(latitude);
+        this.longitude = new BigDecimal(longitude);
+    }
+
+    public BigDecimal getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(BigDecimal longitude) {
+        this.longitude = longitude;
+    }
+
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
     }
 
     public Long getId() {
@@ -155,7 +180,5 @@ public class Uf implements Serializable {
     public String toString() {
         return sigla;
     }
-    
-    
 
 }

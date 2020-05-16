@@ -127,6 +127,7 @@ public class GeracaoPermissao {
         //Municipio
         create(new Permissao("municipio", "Municipio", true, "fas fa-map-marker-alt"), "tabelas");
         create(new Permissao("municipio.create", "Cadastro de Municipio", "/view/tabelas/municipio/createMunicipio.jsf", true), "municipio");
+        create(new Permissao("municipio.import", "Importação de Municipio", "/view/tabelas/municipio/importMunicipio.jsf", true), "municipio");
         create(new Permissao("municipio.list", "Consulta de Municipio", "/view/tabelas/municipio/listMunicipio.jsf", true), "municipio");
         create(new Permissao("municipio.audit", "Auditoria de Municipio"), "municipio");
         create(new Permissao("municipio.delete", "Exclusão de Municipio"), "municipio");
@@ -163,6 +164,8 @@ public class GeracaoPermissao {
                 permissao.setIcone("fas fa-history");
             } else if (permissao.getKey().contains(".delete")) {
                 permissao.setIcone("fas fa-trash");
+            }else if (permissao.getKey().contains(".import")) {
+                permissao.setIcone("fas fa-upload");
             }
         }
 

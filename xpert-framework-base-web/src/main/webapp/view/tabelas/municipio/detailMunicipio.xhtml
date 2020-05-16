@@ -25,15 +25,27 @@
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['uf.codigoIbge']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{ufMB.entity.codigoIbge}" styleClass="uix-content-detail"/>
+                    <h:outputText value="#{municipioMB.entity.uf.codigoIbge}" styleClass="uix-content-detail"/>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['uf.codigoIbgeRegiao']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{ufMB.entity.codigoIbgeRegiao}" styleClass="uix-content-detail"/>
+                    <h:outputText value="#{municipioMB.entity.uf.codigoIbgeRegiao}" styleClass="uix-content-detail"/>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
                     <h:outputLabel value="#{msg['uf.nomeRegiao']}:" styleClass="control-label" /><br/>
-                    <h:outputText value="#{ufMB.entity.nomeRegiao}" styleClass="uix-content-detail"/>
+                    <h:outputText value="#{municipioMB.entity.uf.nomeRegiao}" styleClass="uix-content-detail"/>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['municipio.latitude']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{municipioMB.entity.latitude}" styleClass="uix-content-detail">
+                        <f:convertNumber />
+                    </h:outputText>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <h:outputLabel value="#{msg['municipio.longitude']}:" styleClass="control-label" /><br/>
+                    <h:outputText value="#{municipioMB.entity.longitude}" styleClass="uix-content-detail">
+                        <f:convertNumber />
+                    </h:outputText>
                 </div>
             </div>
         </div>

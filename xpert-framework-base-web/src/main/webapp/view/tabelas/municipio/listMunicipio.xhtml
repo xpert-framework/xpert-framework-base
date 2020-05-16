@@ -73,6 +73,22 @@
                     </f:facet>
                     <h:outputText value="#{municipio.uf.codigoIbgeRegiao}"/>
                 </p:column>
+                <p:column headerText="#{msg['municipio.latitude']}" sortBy="#{municipio.latitude}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['municipio.latitude']}" />
+                    </f:facet>
+                    <h:outputText value="#{municipio.latitude}">
+                        <f:convertNumber/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{msg['municipio.longitude']}" sortBy="#{municipio.longitude}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{msg['municipio.longitude']}" />
+                    </f:facet>
+                    <h:outputText value="#{municipio.longitude}">
+                        <f:convertNumber/>
+                    </h:outputText>
+                </p:column>
                 <p:column styleClass="uix-datatable-actions" exportable="false" headerText="#{xmsg['actions']}">
                     <f:facet name="header">
                         <h:outputText value="#{xmsg['actions']}"/>

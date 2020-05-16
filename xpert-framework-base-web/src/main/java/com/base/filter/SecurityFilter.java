@@ -53,6 +53,8 @@ public class SecurityFilter extends AbstractSecurityFilter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         logger.log(Level.INFO, "Iniciando Filter SecurityFilter para url: {0}", PATTERN);
+        logger.log(Level.INFO, "URLs ignoradas para controle de acesso: {0}", IGNORE_URL);
+        logger.log(Level.INFO, "Pagina Inicial: {0}", HOME);
     }
 
     @Override
