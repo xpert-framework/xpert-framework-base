@@ -9,20 +9,18 @@
         <x:modalMessages/>
         <p:tabView>
             <p:tab title="#{msg['dadosGerais']}">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                            <h:outputLabel value="* #{msg['perfil.descricao']}:" />
-                            <p:inputText value="#{perfilMB.entity.descricao}" maxlength="255"  styleClass="form-control"   />
-                        </div>
+                <div class="row">
+                    <div class="form-group col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <h:outputLabel value="* #{msg['perfil.descricao']}:" />
+                        <p:inputText value="#{perfilMB.entity.descricao}" maxlength="255"  styleClass="form-control"   />
+                    </div>
 
-                        <div class="form-group col-lg-12 col-md-12 col-sm-6 col-xs-12">
-                            <div class="checkbox">
-                                <label>
-                                    <h:selectBooleanCheckbox value="#{perfilMB.entity.ativo}" />
-                                    #{msg['perfil.ativo']}
-                                </label>
-                            </div>
+                    <div class="form-group col-lg-12 col-md-12 col-sm-6 col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                <h:selectBooleanCheckbox value="#{perfilMB.entity.ativo}" />
+                                #{msg['perfil.ativo']}
+                            </label>
                         </div>
                     </div>
                 </div>

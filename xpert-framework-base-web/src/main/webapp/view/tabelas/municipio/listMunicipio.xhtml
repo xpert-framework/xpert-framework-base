@@ -46,9 +46,16 @@
                     <h:outputText value="#{municipio.capital}" converter ="yesNoConverter" />
                 </p:column>
                 <p:column headerText="#{msg['municipio.uf']}" sortBy="#{municipio.uf}"
-                          filterBy="#{municipio.uf.id}" filterOptions="#{findAllBean.getSelect(classMB.uf)}"  >
+                          filterBy="#{municipio.uf.id}"  >
                     <f:facet name="header">
                         <h:outputText value="#{msg['municipio.uf']}" />
+                    </f:facet>
+                    <f:facet name="filter">
+                        <p:selectCheckboxMenu label="UF" onchange="PF('dataTableMunicipioWidget').filter()" scrollHeight="150" styleClass="custom-filter"
+                                              filter="true" filterMatchMode="contains">
+                             <f:converter converterId="javax.faces.Long" />
+                            <f:selectItems value="#{findAllBean.getSelect(classMB.uf, false)}" />
+                        </p:selectCheckboxMenu>
                     </f:facet>
                     <h:outputText value="#{municipio.uf}"/>
                 </p:column>

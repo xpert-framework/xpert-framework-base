@@ -31,11 +31,11 @@
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="latitude" value="* #{msg['municipio.latitude']}:" />
-                        <x:inputNumber id="latitude" value="#{municipioMB.entity.latitude}" centsLimit="10"  styleClass="form-control"  />
+                        <x:inputNumber id="latitude" value="#{municipioMB.entity.latitude}" allowNegative="true" centsLimit="10"  styleClass="form-control"  />
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="longitude" value="* #{msg['municipio.longitude']}:" />
-                        <x:inputNumber id="longitude" value="#{municipioMB.entity.longitude}" centsLimit="10" styleClass="form-control"  />
+                        <x:inputNumber id="longitude" value="#{municipioMB.entity.longitude}" allowNegative="true" centsLimit="10" styleClass="form-control"  />
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <div class="checkbox">

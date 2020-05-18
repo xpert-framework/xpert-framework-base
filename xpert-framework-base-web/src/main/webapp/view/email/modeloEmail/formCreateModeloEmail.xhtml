@@ -8,52 +8,48 @@
     <h:form>
         <x:modalMessages/>
         <p:panel>
-            <div class="container-fluid">
-                <div class="row">
+            <div class="row">
 
-                    <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <h:outputLabel value="* #{msg['modeloEmail.assunto']}:" />
-                        <p:inputText value="#{modeloEmailMB.entity.assunto}" maxlength="255"  styleClass="form-control"  />
-                    </div>
-
+                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <h:outputLabel value="* #{msg['modeloEmail.assunto']}:" />
+                    <p:inputText value="#{modeloEmailMB.entity.assunto}" maxlength="255"  styleClass="form-control"  />
                 </div>
-                <div class="row">
 
-                    <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                        <h:outputLabel value="* #{msg['modeloEmail.tipoAssuntoEmail']}:" />
-                        <h:selectOneMenu value="#{modeloEmailMB.entity.tipoAssuntoEmail}" styleClass="form-control"    >
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{findAllBean.get(classMB.tipoAssuntoEmail)}" 
-                                           var="tipoAssuntoEmail"
-                                           itemLabel="#{tipoAssuntoEmail.descricao}"/>
-                        </h:selectOneMenu>
-                    </div>
+            </div>
+            <div class="row">
+
+                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <h:outputLabel value="* #{msg['modeloEmail.tipoAssuntoEmail']}:" />
+                    <h:selectOneMenu value="#{modeloEmailMB.entity.tipoAssuntoEmail}" styleClass="form-control"    >
+                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                        <f:selectItems value="#{findAllBean.get(classMB.tipoAssuntoEmail)}" 
+                                       var="tipoAssuntoEmail"
+                                       itemLabel="#{tipoAssuntoEmail.descricao}"/>
+                    </h:selectOneMenu>
                 </div>
-                <div class="row">
+            </div>
+            <div class="row">
 
-                    <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="form-group col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
-                        <h:outputLabel value="* #{msg['modeloEmail.configuracaoEmail']}:" />
-                        <h:selectOneMenu value="#{modeloEmailMB.entity.configuracaoEmail}" converter="entityConverter" styleClass="form-control"  >
-                            <f:selectItem itemLabel="#{xmsg['select']}" />
-                            <f:selectItems value="#{findAllBean.get(classMB.configuracaoEmail)}" 
-                                           var="configuracaoEmail"
-                                           itemLabel="#{configuracaoEmail}"/>
-                        </h:selectOneMenu>
-                    </div>
-
+                    <h:outputLabel value="* #{msg['modeloEmail.configuracaoEmail']}:" />
+                    <h:selectOneMenu value="#{modeloEmailMB.entity.configuracaoEmail}" converter="entityConverter" styleClass="form-control"  >
+                        <f:selectItem itemLabel="#{xmsg['select']}" />
+                        <f:selectItems value="#{findAllBean.get(classMB.configuracaoEmail)}" 
+                                       var="configuracaoEmail"
+                                       itemLabel="#{configuracaoEmail}"/>
+                    </h:selectOneMenu>
                 </div>
+
             </div>
 
             <h:outputLabel value="* #{msg['modeloEmail.layout']}:" />
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+            <div class="row">
+                <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
 
-                        <h:panelGroup rendered="#{empty viewScope.exibirTexto or viewScope.exibirTexto == false}" >
-                            <p:textEditor value="#{modeloEmailMB.entity.layout}" style="width: 100%;" />
-                        </h:panelGroup>
-                    </div>
+                    <h:panelGroup rendered="#{empty viewScope.exibirTexto or viewScope.exibirTexto == false}" >
+                        <p:textEditor value="#{modeloEmailMB.entity.layout}" style="width: 100%;" />
+                    </h:panelGroup>
                 </div>
             </div>
 

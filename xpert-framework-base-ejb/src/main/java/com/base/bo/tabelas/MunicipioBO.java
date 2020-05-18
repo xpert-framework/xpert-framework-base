@@ -94,6 +94,8 @@ public class MunicipioBO extends AbstractBusinessObject<Municipio> {
 
             long linha = csvParser.getCurrentLineNumber();
 
+            LOG.log(Level.INFO, "Linha {0}: {1}", new Object[]{linha, record});
+
             String codigoIbge = record.get(0);
             String nome = record.get(1);
             String latitude = record.get(2);
@@ -105,15 +107,20 @@ public class MunicipioBO extends AbstractBusinessObject<Municipio> {
             Municipio municipio = municipiosMap.get(Long.parseLong(codigoIbge.trim()));
             //caso ja exista atualizar
             if (municipio == null) {
+                LOG.log(Level.INFO, "Municipio {0} nao existe no banco de dados. Criando um novo", new Object[]{codigoIbge});
                 municipio = new Municipio();
             }
 
             municipio.setCodigoIbge(Long.parseLong(codigoIbge.trim()));
             municipio.setNome(nome);
-            municipio.setLatitude(new BigDecimal(latitude));
-            municipio.setLongitude(new BigDecimal(longitude));
+            if (latitude != null) {
+                municipio.setLatitude(new BigDecimal(latitude));
+            }
+            if (longitude != null) {
+                municipio.setLongitude(new BigDecimal(longitude));
+            }
             //1 true, 0 false
-            municipio.setCapital(capital.equals("1"));
+            municipio.setCapital("1".equals(capital));
             municipio.setUf(ufsMap.get(Long.parseLong(codigoUf)));
 
             //nao auditar por questoes de peformance

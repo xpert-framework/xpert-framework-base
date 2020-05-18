@@ -11,6 +11,7 @@ import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -20,23 +21,43 @@ import org.primefaces.event.FileUploadEvent;
 @ViewScoped
 public class MunicipioImportacaoMB implements Serializable {
 
-     private static final Logger LOG = Logger.getLogger(MunicipioBO.class.getName());
-    
+    private static final Logger LOG = Logger.getLogger(MunicipioBO.class.getName());
+
     @EJB
     private MunicipioBO municipioBO;
 
-    public void importar(FileUploadEvent event) {
+    private UploadedFile uploadedFile;
+
+    public void upload(FileUploadEvent event) {
+        uploadedFile = event.getFile();
+    }
+
+    public void importar() {
+        if (uploadedFile == null) {
+            FacesMessageUtils.error("É necessário fazer o upload do arquivo");
+            return;
+        }
 
         try {
-            municipioBO.importar(event.getFile().getInputstream());
+            municipioBO.importar(uploadedFile.getInputstream());
             FacesMessageUtils.sucess();
         } catch (BusinessException ex) {
             FacesMessageUtils.error(ex);
         } catch (IOException ex) {
             LOG.log(Level.SEVERE, ex, null);
-             FacesMessageUtils.error("Erro ao carregar o arquivo (IOException) {0}", ex.getMessage());
+            FacesMessageUtils.error("Erro ao carregar o arquivo (IOException) {0}", ex.getMessage());
         }
 
     }
+
+    public UploadedFile getUploadedFile() {
+        return uploadedFile;
+    }
+
+    public void setUploadedFile(UploadedFile uploadedFile) {
+        this.uploadedFile = uploadedFile;
+    }
+    
+    
 
 }

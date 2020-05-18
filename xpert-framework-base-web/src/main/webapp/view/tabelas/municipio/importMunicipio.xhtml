@@ -4,13 +4,14 @@
                  xmlns:ui="http://java.sun.com/jsf/facelets"
                  xmlns:p="http://primefaces.org/ui"
                  template="/template/mainTemplate.xhtml"
-                 xmlns:x="http://xpert.com/faces">
+                 xmlns:x="http://xpert.com/faces"
+                 xmlns:of="http://omnifaces.org/functions">
     <ui:param name="title" value="#{msg['municipio.importar']}" />
     <ui:define name="body">
         <ui:include src="menuMunicipio.xhtml" />
         <h:form id="formImportMunicipio" >
 
-            <p:panel>
+            <p:panel header="#{xmsg['generalData']}">
 
                 <x:modalMessages/>
 
@@ -55,7 +56,7 @@
 
                 <label>3 - Upload do Arquivo:</label>
 
-                <p:fileUpload  fileUploadListener="#{municipioImportacaoMB.importar}" 
+                <p:fileUpload  fileUploadListener="#{municipioImportacaoMB.upload}" 
                                mode="advanced" 
                                dragDropSupport="false"
                                invalidFileMessage="#{msg['formatoInvalidoApenasCsv']}"
@@ -65,8 +66,27 @@
                                cancelLabel="#{msg['cancelar']}"
                                label="#{msg['selecionar']}"
                                sizeLimit="10000000" 
-                               fileLimit="1" allowTypes="/(\.|\/)(csv)$/" />
+                               auto="true"
+                               fileLimit="1" allowTypes="/(\.|\/)(csv)$/" >
+
+
+                </p:fileUpload>
+
+                <h:panelGroup rendered="#{not empty municipioImportacaoMB.uploadedFile}">
+                    <label><i class="fas fa-file"></i>  Arquivo Anexado: </label>
+                    <h:outputText value=" #{municipioImportacaoMB.uploadedFile.fileName}"/> - <h:outputText value="#{of:formatBytes(municipioImportacaoMB.uploadedFile.size)}"/>
+                </h:panelGroup>
+
+                <br/>
+
+                <div class="text-center">
+                    <p:commandButton icon="fas fa-upload" process="@form" update="@form"
+                                     value="#{msg['importar']}" 
+                                     action="#{municipioImportacaoMB.importar()}"/>
+                </div>
+
             </p:panel>
+
         </h:form>
     </ui:define>
 </ui:composition>
