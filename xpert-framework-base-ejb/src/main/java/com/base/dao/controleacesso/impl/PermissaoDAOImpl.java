@@ -55,7 +55,7 @@ public class PermissaoDAOImpl extends BaseDAOImpl<Permissao> implements Permissa
         builder.append("WHERE (u = :usuario or p.global = true) ");
 
         if (apenasAtivas == true) {
-            builder.append(" AND (p.ativo = true) ");
+            builder.append(" AND (p.ativo = true) AND (pe.ativo = true)");
         }
         builder.append("ORDER BY p.descricao ");
 
@@ -106,7 +106,7 @@ public class PermissaoDAOImpl extends BaseDAOImpl<Permissao> implements Permissa
 
         builder.append("SELECT DISTINCT p FROM ").append(Usuario.class.getName()).append(" u ");
         builder.append("LEFT JOIN u.perfis pe INNER JOIN pe.permissoesAtalho p ");
-        builder.append("WHERE u = :usuario AND p.url IS NOT NULL AND p.ativo = true ");
+        builder.append("WHERE u = :usuario AND p.url IS NOT NULL AND p.ativo = true AND pe.ativo = true ");
         builder.append("ORDER BY p.descricao ");
 
         Query query = getEntityManager().createQuery(builder.toString());

@@ -1,0 +1,399 @@
+package com.base.bo.dashboard;
+
+import com.base.dao.DAO;
+import com.base.modelo.controleacesso.AcessoSistema;
+import com.base.modelo.controleacesso.Perfil;
+import com.base.modelo.controleacesso.Permissao;
+import com.base.modelo.controleacesso.SituacaoUsuario;
+import com.base.modelo.controleacesso.Usuario;
+import com.base.vo.controleacesso.DashboardAcesso;
+import com.xpert.core.exception.BusinessException;
+import com.xpert.core.validation.DateValidation;
+import com.xpert.persistence.query.Restrictions;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import org.joda.time.DateTime;
+import org.primefaces.model.charts.ChartData;
+import org.primefaces.model.charts.line.LineChartDataSet;
+import org.primefaces.model.charts.line.LineChartModel;
+import org.primefaces.model.charts.line.LineChartOptions;
+import org.primefaces.model.charts.optionconfig.title.Title;
+import static com.xpert.persistence.query.Aggregate.*;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import org.apache.commons.lang.StringUtils;
+import org.primefaces.model.charts.bar.BarChartModel;
+import org.primefaces.model.charts.pie.PieChartModel;
+
+/**
+ *
+ * @author ayslanms
+ */
+@Stateless
+public class DashboardAcessoBO {
+
+    @EJB
+    private DAO dao;
+
+    /**
+     * Retorna a quantidade de usuarios ativos
+     *
+     * @return
+     */
+    public Long getQuantidadeUsuariosAtivos() {
+        return dao.getQueryBuilder()
+                .from(Usuario.class)
+                .add("situacaoUsuario", SituacaoUsuario.ATIVO)
+                .count();
+    }
+
+    /**
+     * Retorna a quantidade de perfis ativos
+     *
+     * @return
+     */
+    public Long getQuantidadePerfisAtivos() {
+        return dao.getQueryBuilder()
+                .from(Perfil.class)
+                .add("ativo", true)
+                .count();
+    }
+
+    /**
+     * Retorna a quantidade de permissoes ativos
+     *
+     * @return
+     */
+    public Long getQuantidadePermissoesAtivas() {
+        return dao.getQueryBuilder()
+                .from(Permissao.class)
+                .add("ativo", true)
+                .count();
+    }
+
+    /**
+     * Retorna a quantidade de acessos
+     *
+     * @param dashboardAcesso
+     * @return
+     */
+    public Long getQuantidadeAcessos(DashboardAcesso dashboardAcesso) {
+        return dao.getQueryBuilder()
+                .from(AcessoSistema.class)
+                .add(getRestrictions(dashboardAcesso))
+                .count();
+    }
+
+    /**
+     * Retorna a lista de quantidade de acessos por dia
+     *
+     * @param dashboardAcesso
+     * @return
+     */
+    public List<Object[]> getAcessosDia(DashboardAcesso dashboardAcesso) {
+        return dao.getQueryBuilder()
+                .by("cast(dataHora as date)")
+                .aggregate(count("*"))
+                .from(AcessoSistema.class)
+                .add(getRestrictions(dashboardAcesso))
+                .getResultList();
+    }
+
+    /**
+     * Retorna a quantidade de usuarios por situacao
+     *
+     * @param dashboardAcesso
+     * @return
+     */
+    public List<Object[]> getUsuariosSituacao(DashboardAcesso dashboardAcesso) {
+        return dao.getQueryBuilder()
+                .by("situacaoUsuario")
+                .aggregate(count("*"))
+                .from(Usuario.class)
+                .getResultList();
+    }
+
+    /**
+     * Retorna a lista de quantidade de usuarios por senha cadastrada
+     *
+     * @param dashboardAcesso
+     * @return
+     */
+    public List<Object[]> getUsuariosSenhaCadastrada(DashboardAcesso dashboardAcesso) {
+        return dao.getQueryBuilder()
+                .by("senhaCadastrada")
+                .aggregate(count("*"))
+                .from(Usuario.class)
+                .getResultList();
+    }
+
+    /**
+     * Retorna oa lista de Quantidade de Usuarios por perfil
+     *
+     * @param dashboardAcesso
+     * @return
+     */
+    public List<Object[]> getUsuariosPerfil(DashboardAcesso dashboardAcesso) {
+        return dao.getQueryBuilder()
+                .by("pe.descricao")
+                .aggregate(countDistinct("u.id"))
+                .from(Usuario.class, "u")
+                .innerJoin("u.perfis", "pe")
+                .orderBy("2")
+                .getResultList();
+    }
+
+    /**
+     * Retorna a lista de quantidade de acessos por faixa de horario (01h-02h,
+     * 02h-03h, etc..)
+     *
+     * @param dashboardAcesso
+     * @return
+     */
+    public List<Object[]> getAcessosFaixaHorario(DashboardAcesso dashboardAcesso) {
+        /**
+         * Aqui tem que ordenar pela hora, pois ordenar por String vai aparecer
+         * 1h-2h, 10h-11h Passo 1 - Trazer a hora do banco de dados
+         */
+        List<Object[]> result = dao.getQueryBuilder()
+                .by("HOUR(dataHora)")
+                .aggregate(count("*"))
+                .from(AcessoSistema.class)
+                .add(getRestrictions(dashboardAcesso))
+                .getResultList();
+
+        /**
+         * Passo 2 - Formatar resultado para fica no padrao 01h-02h
+         */
+        for (Object[] linha : result) {
+            Number hora = (Number) linha[0];
+            Integer horaSeguinte = hora.intValue() + 1;
+            //formatar
+            linha[0] = StringUtils.leftPad(hora.toString(), 2, "0") + "h - " + StringUtils.leftPad(horaSeguinte.toString(), 2, "0") + "h";
+        }
+
+        return result;
+    }
+
+    /**
+     * Retorna a lista de quantidade de acessos por usuario
+     *
+     * @param dashboardAcesso
+     * @return
+     */
+    public List<Object[]> getAcessosUsuario(DashboardAcesso dashboardAcesso) {
+        return dao.getQueryBuilder()
+                .by("usuario.userLogin")
+                .aggregate(count("*"), max("dataHora"), min("dataHora"))
+                .from(AcessoSistema.class)
+                .orderBy("2")
+                .add(getRestrictions(dashboardAcesso))
+                .getResultList();
+    }
+
+    /**
+     * Retorna o grafico de acessos por dia
+     *
+     * @param dashboardAcesso
+     * @return
+     */
+    public LineChartModel getGraficoAcessosDia(DashboardAcesso dashboardAcesso) {
+        List<Number> values = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+
+        for (Object[] linha : dashboardAcesso.getAcessosDia()) {
+            labels.add(new SimpleDateFormat("dd/MM/yyyy").format((Date) linha[0]));
+            values.add(((Number) linha[1]).longValue());
+        }
+
+        return Charts.getLineChartModel("Quantidade de Acessos", values, labels);
+    }
+
+    /**
+     * Retorna o grafico de acessos por faixa de horario
+     *
+     * @param dashboardAcesso
+     * @return
+     */
+    public LineChartModel getGraficoAcessosFaixaHorario(DashboardAcesso dashboardAcesso) {
+        List<Number> values = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+
+        for (Object[] linha : dashboardAcesso.getAcessosFaixaHorario()) {
+            labels.add(linha[0].toString());
+            values.add(((Number) linha[1]).longValue());
+        }
+
+        return Charts.getLineChartModel("Quantidade de Acessos", values, labels);
+    }
+
+    /**
+     * Retorna o grafico de Usuarios por Situacao
+     *
+     * @param dashboardAcesso
+     * @return
+     */
+    public PieChartModel getGraficoUsuariosSituacao(DashboardAcesso dashboardAcesso) {
+        List<Number> values = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+
+        for (Object[] linha : dashboardAcesso.getUsuariosSituacao()) {
+            labels.add(((SituacaoUsuario) linha[0]).getDescricao());
+            values.add(((Number) linha[1]).longValue());
+        }
+
+        return Charts.getPieChartModel(values, labels);
+    }
+
+    /**
+     * Reotorna o grafico de usuarios por senha cadastrada
+     *
+     * @param dashboardAcesso
+     * @return
+     */
+    public PieChartModel getGraficoUsuariosSenhaCadastrada(DashboardAcesso dashboardAcesso) {
+        List<Number> values = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+
+        for (Object[] linha : dashboardAcesso.getUsuariosSenhaCadastrada()) {
+            labels.add((boolean) linha[0] == true ? "Senha Cadastrada" : "Senha Não Cadastrada");
+            values.add(((Number) linha[1]).longValue());
+        }
+
+        return Charts.getPieChartModel(values, labels);
+    }
+
+    /**
+     * Retorna o grafico de quantidade de usuarios por perfil
+     *
+     * @param dashboardAcesso
+     * @return
+     */
+    public BarChartModel getGraficoUsuariosPerfil(DashboardAcesso dashboardAcesso) {
+        List<Number> values = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+
+        for (Object[] linha : dashboardAcesso.getUsuariosPerfil()) {
+            labels.add(linha[0].toString());
+            values.add(((Number) linha[1]).longValue());
+        }
+
+        return Charts.getBarChartModel(null, values, labels);
+    }
+
+    /**
+     * Retorna o grafico de quantidade de usuarios por perfil
+     *
+     * @param dashboardAcesso
+     * @param limite
+     * @return
+     */
+    public BarChartModel getGraficoAcessosUsuario(DashboardAcesso dashboardAcesso, int limite) {
+        List<Number> values = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+
+        Collections.reverse(dashboardAcesso.getAcessosUsuario());
+
+        int count = 1;
+        for (Object[] linha : dashboardAcesso.getAcessosUsuario()) {
+            if (count <= limite) {
+                labels.add(linha[0].toString());
+                values.add(((Number) linha[1]).longValue());
+            } 
+            count++;
+        }
+
+        Collections.reverse(labels);
+        Collections.reverse(values);
+
+        String titulo = limite + " usuário(s) com mais acessos no sistema";
+
+        return Charts.getBarChartModel(titulo, values, labels);
+    }
+
+    /**
+     * Cria o objeto DashboardAcesso com dataInicial (data autal -1 mês) e
+     * dataFinal (data atual) ja setados
+     *
+     * @return
+     * @throws BusinessException
+     */
+    public DashboardAcesso getDashboardAcesso() throws BusinessException {
+
+        DashboardAcesso dashboardAcesso = new DashboardAcesso();
+        //por padrao ele vem com o ultimo mes carregado
+        dashboardAcesso.setDataInicial(new DateTime().plusMonths(-1).toDate());
+        dashboardAcesso.setDataFinal(new Date());
+
+        //montar indicadores
+        carregarDashboardAcesso(dashboardAcesso);
+
+        return dashboardAcesso;
+    }
+
+    /**
+     * Carrega as informações do dashboard
+     *
+     * @param dashboardAcesso
+     * @throws BusinessException
+     */
+    public void carregarDashboardAcesso(DashboardAcesso dashboardAcesso) throws BusinessException {
+
+        if (dashboardAcesso.getDataInicial() == null || dashboardAcesso.getDataFinal() == null) {
+            throw new BusinessException("Informe a data inicial e a data final");
+        }
+
+        if (!DateValidation.validateDateRange(dashboardAcesso.getDataInicial(), dashboardAcesso.getDataFinal())) {
+            throw new BusinessException("Intervalo de datas inválido. Data Inicial não pode ser maior que a final");
+        }
+
+        /**
+         * Carregar indicadores
+         */
+        dashboardAcesso.setQuantidadeUsuariosAtivos(getQuantidadeUsuariosAtivos());
+        dashboardAcesso.setQuantidadePerfisAtivos(getQuantidadePerfisAtivos());
+        dashboardAcesso.setQuantidadePermissoesAtivas(getQuantidadePermissoesAtivas());
+        dashboardAcesso.setQuantidadeAcessos(getQuantidadeAcessos(dashboardAcesso));
+
+        /**
+         * Carregar tabelas que serao usadas nos graficos
+         */
+        dashboardAcesso.setAcessosDia(getAcessosDia(dashboardAcesso));
+        dashboardAcesso.setUsuariosSituacao(getUsuariosSituacao(dashboardAcesso));
+        dashboardAcesso.setUsuariosSenhaCadastrada(getUsuariosSenhaCadastrada(dashboardAcesso));
+        dashboardAcesso.setUsuariosPerfil(getUsuariosPerfil(dashboardAcesso));
+        dashboardAcesso.setAcessosFaixaHorario(getAcessosFaixaHorario(dashboardAcesso));
+        dashboardAcesso.setAcessosUsuario(getAcessosUsuario(dashboardAcesso));
+
+        /**
+         * Carregar graficos
+         */
+        dashboardAcesso.setGraficoAcessosDia(getGraficoAcessosDia(dashboardAcesso));
+        dashboardAcesso.setGraficoUsuariosSituacao(getGraficoUsuariosSituacao(dashboardAcesso));
+        dashboardAcesso.setGraficoUsuariosSenhaCadastrada(getGraficoUsuariosSenhaCadastrada(dashboardAcesso));
+        dashboardAcesso.setGraficoUsuariosPerfil(getGraficoUsuariosPerfil(dashboardAcesso));
+        dashboardAcesso.setGraficoAcessosFaixaHorario(getGraficoAcessosFaixaHorario(dashboardAcesso));
+        dashboardAcesso.setGraficoAcessosUsuario(getGraficoAcessosUsuario(dashboardAcesso, 20));
+
+    }
+
+    public Restrictions getRestrictions(DashboardAcesso dashboardAcesso) {
+
+        Restrictions restrictions = new Restrictions();
+        if (dashboardAcesso.getDataInicial() != null) {
+            restrictions.greaterEqualsThan("dataHora", dashboardAcesso.getDataInicial());
+        }
+        if (dashboardAcesso.getDataFinal() != null) {
+            //menor que o dia +1 para desprezar a hora/minuto/segundo
+            restrictions.lessThan("dataHora", new DateTime(dashboardAcesso.getDataFinal()).plusDays(1).toDate());
+        }
+        if (dashboardAcesso.getUsuarios() != null && !dashboardAcesso.getUsuarios().isEmpty()) {
+            restrictions.in("usuario", dashboardAcesso.getUsuarios());
+        }
+        return restrictions;
+    }
+
+}

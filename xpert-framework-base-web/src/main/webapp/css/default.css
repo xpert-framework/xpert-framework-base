@@ -117,5 +117,5 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
 .themes-overlay ul li a img{width: 30px; height: 30px;margin-right: 2px;}
 .themes-overlay ul li.selected{background-color: #EBEBEB }
 .ui-panel, .ui-tabs {margin-bottom: 10px;}
-/*.uix-dialog-fluid {height: 90% !important;}*/
+body .ui-icon {font-size: 1em;}
 .uix-dialog-fluid .ui-dialog-content{height: 100% !important}

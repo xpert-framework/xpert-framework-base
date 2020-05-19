@@ -183,14 +183,12 @@
             </p:tab>
 
         </p:tabView>
-        <f:facet name="footer">
 
-            <div class="uix-center">
-                <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetUsuarioDetail').hide()" />
-                <x:securityArea rolesAllowed="usuario.audit">
-                    <x:audit for="#{usuarioMB.entity}"/>
-                </x:securityArea>
-            </div>
-        </f:facet>
+        <div class="uix-center">
+            <p:commandButton type="button" value="#{xmsg['close']}" onclick="PF('widgetUsuarioDetail').hide()" />
+            <x:securityArea rolesAllowed="usuario.audit">
+                <x:audit for="#{usuarioMB.entity}"/>
+            </x:securityArea>
+        </div>
     </h:form>
 </ui:composition>
