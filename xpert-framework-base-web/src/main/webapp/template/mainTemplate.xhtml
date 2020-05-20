@@ -92,6 +92,25 @@
 
             <ui:include src="themes.xhtml"/>
             <x:filterOnEnter/>
+
+            <script>
+                //configuracao global para formatar os numeros no grafico
+                Chart.defaults.global.plugins = {
+                    datalabels: {
+                        formatter: function (value, context) {
+                            if (!isNaN(value)) {
+                                return value.toLocaleString();
+                            }
+                            return value;
+                        }
+                    }
+                };
+
+                $('.dashboard .card .ui-tabs-nav li:has(.fa-chart-pie)').attr('title', 'Visualizar Gráfico');
+                $('.dashboard .card .ui-tabs-nav li:has(.fa-border-all)').attr('title', 'Visualizar Tabela');
+
+            </script>
+
         </h:body>
     </f:view>
 

@@ -10,7 +10,7 @@
     <ui:param name="title" value="#{msg['dashboards.acessos']}" />
     <ui:define name="body">
 
-        <h:form id="formDashboardAcessos" styleClass="dashboard">
+        <h:form id="formDashboardErroSistema" styleClass="dashboard">
 
             <p:panel style="padding: .5em" >
                 <h3>Filtros</h3>
@@ -18,17 +18,17 @@
                     <div class="ui-g">
                         <div class="ui-g-12 ui-md-6 ui-lg-3">
                             <h:outputLabel value="* #{msg['dataInicio']}:" />
-                            <p:calendar  value="#{dashboardAcessoMB.dashboardAcesso.dataInicial}" maxlength="255" 
+                            <p:calendar  value="#{dashboardErroSistemaMB.dashboardErroSistema.dataInicial}" maxlength="255" 
                                          pattern="dd/MM/yyyy" mask="true" showOn="button" showButtonPanel="true" navigator="true"/>
                         </div>
                         <div class="ui-g-12 ui-md-6 ui-lg-3">
                             <h:outputLabel value="* #{msg['dataFinal']}:" />
-                            <p:calendar  value="#{dashboardAcessoMB.dashboardAcesso.dataFinal}" maxlength="255" 
+                            <p:calendar  value="#{dashboardErroSistemaMB.dashboardErroSistema.dataFinal}" maxlength="255" 
                                          pattern="dd/MM/yyyy" mask="true" showOn="button" showButtonPanel="true" navigator="true"/>
                         </div>
                         <div class="ui-g-12 ui-md-12 ui-lg-6">
                             <h:outputLabel value="#{msg['usuarios']}:" />
-                            <p:selectCheckboxMenu  value="#{dashboardAcessoMB.dashboardAcesso.usuarios}" multiple="true" 
+                            <p:selectCheckboxMenu  value="#{dashboardErroSistemaMB.dashboardErroSistema.usuarios}" multiple="true" 
                                                    filter="true" filterMatchMode="contains" converter="entityConverter">
                                 <f:selectItems value="#{findAllBean.get(classMB.usuario)}" var="usuario"
                                                itemValue="#{usuario}" itemLabel="#{usuario.nome}"/>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="pull-right">
                     <p:commandButton process="@form" update="@form" value="#{msg['filtrar']}" 
-                                     icon="fas fa-search" action="#{dashboardAcessoMB.carregarDashboard}"  />
+                                     icon="fas fa-search" action="#{dashboardErroSistemaMB.carregarDashboard}"  />
 
                 </div>
                 <div class="clearfix"></div>
@@ -49,82 +49,63 @@
             <div class="ui-fluid">
                 <div class="ui-g">
 
-                    <div class="ui-g-12 ui-md-6 ui-lg-3 card">
+                    <div class="ui-g-12 ui-md-6 ui-lg-4 card">
                         <p:panel>
-                            <h3>Usuários Ativos</h3>
-                            <h:outputText styleClass="card-value" value="#{dashboardAcessoMB.dashboardAcesso.quantidadeUsuariosAtivos}">
+                            <h3>Erros no Sistema - Total</h3>
+                            <h:outputText styleClass="card-value" value="#{dashboardErroSistemaMB.dashboardErroSistema.quantidadaTotalErros}">
                                 <f:convertNumber/>
                             </h:outputText>
-                            <i class="fas fa-user card-icon"></i>
+                            <i class="fas fa-exclamation-circle card-icon" style="color: red;"></i>
                         </p:panel>
                     </div>
 
-                    <div class="ui-g-12 ui-md-6 ui-lg-3 card">
+                    <div class="ui-g-12 ui-md-6 ui-lg-4 card">
                         <p:panel>
-                            <h3>Perfis Ativos</h3>
-                            <h:outputText styleClass="card-value" value="#{dashboardAcessoMB.dashboardAcesso.quantidadePerfisAtivos}">
+                            <h3>Erros no Período</h3>
+                            <h:outputText styleClass="card-value" value="#{dashboardErroSistemaMB.dashboardErroSistema.quantidadeErros}">
                                 <f:convertNumber/>
                             </h:outputText>
-                            <i class="fas fa-users card-icon"></i>
+                            <i class="fas fa-times-circle card-icon" style="color: red;"></i>
                         </p:panel>
                     </div>
 
-                    <div class="ui-g-12 ui-md-6 ui-lg-3 card">
+                    <div class="ui-g-12 ui-md-12 ui-lg-4 card">
                         <p:panel>
-                            <h3>Permissões Ativas</h3>
-                            <h:outputText styleClass="card-value" value="#{dashboardAcessoMB.dashboardAcesso.quantidadePermissoesAtivas}">
-                                <f:convertNumber/>
+                            <h3>Data do Último Erro</h3>
+                            <h:outputText styleClass="card-value" value="#{dashboardErroSistemaMB.dashboardErroSistema.dataUltimoErro}">
+                                <f:convertDateTime pattern="#{formatMB.format.data}" />
                             </h:outputText>
-                            <i class="fas fa-user-shield card-icon"></i>
+                            <h:outputText value=" " />
+                            <h:outputText styleClass="card-value-detail" value="#{dashboardErroSistemaMB.dashboardErroSistema.dataUltimoErro}">
+                                <f:convertDateTime pattern="#{formatMB.format.horaMinuto}" />
+                            </h:outputText>
+                            <i class="fas fa-calendar-alt card-icon" style="color: red;"></i>
                         </p:panel>
                     </div>
 
-                    <div class="ui-g-12 ui-md-6 ui-lg-3 card">
-                        <p:panel>
-                            <h3>Acessos</h3>
-                            <h:outputText styleClass="card-value" value="#{dashboardAcessoMB.dashboardAcesso.quantidadeAcessos}">
-                                <f:convertNumber/>
-                            </h:outputText>
-                            <i class="fas fa-file-signature card-icon"></i>
-                        </p:panel>
-                    </div>
 
                     <div class="ui-g-12 ui-md-12 ui-lg-12 card">
                         <p:panel>
-                            <h3>Acessos por dia</h3>
-                            <ui:include src="graficoAcessosDia.xhtml"/>
-                        </p:panel>
-                    </div>
-                    <div class="ui-lg-6 ui-md-6 ui-sm-12 card">
-                        <p:panel>
-                            <h3>Acessos por Faixa de Horário</h3>
-                            <ui:include src="graficoAcessosFaixaHorario.xhtml"/>
-                        </p:panel>
-                    </div>
-
-                    <div class="ui-lg-6 ui-md-6 ui-sm-12 card">
-                        <p:panel>
-                            <h3>Usuários por Situação</h3>
-                            <ui:include src="graficoUsuariosSituacao.xhtml"/>
-                        </p:panel>
-                    </div>
-                    <div class="ui-lg-6 ui-md-6 ui-sm-12 card">
-                        <p:panel>
-                            <h3>Usuários por Senha Cadastrada</h3>
-                            <ui:include src="graficoUsuariosSenhaCadastrada.xhtml"/>
-                        </p:panel>
-                    </div>
-
-                    <div class="ui-lg-6 ui-md-6 ui-sm-12 card">
-                        <p:panel>
-                            <h3>Usuários por Perfil</h3>
-                            <ui:include src="graficoUsuariosPerfil.xhtml"/>
+                            <h3>Erros por dia</h3>
+                            <ui:include src="graficoErrosDia.xhtml"/>
                         </p:panel>
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-12 card">
                         <p:panel>
-                            <h3>Quantidade de Acessos por Usuário</h3>
-                            <ui:include src="graficoAcessosUsuario.xhtml"/>
+                            <h3>Erros por Faixa de Horário</h3>
+                            <ui:include src="graficoErrosFaixaHorario.xhtml"/>
+                        </p:panel>
+                    </div>
+                    <div class="ui-g-12 ui-md-12 ui-lg-12 card">
+                        <p:panel>
+                            <h3>Erros por Funcionalidade</h3>
+                            <ui:include src="graficoErrosFuncionalidade.xhtml"/>
+                        </p:panel>
+                    </div>
+                    <div class="ui-g-12 ui-md-12 ui-lg-12 card">
+                        <p:panel>
+                            <h3>Erros por Usuário</h3>
+                            <ui:include src="graficoErrosUsuario.xhtml"/>
                         </p:panel>
                     </div>
 

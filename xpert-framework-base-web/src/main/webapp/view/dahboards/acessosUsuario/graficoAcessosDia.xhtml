@@ -17,7 +17,7 @@
                 <i class="fas fa-border-all"></i>
             </f:facet>
             <div style="height: 300px;">
-                <dashboard:dataTableExporter fileName="Acessos_Usuario" target=":formDashboardAcessos:tabViewAcessosDia:dataTableAcessosDia" />
+                <dashboard:dataTableExporter fileName="Acessos_Dia" target=":formDashboardAcessos:tabViewAcessosDia:dataTableAcessosDia" />
 
                 <p:dataTable id="dataTableAcessosDia" value="#{dashboardAcessoMB.dashboardAcesso.acessosDia}" scrollable="true" scrollHeight="200" var="acessosDia">
                     <p:column sortBy="#{acessosDia[0]}">
@@ -28,7 +28,7 @@
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                         </h:outputText>
                         <f:facet name="footer">
-                            #{msg['total']}
+                            <h:outputText value="#{msg['total']}" />
                         </f:facet>
                     </p:column>
                     <p:column style="text-align: right" sortBy="#{acessosDia[1]}">

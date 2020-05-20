@@ -1,7 +1,7 @@
 package com.base.mb.dashboard;
 
 import com.base.bo.dashboard.DashboardAcessoBO;
-import com.base.vo.controleacesso.DashboardAcesso;
+import com.base.vo.dashboard.DashboardAcesso;
 import com.xpert.core.exception.BusinessException;
 import com.xpert.faces.utils.FacesMessageUtils;
 import java.io.Serializable;

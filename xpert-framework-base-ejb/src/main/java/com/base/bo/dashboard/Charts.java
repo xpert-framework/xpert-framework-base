@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
@@ -25,7 +26,7 @@ import org.primefaces.model.charts.pie.PieChartModel;
  * @author ayslanms
  */
 public class Charts {
-    
+
     public final static String COLOR_SERIE_1 = "rgba(75, 192, 192)";
     public final static String COLOR_SERIE_2 = "rgba(255, 159, 64)";
     public final static String COLOR_SERIE_3 = "rgba(255, 205, 86)";
@@ -33,9 +34,9 @@ public class Charts {
     public final static String COLOR_SERIE_5 = "rgba(54, 162, 235)";
     public final static String COLOR_SERIE_6 = "rgba(153, 102, 255)";
     public final static String COLOR_SERIE_7 = "rgba(201, 203, 207)";
-    
+
     public final static List<String> COLORS = new ArrayList<>();
-    
+
     static {
         COLORS.add(COLOR_SERIE_1);
         COLORS.add(COLOR_SERIE_2);
@@ -57,7 +58,7 @@ public class Charts {
     public static LineChartModel getLineChartModel(String titulo, List<Number> values, List<String> labels) {
         LineChartModel model = new LineChartModel();
         ChartData data = new ChartData();
-        
+
         LineChartDataSet dataSet = new LineChartDataSet();
         dataSet.setData(values);
         dataSet.setFill(false);
@@ -73,7 +74,7 @@ public class Charts {
         Title title = new Title();
         title.setDisplay(false);
         options.setTitle(title);
-        
+
         model.setOptions(options);
         model.setData(data);
 //        model.setExtender("chartExtender");
@@ -93,11 +94,11 @@ public class Charts {
         ChartData data = new ChartData();
         PieChartDataSet dataSet = new PieChartDataSet();
         dataSet.setBackgroundColor(Charts.COLORS);
-        
+
         dataSet.setData(values);
         data.addChartDataSet(dataSet);
         data.setLabels(labels);
-        
+
         model.setData(data);
         return model;
     }
@@ -116,11 +117,11 @@ public class Charts {
         BarChartDataSet dataSet = new BarChartDataSet();
         dataSet.setBackgroundColor(Charts.COLOR_SERIE_1);
         dataSet.setBorderColor(Charts.COLOR_SERIE_1);
-        
+
         dataSet.setData(values);
         data.addChartDataSet(dataSet);
         data.setLabels(labels);
-        
+
         model.setData(data);
 
         //Options
@@ -130,10 +131,10 @@ public class Charts {
         CartesianLinearTicks ticks = new CartesianLinearTicks();
         ticks.setBeginAtZero(true);
         linearAxes.setTicks(ticks);
-        
+
         cScales.addYAxesData(linearAxes);
         options.setScales(cScales);
-        
+
         Title title = new Title();
         if (titulo != null) {
             title.setText(titulo);
@@ -142,14 +143,28 @@ public class Charts {
             title.setDisplay(false);
         }
         options.setTitle(title);
-        
+
         Legend legend = new Legend();
         legend.setDisplay(false);
         options.setLegend(legend);
-        
+
         model.setOptions(options);
-        
+
         return model;
     }
-    
+
+    /**
+     * Retorna a partir de uma determinada hora a faixa de horario
+     *
+     * Exemplo: 7 retorna 07h-08h Exemplo: 14 retorna 14h-15h
+     *
+     *
+     * @param hora
+     * @return
+     */
+    public static String getFaixaHorario(Number hora) {
+        Integer horaSeguinte = hora.intValue() + 1;
+        return StringUtils.leftPad(hora.toString(), 2, "0") + "h - " + StringUtils.leftPad(horaSeguinte.toString(), 2, "0") + "h";
+    }
+
 }

@@ -27,7 +27,7 @@
                         </f:facet>
                         <h:outputText value="#{usuarioSituacao[0] eq true ? 'Senha Cadastrada' : 'Senha Não Cadastrada'}"  />
                         <f:facet name="footer">
-                            #{msg['total']}
+                            <h:outputText value="#{msg['total']}" />
                         </f:facet>
                     </p:column>
                     <p:column style="text-align: right">

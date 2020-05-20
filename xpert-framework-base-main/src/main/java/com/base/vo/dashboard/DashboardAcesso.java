@@ -1,7 +1,6 @@
-package com.base.vo.controleacesso;
+package com.base.vo.dashboard;
 
 import com.base.modelo.controleacesso.Usuario;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import org.primefaces.model.charts.bar.BarChartModel;

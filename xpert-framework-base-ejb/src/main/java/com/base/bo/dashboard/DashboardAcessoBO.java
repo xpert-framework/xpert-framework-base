@@ -6,7 +6,7 @@ import com.base.modelo.controleacesso.Perfil;
 import com.base.modelo.controleacesso.Permissao;
 import com.base.modelo.controleacesso.SituacaoUsuario;
 import com.base.modelo.controleacesso.Usuario;
-import com.base.vo.controleacesso.DashboardAcesso;
+import com.base.vo.dashboard.DashboardAcesso;
 import com.xpert.core.exception.BusinessException;
 import com.xpert.core.validation.DateValidation;
 import com.xpert.persistence.query.Restrictions;
@@ -16,11 +16,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import org.joda.time.DateTime;
-import org.primefaces.model.charts.ChartData;
-import org.primefaces.model.charts.line.LineChartDataSet;
 import org.primefaces.model.charts.line.LineChartModel;
-import org.primefaces.model.charts.line.LineChartOptions;
-import org.primefaces.model.charts.optionconfig.title.Title;
 import static com.xpert.persistence.query.Aggregate.*;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -170,9 +166,7 @@ public class DashboardAcessoBO {
          */
         for (Object[] linha : result) {
             Number hora = (Number) linha[0];
-            Integer horaSeguinte = hora.intValue() + 1;
-            //formatar
-            linha[0] = StringUtils.leftPad(hora.toString(), 2, "0") + "h - " + StringUtils.leftPad(horaSeguinte.toString(), 2, "0") + "h";
+            linha[0] = Charts.getFaixaHorario(hora);
         }
 
         return result;
@@ -187,7 +181,7 @@ public class DashboardAcessoBO {
     public List<Object[]> getAcessosUsuario(DashboardAcesso dashboardAcesso) {
         return dao.getQueryBuilder()
                 .by("usuario.userLogin")
-                .aggregate(count("*"), max("dataHora"), min("dataHora"))
+                .aggregate(count("*"), min("dataHora"), max("dataHora"))
                 .from(AcessoSistema.class)
                 .orderBy("2")
                 .add(getRestrictions(dashboardAcesso))
@@ -302,7 +296,7 @@ public class DashboardAcessoBO {
             if (count <= limite) {
                 labels.add(linha[0].toString());
                 values.add(((Number) linha[1]).longValue());
-            } 
+            }
             count++;
         }
 

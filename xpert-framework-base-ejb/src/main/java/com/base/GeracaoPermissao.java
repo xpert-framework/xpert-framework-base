@@ -129,9 +129,9 @@ public class GeracaoPermissao {
         /**
          * Dashboardos
          */
-        //Municipio
         create(new Permissao("dashboards", "Dashboards", true, "fas fa-chart-line"), null);
         create(new Permissao("dashboards.acessos", "Usuários/Acessos", "/view/dahboards/acessosUsuario/dashboardAcessos.jsf", true, "fas fa-users"), "dashboards");
+        create(new Permissao("dashboards.erroSistema", "Erros do Sistema", "/view/dahboards/erroSistema/dashboardErroSistema.jsf", true, "fas fa-exclamation-circle"), "dashboards");
 
         /**
          * Permissoes Globais (essas permissoes todos terao acessos)
