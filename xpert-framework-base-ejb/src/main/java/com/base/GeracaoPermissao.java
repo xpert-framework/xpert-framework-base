@@ -110,14 +110,14 @@ public class GeracaoPermissao {
          * Cadastro
          */
         create(new Permissao("tabelas", "Tabelas", true, "fas fa-table"), null);
-        
+
         //Uf
         create(new Permissao("uf", "UF", true, "fas fa-map-marked-alt"), "tabelas");
         create(new Permissao("uf.create", "Cadastro de UF", "/view/tabelas/uf/createUf.jsf", true), "uf");
         create(new Permissao("uf.list", "Consulta de UF", "/view/tabelas/uf/listUf.jsf", true), "uf");
         create(new Permissao("uf.audit", "Auditoria de UF"), "uf");
         create(new Permissao("uf.delete", "Exclusão de UF"), "uf");
-        
+
         //Municipio
         create(new Permissao("municipio", "Municipio", true, "fas fa-map-marker-alt"), "tabelas");
         create(new Permissao("municipio.create", "Cadastro de Municipio", "/view/tabelas/municipio/createMunicipio.jsf", true), "municipio");
@@ -125,13 +125,14 @@ public class GeracaoPermissao {
         create(new Permissao("municipio.list", "Consulta de Municipio", "/view/tabelas/municipio/listMunicipio.jsf", true), "municipio");
         create(new Permissao("municipio.audit", "Auditoria de Municipio"), "municipio");
         create(new Permissao("municipio.delete", "Exclusão de Municipio"), "municipio");
-        
+
         /**
          * Dashboardos
          */
         create(new Permissao("dashboards", "Dashboards", true, "fas fa-chart-line"), null);
         create(new Permissao("dashboards.acessos", "Usuários/Acessos", "/view/dahboards/acessosUsuario/dashboardAcessos.jsf", true, "fas fa-users"), "dashboards");
         create(new Permissao("dashboards.erroSistema", "Erros do Sistema", "/view/dahboards/erroSistema/dashboardErroSistema.jsf", true, "fas fa-exclamation-circle"), "dashboards");
+        create(new Permissao("dashboards.auditoria", "Auditoria", "/view/dahboards/auditoria/dashboardAuditoria.jsf", true, "fas fa-history"), "dashboards");
 
         /**
          * Permissoes Globais (essas permissoes todos terao acessos)
@@ -164,7 +165,7 @@ public class GeracaoPermissao {
                 permissao.setIcone("fas fa-history");
             } else if (permissao.getKey().contains(".delete")) {
                 permissao.setIcone("fas fa-trash");
-            }else if (permissao.getKey().contains(".import")) {
+            } else if (permissao.getKey().contains(".import")) {
                 permissao.setIcone("fas fa-upload");
             }
         }

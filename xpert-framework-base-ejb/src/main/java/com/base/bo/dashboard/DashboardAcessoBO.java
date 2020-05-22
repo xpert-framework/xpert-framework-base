@@ -20,7 +20,6 @@ import org.primefaces.model.charts.line.LineChartModel;
 import static com.xpert.persistence.query.Aggregate.*;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
-import org.apache.commons.lang.StringUtils;
 import org.primefaces.model.charts.bar.BarChartModel;
 import org.primefaces.model.charts.pie.PieChartModel;
 

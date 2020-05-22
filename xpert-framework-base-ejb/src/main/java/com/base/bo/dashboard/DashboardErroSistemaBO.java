@@ -158,13 +158,8 @@ public class DashboardErroSistemaBO {
             labels.add(new SimpleDateFormat("dd/MM/yyyy").format((Date) linha[0]));
             values.add(((Number) linha[1]).longValue());
         }
-        
-        LineChartModel chartModel = Charts.getLineChartModel("Quantidade de Erros", values, labels);
-        LineChartDataSet dataSet = (LineChartDataSet) chartModel.getData().getDataSet().get(0);
-        dataSet.setBorderColor(Charts.COLOR_SERIE_4);
-        dataSet.setBackgroundColor(Charts.COLOR_SERIE_4);
 
-        return chartModel;
+        return Charts.getLineChartModel("Quantidade de Erros", Charts.COLOR_SERIE_4, values, labels);
     }
 
     /**
@@ -244,12 +239,7 @@ public class DashboardErroSistemaBO {
 
         String titulo = limite + " funciolidade(s) com mais erros no sistema";
 
-        BarChartModel chartModel = Charts.getBarChartModel(titulo, values, labels);
-        BarChartDataSet dataSet = (BarChartDataSet) chartModel.getData().getDataSet().get(0);
-        dataSet.setBorderColor(Charts.COLOR_SERIE_4);
-        dataSet.setBackgroundColor(Charts.COLOR_SERIE_4);
-
-        return chartModel;
+        return Charts.getBarChartModel(titulo, Charts.COLOR_SERIE_4, values, labels);
     }
 
     /**

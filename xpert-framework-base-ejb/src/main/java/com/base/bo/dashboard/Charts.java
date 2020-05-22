@@ -1,8 +1,6 @@
 package com.base.bo.dashboard;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.primefaces.model.charts.ChartData;
@@ -16,8 +14,8 @@ import org.primefaces.model.charts.line.LineChartDataSet;
 import org.primefaces.model.charts.line.LineChartModel;
 import org.primefaces.model.charts.line.LineChartOptions;
 import org.primefaces.model.charts.optionconfig.legend.Legend;
-import org.primefaces.model.charts.optionconfig.legend.LegendLabel;
 import org.primefaces.model.charts.optionconfig.title.Title;
+import org.primefaces.model.charts.optionconfig.tooltip.Tooltip;
 import org.primefaces.model.charts.pie.PieChartDataSet;
 import org.primefaces.model.charts.pie.PieChartModel;
 
@@ -47,26 +45,40 @@ public class Charts {
         COLORS.add(COLOR_SERIE_7);
     }
 
-    /**
-     * Retorna um grafico de linhas generico de apenas uma serie
-     *
-     * @param titulo
-     * @param values
-     * @param labels
-     * @return
-     */
-    public static LineChartModel getLineChartModel(String titulo, List<Number> values, List<String> labels) {
-        LineChartModel model = new LineChartModel();
-        ChartData data = new ChartData();
-
+    public static LineChartDataSet getLineChartDataSet(String titulo, String cor, List<Number> values) {
         LineChartDataSet dataSet = new LineChartDataSet();
         dataSet.setData(values);
         dataSet.setFill(false);
         dataSet.setLabel(titulo);
-        dataSet.setBorderColor(Charts.COLOR_SERIE_1);
-        dataSet.setBackgroundColor(Charts.COLOR_SERIE_1);
+        dataSet.setBorderColor(cor);
+        dataSet.setBackgroundColor(cor);
         dataSet.setLineTension(0.1);
-        data.addChartDataSet(dataSet);
+        return dataSet;
+    }
+
+    public static BarChartDataSet getBarChartDataSet(String titulo, String cor, List<Number> values) {
+        BarChartDataSet dataSet = new BarChartDataSet();
+        dataSet.setBackgroundColor(cor);
+        dataSet.setBorderColor(cor);
+        dataSet.setData(values);
+        return dataSet;
+    }
+
+    /**
+     * Retorna um grafico de linhas generico de apenas uma lista de series
+     *
+     * @param dataSets
+     * @param labels
+     * @return
+     */
+    public static LineChartModel getLineChartModel(List<LineChartDataSet> dataSets, List<String> labels) {
+        LineChartModel model = new LineChartModel();
+        ChartData data = new ChartData();
+
+        for (LineChartDataSet dataSet : dataSets) {
+            data.addChartDataSet(dataSet);
+        }
+
         data.setLabels(labels);
 
         //Options
@@ -77,9 +89,38 @@ public class Charts {
 
         model.setOptions(options);
         model.setData(data);
-//        model.setExtender("chartExtender");
 
         return model;
+    }
+
+    /**
+     * Retorna um grafico de linhas generico de apenas uma serie
+     *
+     * @param titulo
+     * @param values
+     * @param labels
+     * @return
+     */
+    public static LineChartModel getLineChartModel(String titulo, List<Number> values, List<String> labels) {
+        return getLineChartModel(titulo, Charts.COLOR_SERIE_1, values, labels);
+    }
+
+    /**
+     * Retorna um grafico de linhas generico de apenas uma serie
+     *
+     * @param titulo
+     * @param cor
+     * @param values
+     * @param labels
+     * @return
+     */
+    public static LineChartModel getLineChartModel(String titulo, String cor, List<Number> values, List<String> labels) {
+
+        LineChartDataSet dataSet = getLineChartDataSet(titulo, cor, values);
+        List<LineChartDataSet> dataSets = new ArrayList<>();
+        dataSets.add(dataSet);
+
+        return getLineChartModel(dataSets, labels);
     }
 
     /**
@@ -112,24 +153,33 @@ public class Charts {
      * @return
      */
     public static BarChartModel getBarChartModel(String titulo, List<Number> values, List<String> labels) {
+        return getBarChartModel(titulo, Charts.COLOR_SERIE_1, values, labels);
+    }
+
+    /**
+     * Retorna um grafico de barras generico de apenas uma serie
+     *
+     * @param titulo
+     * @param dataSets
+     * @param labels
+     * @return
+     */
+    public static BarChartModel getBarChartModel(List<BarChartDataSet> dataSets, String titulo, List<String> labels) {
         BarChartModel model = new BarChartModel();
         ChartData data = new ChartData();
-        BarChartDataSet dataSet = new BarChartDataSet();
-        dataSet.setBackgroundColor(Charts.COLOR_SERIE_1);
-        dataSet.setBorderColor(Charts.COLOR_SERIE_1);
 
-        dataSet.setData(values);
-        data.addChartDataSet(dataSet);
+        for (BarChartDataSet dataSet : dataSets) {
+            data.addChartDataSet(dataSet);
+        }
         data.setLabels(labels);
-
         model.setData(data);
-
         //Options
         BarChartOptions options = new BarChartOptions();
         CartesianScales cScales = new CartesianScales();
         CartesianLinearAxes linearAxes = new CartesianLinearAxes();
         CartesianLinearTicks ticks = new CartesianLinearTicks();
         ticks.setBeginAtZero(true);
+        linearAxes.setStacked(true);
         linearAxes.setTicks(ticks);
 
         cScales.addYAxesData(linearAxes);
@@ -148,9 +198,32 @@ public class Charts {
         legend.setDisplay(false);
         options.setLegend(legend);
 
+        Tooltip tooltip = new Tooltip();
+        tooltip.setMode("index");
+        tooltip.setIntersect(false);
+        options.setTooltip(tooltip);
+
         model.setOptions(options);
 
         return model;
+    }
+
+    /**
+     * Retorna um grafico de barras generico de apenas uma serie
+     *
+     * @param titulo
+     * @param cor
+     * @param values
+     * @param labels
+     * @return
+     */
+    public static BarChartModel getBarChartModel(String titulo, String cor, List<Number> values, List<String> labels) {
+
+        BarChartDataSet dataSet = getBarChartDataSet(titulo, cor, values);
+        List<BarChartDataSet> dataSets = new ArrayList<>();
+        dataSets.add(dataSet);
+
+        return getBarChartModel(dataSets, titulo, labels);
     }
 
     /**
