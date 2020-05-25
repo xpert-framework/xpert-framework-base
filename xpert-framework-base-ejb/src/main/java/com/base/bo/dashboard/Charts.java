@@ -1,12 +1,15 @@
 package com.base.bo.dashboard;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.Months;
+import org.joda.time.Years;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
-import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
 import org.primefaces.model.charts.bar.BarChartDataSet;
 import org.primefaces.model.charts.bar.BarChartModel;
 import org.primefaces.model.charts.bar.BarChartOptions;
@@ -25,6 +28,10 @@ import org.primefaces.model.charts.pie.PieChartModel;
  */
 public class Charts {
 
+    /**
+     * Cores padroes dos graficos de multiplas series, para mais cores deve-ser
+     * adicionar aqui
+     */
     public final static String COLOR_SERIE_1 = "rgba(75, 192, 192)";
     public final static String COLOR_SERIE_2 = "rgba(255, 159, 64)";
     public final static String COLOR_SERIE_3 = "rgba(255, 205, 86)";
@@ -45,6 +52,33 @@ public class Charts {
         COLORS.add(COLOR_SERIE_7);
     }
 
+    /**
+     * Utilitario para calcular o melhor tipo de exibicao do grafico, seguindo a
+     * seguinte regra:
+     *
+     * <pre>
+     * 1 - Se dataFim - dataInicio > 2 anos: Exibir em anos
+     * 2 - Senao se dataFim - dataInicio > 2 meses: Exibir em meses
+     * 3 - Senao Exibir em dias
+     * </pre>
+     *
+     * @param campo
+     * @param dataInicio
+     * @param dataFim
+     * @return
+     */
+    public static String getGroupByTempo(String campo, Date dataInicio, Date dataFim) {
+        DateTime inicio = new DateTime(dataInicio);
+        DateTime fim = new DateTime(dataFim);
+        if (Years.yearsBetween(inicio, fim).getYears() > 2) {
+            return "YEAR(" + campo + ")";
+        } else if (Months.monthsBetween(inicio, fim).getMonths() > 2) {
+            return "TO_CHAR(" + campo + ", 'MM/YYYY')";
+        } else {
+            return "cast(" + campo + " as date)";
+        }
+    }
+
     public static LineChartDataSet getLineChartDataSet(String titulo, String cor, List<Number> values) {
         LineChartDataSet dataSet = new LineChartDataSet();
         dataSet.setData(values);
@@ -61,6 +95,7 @@ public class Charts {
         dataSet.setBackgroundColor(cor);
         dataSet.setBorderColor(cor);
         dataSet.setData(values);
+        dataSet.setLabel(titulo);
         return dataSet;
     }
 
@@ -177,11 +212,9 @@ public class Charts {
         BarChartOptions options = new BarChartOptions();
         CartesianScales cScales = new CartesianScales();
         CartesianLinearAxes linearAxes = new CartesianLinearAxes();
-        CartesianLinearTicks ticks = new CartesianLinearTicks();
-        ticks.setBeginAtZero(true);
         linearAxes.setStacked(true);
-        linearAxes.setTicks(ticks);
 
+        cScales.addXAxesData(linearAxes);
         cScales.addYAxesData(linearAxes);
         options.setScales(cScales);
 
@@ -195,7 +228,12 @@ public class Charts {
         options.setTitle(title);
 
         Legend legend = new Legend();
-        legend.setDisplay(false);
+        //para mais de uma serie eh importante ter a legenda
+        if (dataSets.size() > 1) {
+            legend.setDisplay(true);
+        } else {
+            legend.setDisplay(false);
+        }
         options.setLegend(legend);
 
         Tooltip tooltip = new Tooltip();

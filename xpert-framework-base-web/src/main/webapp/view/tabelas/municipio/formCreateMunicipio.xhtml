@@ -16,7 +16,7 @@
                         <h:outputLabel for="codigoIbge" value="* #{msg['municipio.codigoIbge']}:" />
                         <p:inputMask id="codigoIbge" mask="9?999999999" slotChar="" value="#{municipioMB.entity.codigoIbge}" styleClass="form-control" />
                     </div>
-                    <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group col-lg-8 col-md-6 col-sm-6 col-xs-12">
                         <h:outputLabel for="nome" value="* #{msg['municipio.nome']}:" />
                         <p:inputText id="nome" value="#{municipioMB.entity.nome}" maxlength="200"  styleClass="form-control"  />
                     </div>
@@ -30,13 +30,15 @@
                         </h:selectOneMenu>
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="latitude" value="* #{msg['municipio.latitude']}:" />
+                        <h:outputLabel for="latitude" value="#{msg['municipio.latitude']}:" />
                         <x:inputNumber id="latitude" value="#{municipioMB.entity.latitude}" allowNegative="true" centsLimit="10"  styleClass="form-control"  />
                     </div>
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                        <h:outputLabel for="longitude" value="* #{msg['municipio.longitude']}:" />
+                        <h:outputLabel for="longitude" value="#{msg['municipio.longitude']}:" />
                         <x:inputNumber id="longitude" value="#{municipioMB.entity.longitude}" allowNegative="true" centsLimit="10" styleClass="form-control"  />
                     </div>
+                </div>
+                <div class="row">
                     <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                         <div class="checkbox">
                             <label>

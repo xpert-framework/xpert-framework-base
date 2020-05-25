@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import org.primefaces.model.charts.bar.BarChartModel;
 import org.primefaces.model.charts.line.LineChartModel;
-import org.primefaces.model.charts.pie.PieChartModel;
 
 /**
  *
@@ -40,7 +39,7 @@ public class DashboardErroSistema {
      */
     private LineChartModel graficoErrosDia;
     private BarChartModel graficoErrosUsuario;
-    private LineChartModel graficoErrosFaixaHorario;
+    private BarChartModel graficoErrosFaixaHorario;
     private BarChartModel graficoErrosFuncionalidade;
 
     public Date getDataInicial() {
@@ -139,11 +138,11 @@ public class DashboardErroSistema {
         this.graficoErrosUsuario = graficoErrosUsuario;
     }
 
-    public LineChartModel getGraficoErrosFaixaHorario() {
+    public BarChartModel getGraficoErrosFaixaHorario() {
         return graficoErrosFaixaHorario;
     }
 
-    public void setGraficoErrosFaixaHorario(LineChartModel graficoErrosFaixaHorario) {
+    public void setGraficoErrosFaixaHorario(BarChartModel graficoErrosFaixaHorario) {
         this.graficoErrosFaixaHorario = graficoErrosFaixaHorario;
     }
 

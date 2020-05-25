@@ -15,6 +15,7 @@ import com.xpert.persistence.query.QueryBuilder;
 import com.xpert.persistence.query.Restrictions;
 import com.xpert.persistence.utils.EntityUtils;
 import com.xpert.utils.CollectionsUtils;
+import com.xpert.utils.DateUtils;
 import com.xpert.utils.StringUtils;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import org.joda.time.DateTime;
+import org.joda.time.Months;
+import org.joda.time.Years;
 import org.primefaces.model.charts.ChartModel;
 import org.primefaces.model.charts.bar.BarChartDataSet;
 import org.primefaces.model.charts.bar.BarChartModel;
@@ -50,8 +53,8 @@ public class DashboardAuditoriaBO {
     public Long getQuantidadeEventos(DashboardAuditoria dashboardAuditoria, AuditingType auditingType) {
         return dao.getQueryBuilder()
                 .from(Auditing.class)
-                .add("auditingType", auditingType)
                 .add(getRestrictions(dashboardAuditoria))
+                .add("auditingType", auditingType)
                 .count();
     }
 
@@ -88,7 +91,11 @@ public class DashboardAuditoriaBO {
      * @return
      */
     public List<Object[]> getEventosDia(DashboardAuditoria dashboardAuditoria) {
-        return getResultadoAgrupado("cast(eventDate as date)", dashboardAuditoria, false);
+
+        //calculo do tipo de intervalo
+        String field = Charts.getGroupByTempo("eventDate", dashboardAuditoria.getDataInicial(), dashboardAuditoria.getDataFinal());
+
+        return getResultadoAgrupado(field, dashboardAuditoria, false);
     }
 
     /**
@@ -98,7 +105,19 @@ public class DashboardAuditoriaBO {
      * @return
      */
     public List<Object[]> getEventosUsuario(DashboardAuditoria dashboardAuditoria) {
-        return getResultadoAgrupado("usuario.userLogin", dashboardAuditoria, true);
+        QueryBuilder queryBuilder = dao.getQueryBuilder()
+                .by("COALESCE(u.userLogin, 'NÃO INFORMADO')")
+                .aggregate(
+                        sum("CASE WHEN auditingType = 'INSERT' THEN 1 ELSE 0 END"),
+                        sum("CASE WHEN auditingType = 'UPDATE' THEN 1 ELSE 0 END"),
+                        sum("CASE WHEN auditingType = 'DELETE' THEN 1 ELSE 0 END"),
+                        count("a"))
+                .from(Auditing.class, "a")
+                .leftJoin("a.usuario", "u")
+                .orderBy("5")
+                .add(getRestrictions(dashboardAuditoria));
+
+        return queryBuilder.getResultList();
     }
 
     /**
@@ -112,7 +131,7 @@ public class DashboardAuditoriaBO {
 
         //tratar nome da classe
         for (Object[] linha : result) {
-            linha[0] = I18N.get((String) linha[0]);
+            linha[0] = I18N.get(StringUtils.getLowerFirstLetter((String) linha[0]));
         }
         return result;
     }
@@ -157,12 +176,13 @@ public class DashboardAuditoriaBO {
 
     /**
      * Retorna o grafico generico pois os graficos por dia, usuario e tabela tem
-     * o mesmo retorno
+     * o mesmo retorno: Insercao, Alteracao, Exclusao e Total
      *
      * @param <T>
      * @param titulo
      * @param result
      * @param chartType
+     * @param limite Indica a quantidade limite de dados para exibir no grafico
      * @return
      */
     public <T extends ChartModel> T getGraficoGenerico(String titulo, List<Object[]> result, Class chartType, Integer limite) {
@@ -180,11 +200,10 @@ public class DashboardAuditoriaBO {
         }
 
         for (Object[] linha : result) {
-            //verificar se tem limite
             if (linha[0] instanceof Date) {
                 labels.add(new SimpleDateFormat("dd/MM/yyyy").format((Date) linha[0]));
             } else {
-                labels.add((String) linha[0]);
+                labels.add(linha[0].toString());
             }
             valuesInsert.add(((Number) linha[1]).longValue());
             valuesUpdate.add(((Number) linha[2]).longValue());
@@ -204,7 +223,7 @@ public class DashboardAuditoriaBO {
             dataSets.add(Charts.getBarChartDataSet("Inclusão", Charts.COLOR_SERIE_1, valuesInsert));
             dataSets.add(Charts.getBarChartDataSet("Alteração", Charts.COLOR_SERIE_2, valuesUpdate));
             dataSets.add(Charts.getBarChartDataSet("Exclusão", Charts.COLOR_SERIE_3, valuesDetele));
-            dataSets.add(Charts.getBarChartDataSet("Total", Charts.COLOR_SERIE_4, valuesTotal));
+//            dataSets.add(Charts.getBarChartDataSet("Total", Charts.COLOR_SERIE_4, valuesTotal));
             return (T) Charts.getBarChartModel(dataSets, titulo, labels);
         } else {
             throw new IllegalArgumentException("Tipo " + chartType + " nao foi implementado");
@@ -252,8 +271,8 @@ public class DashboardAuditoriaBO {
      * @param dashboardAuditoria
      * @return
      */
-    public LineChartModel getGraficoEventosFaixaHorario(DashboardAuditoria dashboardAuditoria) {
-        return getGraficoGenerico(null, dashboardAuditoria.getEventosFaixaHorario(), LineChartModel.class);
+    public BarChartModel getGraficoEventosFaixaHorario(DashboardAuditoria dashboardAuditoria) {
+        return getGraficoGenerico(null, dashboardAuditoria.getEventosFaixaHorario(), BarChartModel.class);
     }
 
     /**
@@ -346,19 +365,17 @@ public class DashboardAuditoriaBO {
         List<Class> classes = EntityUtils.getMappedEntities(dao.getEntityManager());
         List<TabelaAuditoria> tabelas = new ArrayList<>();
         for (Class entity : classes) {
-            
+
             //excluir anotadas com NotAudited e as proprias classes de auditoria
-            if(!entity.isAnnotationPresent(NotAudited.class)
+            if (!entity.isAnnotationPresent(NotAudited.class)
                     && !entity.equals(Auditing.class)
-                    && !entity.equals(Metadata.class)
-                    ){
-                
-            
-            TabelaAuditoria tabelaAuditoria = new TabelaAuditoria();
-            tabelaAuditoria.setEntity(entity);
-            //pegar do messages a tradução da classe
-            tabelaAuditoria.setNome(I18N.get(StringUtils.getLowerFirstLetter(entity.getSimpleName())));
-            tabelas.add(tabelaAuditoria);
+                    && !entity.equals(Metadata.class)) {
+
+                TabelaAuditoria tabelaAuditoria = new TabelaAuditoria();
+                tabelaAuditoria.setEntity(entity);
+                //pegar do messages a tradução da classe
+                tabelaAuditoria.setNome(I18N.get(StringUtils.getLowerFirstLetter(entity.getSimpleName())));
+                tabelas.add(tabelaAuditoria);
             }
         }
 

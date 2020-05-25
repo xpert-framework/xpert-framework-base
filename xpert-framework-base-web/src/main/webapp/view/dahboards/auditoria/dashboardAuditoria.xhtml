@@ -6,9 +6,12 @@
                  xmlns:pe="http://primefaces.org/ui/extensions"
                  template="/template/mainTemplate.xhtml"
                  xmlns:x="http://xpert.com/faces"
-                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+                 xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/components/dashboard"
+                 >
     <ui:param name="title" value="#{msg['dashboards.auditoria']}" />
     <ui:define name="body">
+
+        <ui:include src="/template/charts.xhtml"/>
 
         <h:form id="formDashboardAuditoria" styleClass="dashboard">
 
@@ -53,7 +56,13 @@
 
                     </div>
                 </div>
+                <div  class="pull-left">
+                    <dashboard:selectValoresGraficos update=":formDashboardAuditoria:panelResultadoDashboard"/>
+                </div>
                 <div class="pull-right">
+
+
+
                     <p:commandButton process="@form" update="@form" value="#{msg['filtrar']}" 
                                      icon="fas fa-search" action="#{dashboardAuditoriaMB.carregarDashboard}"  />
 
@@ -62,7 +71,7 @@
             </p:panel>
 
 
-            <div class="ui-fluid">
+            <h:panelGroup layout="block" id="panelResultadoDashboard" styleClass="ui-fluid">
                 <div class="ui-g">
 
                     <div class="ui-g-12 ui-md-6 ui-lg-3 card">
@@ -71,13 +80,13 @@
                             <h:outputText styleClass="card-value" value="#{dashboardAuditoriaMB.dashboardAuditoria.quantidadeEventos}">
                                 <f:convertNumber/>
                             </h:outputText>
-                            <i class="fas fa-table card-icon"></i>
+                            <i class="fas fa-table card-icon"></i><br/>
                         </p:panel>
                     </div>
 
                     <div class="ui-g-12 ui-md-6 ui-lg-3 card">
                         <p:panel>
-                            <h3>Total de Inserções</h3>
+                            <h3>Inserções</h3>
                             <h:outputText styleClass="card-value" value="#{dashboardAuditoriaMB.dashboardAuditoria.quantidadeInsert}">
                                 <f:convertNumber/>
                             </h:outputText>
@@ -86,7 +95,7 @@
                     </div>
                     <div class="ui-g-12 ui-md-6 ui-lg-3 card">
                         <p:panel>
-                            <h3>Total de Alterações</h3>
+                            <h3>Alterações</h3>
                             <h:outputText styleClass="card-value" value="#{dashboardAuditoriaMB.dashboardAuditoria.quantidadeUpdate}">
                                 <f:convertNumber/>
                             </h:outputText>
@@ -95,7 +104,7 @@
                     </div>
                     <div class="ui-g-12 ui-md-6 ui-lg-3 card">
                         <p:panel>
-                            <h3>Total de Exclusões</h3>
+                            <h3>Exclusões</h3>
                             <h:outputText styleClass="card-value" value="#{dashboardAuditoriaMB.dashboardAuditoria.quantidadeDelete}">
                                 <f:convertNumber/>
                             </h:outputText>
@@ -109,30 +118,34 @@
                             <ui:include src="graficoEventosDia.xhtml"/>
                         </p:panel>
                     </div>
-                    <ui:remove>
 
-                        <div class="ui-g-12 ui-md-12 ui-lg-12 card">
-                            <p:panel>
-                                <h3>Eventos por Faixa de Horário</h3>
-                                <ui:include src="graficoEventosFaixaHorario.xhtml"/>
-                            </p:panel>
-                        </div>
-                        <div class="ui-g-12 ui-md-12 ui-lg-12 card">
-                            <p:panel>
-                                <h3>Eventos por Usuário</h3>
-                                <ui:include src="graficoEventosUsuario.xhtml"/>
-                            </p:panel>
-                        </div>
-                        <div class="ui-g-12 ui-md-12 ui-lg-12 card">
-                            <p:panel>
-                                <h3>Erros por Tabela</h3>
-                                <ui:include src="graficoEventosTabela.xhtml"/>
-                            </p:panel>
-                        </div>
-                    </ui:remove>
+                    <div class="ui-g-12 ui-md-6 ui-lg-6 card">
+                        <p:panel>
+                            <h3>Eventos por Tipo</h3>
+                            <ui:include src="graficoEventosTipo.xhtml"/>
+                        </p:panel>
+                    </div>
+                    <div class="ui-g-12 ui-md-6 ui-lg-6 card">
+                        <p:panel>
+                            <h3>Eventos por Faixa de Horário</h3>
+                            <ui:include src="graficoEventosFaixaHorario.xhtml"/>
+                        </p:panel>
+                    </div>
+                    <div class="ui-g-12 ui-md-12 ui-lg-12 card">
+                        <p:panel>
+                            <h3>Eventos por Usuário</h3>
+                            <ui:include src="graficoEventosUsuario.xhtml"/>
+                        </p:panel>
+                    </div>
+                    <div class="ui-g-12 ui-md-12 ui-lg-12 card">
+                        <p:panel>
+                            <h3>Eventos por Tabela</h3>
+                            <ui:include src="graficoEventosTabela.xhtml"/>
+                        </p:panel>
+                    </div>
 
                 </div>
-            </div>
+            </h:panelGroup>
         </h:form>
 
         <x:modalMessages>

@@ -74,8 +74,12 @@ public class DashboardErroSistemaBO {
      * @return
      */
     public List<Object[]> getErrosDia(DashboardErroSistema dashboardErroSistema) {
+
+        //calculo do tipo de intervalo
+        String field = Charts.getGroupByTempo("data", dashboardErroSistema.getDataInicial(), dashboardErroSistema.getDataFinal());
+
         return dao.getQueryBuilder()
-                .by("cast(data as date)")
+                .by(field)
                 .aggregate(count("*"))
                 .from(ErroSistema.class)
                 .add(getRestrictions(dashboardErroSistema))
@@ -119,10 +123,14 @@ public class DashboardErroSistemaBO {
      * @return
      */
     public List<Object[]> getErrosUsuario(DashboardErroSistema dashboardErroSistema) {
+        /**
+         * Fazer left join pois o usuario pode ser nulo
+         */
         return dao.getQueryBuilder()
-                .by("COALESCE(usuario.userLogin, 'Não Informado')")
-                .aggregate(count("*"), min("data"), max("data"))
-                .from(ErroSistema.class)
+                .by("COALESCE(u.userLogin, 'NÃO INFORMADO')")
+                .aggregate(count("e"), min("e.data"), max("e.data"))
+                .from(ErroSistema.class, "e")
+                .leftJoin("e.usuario", "u")
                 .orderBy("2")
                 .add(getRestrictions(dashboardErroSistema))
                 .getResultList();
@@ -136,7 +144,7 @@ public class DashboardErroSistemaBO {
      */
     public List<Object[]> getErrosFuncionalidade(DashboardErroSistema dashboardErroSistema) {
         return dao.getQueryBuilder()
-                .by("COALESCE(funcionalidade, 'Não Informada')")
+                .by("COALESCE(funcionalidade, 'NÃO INFORMADO')")
                 .aggregate(count("*"), min("data"), max("data"))
                 .from(ErroSistema.class)
                 .orderBy("2")
@@ -155,7 +163,11 @@ public class DashboardErroSistemaBO {
         List<String> labels = new ArrayList<>();
 
         for (Object[] linha : dashboardErroSistema.getErrosDia()) {
-            labels.add(new SimpleDateFormat("dd/MM/yyyy").format((Date) linha[0]));
+            if (linha[0] instanceof Date) {
+                labels.add(new SimpleDateFormat("dd/MM/yyyy").format((Date) linha[0]));
+            } else {
+                labels.add(linha[0].toString());
+            }
             values.add(((Number) linha[1]).longValue());
         }
 
@@ -168,7 +180,7 @@ public class DashboardErroSistemaBO {
      * @param dashboardErroSistema
      * @return
      */
-    public LineChartModel getGraficoErrosFaixaHorario(DashboardErroSistema dashboardErroSistema) {
+    public BarChartModel getGraficoErrosFaixaHorario(DashboardErroSistema dashboardErroSistema) {
         List<Number> values = new ArrayList<>();
         List<String> labels = new ArrayList<>();
 
@@ -177,7 +189,7 @@ public class DashboardErroSistemaBO {
             values.add(((Number) linha[1]).longValue());
         }
 
-        return Charts.getLineChartModel("Quantidade de Erros", values, labels);
+        return Charts.getBarChartModel(null, values, labels);
     }
 
     /**

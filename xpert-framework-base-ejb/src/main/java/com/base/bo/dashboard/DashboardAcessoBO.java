@@ -89,8 +89,12 @@ public class DashboardAcessoBO {
      * @return
      */
     public List<Object[]> getAcessosDia(DashboardAcesso dashboardAcesso) {
+
+        //calculo do tipo de intervalo
+        String field = Charts.getGroupByTempo("dataHora", dashboardAcesso.getDataInicial(), dashboardAcesso.getDataFinal());
+
         return dao.getQueryBuilder()
-                .by("cast(dataHora as date)")
+                .by(field)
                 .aggregate(count("*"))
                 .from(AcessoSistema.class)
                 .add(getRestrictions(dashboardAcesso))
@@ -198,7 +202,11 @@ public class DashboardAcessoBO {
         List<String> labels = new ArrayList<>();
 
         for (Object[] linha : dashboardAcesso.getAcessosDia()) {
-            labels.add(new SimpleDateFormat("dd/MM/yyyy").format((Date) linha[0]));
+            if (linha[0] instanceof Date) {
+                labels.add(new SimpleDateFormat("dd/MM/yyyy").format((Date) linha[0]));
+            } else {
+                labels.add(linha[0].toString());
+            }
             values.add(((Number) linha[1]).longValue());
         }
 
@@ -211,7 +219,7 @@ public class DashboardAcessoBO {
      * @param dashboardAcesso
      * @return
      */
-    public LineChartModel getGraficoAcessosFaixaHorario(DashboardAcesso dashboardAcesso) {
+    public BarChartModel getGraficoAcessosFaixaHorario(DashboardAcesso dashboardAcesso) {
         List<Number> values = new ArrayList<>();
         List<String> labels = new ArrayList<>();
 
@@ -220,7 +228,7 @@ public class DashboardAcessoBO {
             values.add(((Number) linha[1]).longValue());
         }
 
-        return Charts.getLineChartModel("Quantidade de Acessos", values, labels);
+        return Charts.getBarChartModel(null, values, labels);
     }
 
     /**

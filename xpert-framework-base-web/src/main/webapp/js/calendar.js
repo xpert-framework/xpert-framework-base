@@ -52,3 +52,25 @@ PrimeFaces.locales['es'] = {
     day: 'Día',
     allDayText : 'Todo el día'
 };
+
+if (typeof PrimeFacesExt !== 'undefined') {
+    PrimeFacesExt.locales.TimeAgo['pt-br'] = {
+        prefixAgo: "há",
+         prefixFromNow: "em",
+         suffixAgo: null,
+         suffixFromNow: null,
+         seconds: "alguns seg",
+         minute: "um min",
+         minutes: "%d min",
+         hour: "uma hora",
+         hours: "%d horas",
+         day: "um dia",
+         days: "%d dias",
+         month: "um mês",
+         months: "%d meses",
+         year: "um ano",
+         years: "%d anos",
+         wordSeparator: " ",
+         numbers: []
+    };
+}

@@ -6,9 +6,11 @@
                  xmlns:pe="http://primefaces.org/ui/extensions"
                  template="/template/mainTemplate.xhtml"
                  xmlns:x="http://xpert.com/faces"
-                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+                 xmlns:dashboard="http://xmlns.jcp.org/jsf/composite/components/dashboard">
     <ui:param name="title" value="#{msg['dashboards.acessos']}" />
     <ui:define name="body">
+
+        <ui:include src="/template/charts.xhtml"/>
 
         <h:form id="formDashboardAcessos" styleClass="dashboard">
 
@@ -37,6 +39,9 @@
 
                     </div>
                 </div>
+                <div  class="pull-left">
+                    <dashboard:selectValoresGraficos update=":formDashboardAcessos:panelResultadoDashboard"/>
+                </div>
                 <div class="pull-right">
                     <p:commandButton process="@form" update="@form" value="#{msg['filtrar']}" 
                                      icon="fas fa-search" action="#{dashboardAcessoMB.carregarDashboard}"  />
@@ -46,7 +51,7 @@
             </p:panel>
 
 
-            <div class="ui-fluid">
+            <h:panelGroup layout="block" id="panelResultadoDashboard" styleClass="ui-fluid">
                 <div class="ui-g">
 
                     <div class="ui-g-12 ui-md-6 ui-lg-3 card">
@@ -129,7 +134,7 @@
                     </div>
 
                 </div>
-            </div>
+            </h:panelGroup>
         </h:form>
 
         <x:modalMessages>

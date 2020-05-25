@@ -46,7 +46,7 @@ public class DashboardAcesso {
     private PieChartModel graficoUsuariosSenhaCadastrada;
     private BarChartModel graficoUsuariosPerfil;
     private BarChartModel graficoAcessosUsuario;
-    private LineChartModel graficoAcessosFaixaHorario;
+    private BarChartModel graficoAcessosFaixaHorario;
 
     public List<Object[]> getAcessosUsuario() {
         return acessosUsuario;
@@ -193,11 +193,11 @@ public class DashboardAcesso {
         this.acessosFaixaHorario = acessosFaixaHorario;
     }
 
-    public LineChartModel getGraficoAcessosFaixaHorario() {
+    public BarChartModel getGraficoAcessosFaixaHorario() {
         return graficoAcessosFaixaHorario;
     }
 
-    public void setGraficoAcessosFaixaHorario(LineChartModel graficoAcessosFaixaHorario) {
+    public void setGraficoAcessosFaixaHorario(BarChartModel graficoAcessosFaixaHorario) {
         this.graficoAcessosFaixaHorario = graficoAcessosFaixaHorario;
     }
 

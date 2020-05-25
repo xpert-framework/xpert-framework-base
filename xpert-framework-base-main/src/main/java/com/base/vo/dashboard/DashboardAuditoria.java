@@ -44,7 +44,7 @@ public class DashboardAuditoria {
     private LineChartModel graficoEventosDia;
     private BarChartModel graficoEventosUsuario;
     private BarChartModel graficoEventosTabela;
-    private LineChartModel graficoEventosFaixaHorario;
+    private BarChartModel graficoEventosFaixaHorario;
 
     /**
      * Retorna a lista de nomes das tabelas
@@ -187,11 +187,11 @@ public class DashboardAuditoria {
         this.graficoEventosTabela = graficoEventosTabela;
     }
 
-    public LineChartModel getGraficoEventosFaixaHorario() {
+    public BarChartModel getGraficoEventosFaixaHorario() {
         return graficoEventosFaixaHorario;
     }
 
-    public void setGraficoEventosFaixaHorario(LineChartModel graficoEventosFaixaHorario) {
+    public void setGraficoEventosFaixaHorario(BarChartModel graficoEventosFaixaHorario) {
         this.graficoEventosFaixaHorario = graficoEventosFaixaHorario;
     }
 
