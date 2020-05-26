@@ -1,5 +1,5 @@
 .dashboard{ }
-.dashboard h3{ color: #007ad9; font-size: 2.1em;}
+.dashboard h3{ color: #007ad9; font-size: 1.8em;}
 .dashboard .ui-datatable {width: 100%; }
 .dashboard .card .card-icon{ font-size: 3.0em; float: right;opacity: 0.2;}
 .dashboard .card .ui-tabs-nav { }

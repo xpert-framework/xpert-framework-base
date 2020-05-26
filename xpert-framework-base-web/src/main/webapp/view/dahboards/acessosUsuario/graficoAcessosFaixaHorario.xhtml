@@ -20,26 +20,39 @@
                 
                  <dashboard:dataTableExporter fileName="Acessos_Faixa_Horario" target=":formDashboardAcessos:tabViewAcessosFaixaHorario:dataTableFaixaHorario" />
 
-                <p:dataTable id="dataTableFaixaHorario" value="#{dashboardAcessoMB.dashboardAcesso.acessosFaixaHorario}" scrollable="true" scrollHeight="200" var="acessosFaixaHorario">
-                    <p:column sortBy="#{acessosFaixaHorario[0]}">
+                <p:dataTable id="dataTableFaixaHorario" value="#{dashboardAcessoMB.dashboardAcesso.acessosFaixaHorario}" scrollable="true" scrollHeight="200" var="objeto">
+                    <p:column sortBy="#{objeto[0]}">
                         <f:facet name="header">
                             <h:outputText value="Faixa de Horário"/>
                         </f:facet>
-                        <h:outputText value="#{acessosFaixaHorario[0]}"  />
+                        <h:outputText value="#{objeto[0]}"  />
                         <f:facet name="footer">
                             <h:outputText value="#{msg['total']}" />
                         </f:facet>
                     </p:column>
-                    <p:column style="text-align: right" sortBy="#{acessosFaixaHorario[1]}">
+                    <p:column style="text-align: right" sortBy="#{objeto[1]}">
                         <f:facet name="header">
                             <h:outputText value="Quantidade"/>
                         </f:facet>
-                        <h:outputText value="#{acessosFaixaHorario[1]}">
-                            <f:convertNumber/>
+                        <h:outputText value="#{objeto[1]}">
+                            <f:convertNumber />
                         </h:outputText>
                         <f:facet name="footer">
                             <h:outputText value="#{x:sum(dashboardAcessoMB.dashboardAcesso.acessosFaixaHorario, '1')}">
-                                <f:convertNumber/>
+                                <f:convertNumber maxFractionDigits="0" minFractionDigits="0"/>
+                            </h:outputText>
+                        </f:facet>
+                    </p:column>
+                    <p:column style="text-align: right" sortBy="#{objeto[2]}">
+                        <f:facet name="header">
+                            <h:outputText value="Média por Dia (#{dashboardAcessoMB.dashboardAcesso.intervaloDias} dias)"/>
+                        </f:facet>
+                        <h:outputText value="#{objeto[2]}">
+                            <f:convertNumber />
+                        </h:outputText>
+                        <f:facet name="footer">
+                            <h:outputText value="#{x:sum(dashboardAcessoMB.dashboardAcesso.acessosFaixaHorario, '1')/dashboardAcessoMB.dashboardAcesso.intervaloDias}">
+                                <f:convertNumber />
                             </h:outputText>
                         </f:facet>
                     </p:column>

@@ -17,10 +17,19 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import org.joda.time.DateTime;
 import org.primefaces.model.charts.line.LineChartModel;
-import static com.xpert.persistence.query.Aggregate.*;
+import static com.xpert.persistence.query.Sql.*;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Collections;
+import org.primefaces.model.charts.ChartData;
+import org.primefaces.model.charts.axes.AxesGridLines;
+import org.primefaces.model.charts.axes.cartesian.CartesianScales;
+import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
+import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
+import org.primefaces.model.charts.bar.BarChartDataSet;
 import org.primefaces.model.charts.bar.BarChartModel;
+import org.primefaces.model.charts.bar.BarChartOptions;
+import org.primefaces.model.charts.line.LineChartDataSet;
 import org.primefaces.model.charts.pie.PieChartModel;
 
 /**
@@ -153,13 +162,20 @@ public class DashboardAcessoBO {
      * @return
      */
     public List<Object[]> getAcessosFaixaHorario(DashboardAcesso dashboardAcesso) {
+
         /**
          * Aqui tem que ordenar pela hora, pois ordenar por String vai aparecer
-         * 1h-2h, 10h-11h Passo 1 - Trazer a hora do banco de dados
+         * 1h-2h, 10h-11h Passo 1 - Trazer a hora do banco de dados.
+         *
+         * A media eh o count/total de dias do intervalo
+         *
          */
         List<Object[]> result = dao.getQueryBuilder()
                 .by("HOUR(dataHora)")
-                .aggregate(count("*"))
+                .aggregate(
+                        count("*"),
+                        count("*") + "/" + dashboardAcesso.getIntervaloDias()
+                )
                 .from(AcessoSistema.class)
                 .add(getRestrictions(dashboardAcesso))
                 .getResultList();
@@ -220,12 +236,84 @@ public class DashboardAcessoBO {
      * @return
      */
     public BarChartModel getGraficoAcessosFaixaHorario(DashboardAcesso dashboardAcesso) {
+        List<Number> valuesQuantidade = new ArrayList<>();
+        List<Number> valuesMedia = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+
+        for (Object[] linha : dashboardAcesso.getAcessosFaixaHorario()) {
+            labels.add(linha[0].toString());
+            valuesQuantidade.add(((Number) linha[1]).longValue());
+            valuesMedia.add(((Number) linha[2]).longValue());
+        }
+
+        BarChartModel barChartModel = new BarChartModel();
+        ChartData data = new ChartData();
+
+        BarChartDataSet dataSetQuantidade = new BarChartDataSet();
+        dataSetQuantidade.setYaxisID("quantidade");
+        dataSetQuantidade.setData(valuesQuantidade);
+        dataSetQuantidade.setLabel("Quantidade Total");
+        dataSetQuantidade.setBorderColor(Charts.COLOR_SERIE_1);
+        dataSetQuantidade.setBackgroundColor(Charts.COLOR_SERIE_1);
+
+        LineChartDataSet dataSetMedia = new LineChartDataSet();
+        dataSetMedia.setYaxisID("media");
+        dataSetMedia.setData(valuesMedia);
+        dataSetMedia.setLabel("Média por dia (" + (dashboardAcesso.getIntervaloDias()) + " dias)");
+        dataSetMedia.setFill(false);
+        dataSetMedia.setBorderDash((List) Arrays.asList(new Integer[]{10, 5}));
+        dataSetMedia.setBorderColor(Charts.COLOR_SERIE_2);
+        dataSetMedia.setBackgroundColor(Charts.COLOR_WHITE);
+
+        data.addChartDataSet(dataSetMedia);
+        data.addChartDataSet(dataSetQuantidade);
+
+        data.setLabels(labels);
+
+        barChartModel.setData(data);
+
+        //Options
+        BarChartOptions options = new BarChartOptions();
+        CartesianScales cScales = new CartesianScales();
+
+        CartesianLinearAxes linearAxes = new CartesianLinearAxes();
+        linearAxes.setId("quantidade");
+        CartesianLinearTicks ticks = new CartesianLinearTicks();
+        ticks.setBeginAtZero(true);
+        linearAxes.setTicks(ticks);
+
+        CartesianLinearAxes linearAxes2 = new CartesianLinearAxes();
+        linearAxes2.setId("media");
+        linearAxes2.setPosition("right");
+        AxesGridLines axesGridLines = new AxesGridLines();
+        axesGridLines.setDisplay(false);
+        linearAxes2.setGridLines(axesGridLines);
+        CartesianLinearTicks ticks2 = new CartesianLinearTicks();
+        ticks2.setBeginAtZero(true);
+        linearAxes2.setTicks(ticks2);
+
+        cScales.addYAxesData(linearAxes);
+        cScales.addYAxesData(linearAxes2);
+
+        options.setScales(cScales);
+        barChartModel.setOptions(options);
+
+        return barChartModel;
+    }
+
+    /**
+     * Retorna o grafico de media acessos por faixa de horario
+     *
+     * @param dashboardAcesso
+     * @return
+     */
+    public BarChartModel getGraficoAcessosFaixaHorarioMedia(DashboardAcesso dashboardAcesso) {
         List<Number> values = new ArrayList<>();
         List<String> labels = new ArrayList<>();
 
         for (Object[] linha : dashboardAcesso.getAcessosFaixaHorario()) {
             labels.add(linha[0].toString());
-            values.add(((Number) linha[1]).longValue());
+            values.add(((Number) linha[2]).longValue());
         }
 
         return Charts.getBarChartModel(null, values, labels);
@@ -377,6 +465,7 @@ public class DashboardAcessoBO {
         dashboardAcesso.setGraficoUsuariosSenhaCadastrada(getGraficoUsuariosSenhaCadastrada(dashboardAcesso));
         dashboardAcesso.setGraficoUsuariosPerfil(getGraficoUsuariosPerfil(dashboardAcesso));
         dashboardAcesso.setGraficoAcessosFaixaHorario(getGraficoAcessosFaixaHorario(dashboardAcesso));
+        dashboardAcesso.setGraficoAcessosFaixaHorarioMedia(getGraficoAcessosFaixaHorarioMedia(dashboardAcesso));
         dashboardAcesso.setGraficoAcessosUsuario(getGraficoAcessosUsuario(dashboardAcesso, 20));
 
     }

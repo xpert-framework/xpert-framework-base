@@ -6,7 +6,7 @@ import com.base.modelo.audit.Metadata;
 import com.base.vo.dashboard.DashboardAuditoria;
 import com.base.vo.dashboard.TabelaAuditoria;
 import com.xpert.audit.NotAudited;
-import static com.xpert.persistence.query.Aggregate.*;
+import static com.xpert.persistence.query.Sql.*;
 import com.xpert.audit.model.AuditingType;
 import com.xpert.core.exception.BusinessException;
 import com.xpert.core.validation.DateValidation;

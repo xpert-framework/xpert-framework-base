@@ -32,6 +32,7 @@ public class Charts {
      * Cores padroes dos graficos de multiplas series, para mais cores deve-ser
      * adicionar aqui
      */
+    public final static String COLOR_WHITE = "rgba(255, 255, 255)";
     public final static String COLOR_SERIE_1 = "rgba(75, 192, 192)";
     public final static String COLOR_SERIE_2 = "rgba(255, 159, 64)";
     public final static String COLOR_SERIE_3 = "rgba(255, 205, 86)";

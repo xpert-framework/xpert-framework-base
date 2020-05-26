@@ -3,6 +3,8 @@ package com.base.vo.dashboard;
 import com.base.modelo.controleacesso.Usuario;
 import java.util.Date;
 import java.util.List;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.primefaces.model.charts.bar.BarChartModel;
 import org.primefaces.model.charts.line.LineChartModel;
 import org.primefaces.model.charts.pie.PieChartModel;
@@ -47,6 +49,20 @@ public class DashboardAcesso {
     private BarChartModel graficoUsuariosPerfil;
     private BarChartModel graficoAcessosUsuario;
     private BarChartModel graficoAcessosFaixaHorario;
+    private BarChartModel graficoAcessosFaixaHorarioMedia;
+
+    /**
+     * Retorna a quantidade de dias entre a dataInicio e a dataFim
+     *
+     * @return
+     */
+    public Integer getIntervaloDias() {
+
+        DateTime inicio = new DateTime(dataInicial);
+        DateTime fim = new DateTime(dataFinal);
+
+        return Days.daysBetween(inicio, fim).getDays();
+    }
 
     public List<Object[]> getAcessosUsuario() {
         return acessosUsuario;
@@ -63,7 +79,6 @@ public class DashboardAcesso {
     public void setGraficoAcessosUsuario(BarChartModel graficoAcessosUsuario) {
         this.graficoAcessosUsuario = graficoAcessosUsuario;
     }
-    
 
     public Date getDataInicial() {
         return dataInicial;
@@ -200,5 +215,14 @@ public class DashboardAcesso {
     public void setGraficoAcessosFaixaHorario(BarChartModel graficoAcessosFaixaHorario) {
         this.graficoAcessosFaixaHorario = graficoAcessosFaixaHorario;
     }
+
+    public BarChartModel getGraficoAcessosFaixaHorarioMedia() {
+        return graficoAcessosFaixaHorarioMedia;
+    }
+
+    public void setGraficoAcessosFaixaHorarioMedia(BarChartModel graficoAcessosFaixaHorarioMedia) {
+        this.graficoAcessosFaixaHorarioMedia = graficoAcessosFaixaHorarioMedia;
+    }
+
 
 }

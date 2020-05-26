@@ -105,3 +105,13 @@ select count(1), min(dataHora) from acessosistema
 
 SELECT 
     TO_CHAR(now(), 'YYYY-MM') 
+
+
+-- media acessos
+    select horario, avg(total), sum(total), count(1) from (
+select cast(dataHora as date) as data, extract(hour from acessosist0_.dataHora) as horario, count(*) as total 
+from AcessoSistema acessosist0_ 
+--where acessosist0_.dataHora>=? and acessosist0_.dataHora<? 
+group by cast(dataHora as date) , extract(hour from acessosist0_.dataHora) 
+order by cast(dataHora as date) , extract(hour from acessosist0_.dataHora)
+) tab group by horario 
