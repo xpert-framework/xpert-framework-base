@@ -1,5 +1,7 @@
-package com.base.vo.dashboard;
+package com.base.vo.audit;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -7,9 +9,23 @@ import java.util.Objects;
  * @author ayslanms
  */
 public class TabelaAuditoria {
-    
+
     private String nome;
     private Class entity;
+
+    /**
+     * Retorna a lista de nomes das tabelas
+     *
+     * @param tabelas
+     * @return
+     */
+    public static List<String> getNomesTabelas(List<TabelaAuditoria> tabelas) {
+        List<String> nomesTabelas = new ArrayList<>();
+        for (TabelaAuditoria tabela : tabelas) {
+            nomesTabelas.add(tabela.getEntity().getSimpleName());
+        }
+        return nomesTabelas;
+    }
 
     public String getNome() {
         return nome;
@@ -51,7 +67,5 @@ public class TabelaAuditoria {
         }
         return true;
     }
-    
-    
-    
+
 }

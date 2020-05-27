@@ -4,7 +4,7 @@ import com.base.dao.DAO;
 import com.base.modelo.audit.Auditing;
 import com.base.modelo.audit.Metadata;
 import com.base.vo.dashboard.DashboardAuditoria;
-import com.base.vo.dashboard.TabelaAuditoria;
+import com.base.vo.audit.TabelaAuditoria;
 import com.xpert.audit.NotAudited;
 import static com.xpert.persistence.query.Sql.*;
 import com.xpert.audit.model.AuditingType;
@@ -15,7 +15,6 @@ import com.xpert.persistence.query.QueryBuilder;
 import com.xpert.persistence.query.Restrictions;
 import com.xpert.persistence.utils.EntityUtils;
 import com.xpert.utils.CollectionsUtils;
-import com.xpert.utils.DateUtils;
 import com.xpert.utils.StringUtils;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,8 +23,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import org.joda.time.DateTime;
-import org.joda.time.Months;
-import org.joda.time.Years;
 import org.primefaces.model.charts.ChartModel;
 import org.primefaces.model.charts.bar.BarChartDataSet;
 import org.primefaces.model.charts.bar.BarChartModel;
@@ -326,11 +323,11 @@ public class DashboardAuditoriaBO {
     public void carregarDashboardAuditoria(DashboardAuditoria dashboardAuditoria) throws BusinessException {
 
         if (dashboardAuditoria.getDataInicial() == null || dashboardAuditoria.getDataFinal() == null) {
-            throw new BusinessException("Informe a data inicial e a data final");
+            throw new BusinessException("required.dataInicialDataFinal");
         }
 
         if (!DateValidation.validateDateRange(dashboardAuditoria.getDataInicial(), dashboardAuditoria.getDataFinal())) {
-            throw new BusinessException("Intervalo de datas inválido. Data Inicial não pode ser maior que a final");
+            throw new BusinessException("business.intervaloDataInvalido");
         }
 
         /**
@@ -359,29 +356,6 @@ public class DashboardAuditoriaBO {
         dashboardAuditoria.setGraficoEventosUsuario(getGraficoEventosUsuario(dashboardAuditoria, 20));
         dashboardAuditoria.setGraficoEventosTipo(getGraficoEventosTipo(dashboardAuditoria));
 
-    }
-
-    public List<TabelaAuditoria> getTabelasAuditoria() {
-        List<Class> classes = EntityUtils.getMappedEntities(dao.getEntityManager());
-        List<TabelaAuditoria> tabelas = new ArrayList<>();
-        for (Class entity : classes) {
-
-            //excluir anotadas com NotAudited e as proprias classes de auditoria
-            if (!entity.isAnnotationPresent(NotAudited.class)
-                    && !entity.equals(Auditing.class)
-                    && !entity.equals(Metadata.class)) {
-
-                TabelaAuditoria tabelaAuditoria = new TabelaAuditoria();
-                tabelaAuditoria.setEntity(entity);
-                //pegar do messages a tradução da classe
-                tabelaAuditoria.setNome(I18N.get(StringUtils.getLowerFirstLetter(entity.getSimpleName())));
-                tabelas.add(tabelaAuditoria);
-            }
-        }
-
-        CollectionsUtils.order(tabelas, "nome");
-
-        return tabelas;
     }
 
     public Restrictions getRestrictions(DashboardAuditoria dashboardAuditoria) {

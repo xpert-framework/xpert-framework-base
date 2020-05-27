@@ -1,6 +1,7 @@
 package com.base.bo.dashboard;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -8,8 +9,10 @@ import org.joda.time.DateTime;
 import org.joda.time.Months;
 import org.joda.time.Years;
 import org.primefaces.model.charts.ChartData;
+import org.primefaces.model.charts.axes.AxesGridLines;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
+import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
 import org.primefaces.model.charts.bar.BarChartDataSet;
 import org.primefaces.model.charts.bar.BarChartModel;
 import org.primefaces.model.charts.bar.BarChartOptions;
@@ -54,6 +57,74 @@ public class Charts {
     }
 
     /**
+     * Retorna um grafico combinado de Barra com linha para quantitativo
+     * (barras) e media (linhas). Util por exemplo para a faixa de horario
+     *
+     * @param valuesQuantidade
+     * @param valuesMedia
+     * @param labels
+     * @param intervalo
+     * @return
+     */
+    public static BarChartModel getGraficoQuantidadeMedia(List<Number> valuesQuantidade, List<Number> valuesMedia, List<String> labels, int intervalo) {
+
+        BarChartModel barChartModel = new BarChartModel();
+        ChartData data = new ChartData();
+
+        BarChartDataSet dataSetQuantidade = new BarChartDataSet();
+        dataSetQuantidade.setYaxisID("quantidade");
+        dataSetQuantidade.setData(valuesQuantidade);
+        dataSetQuantidade.setLabel("Quantidade");
+        dataSetQuantidade.setBorderColor(Charts.COLOR_SERIE_1);
+        dataSetQuantidade.setBackgroundColor(Charts.COLOR_SERIE_1);
+
+        LineChartDataSet dataSetMedia = new LineChartDataSet();
+        dataSetMedia.setYaxisID("media");
+        dataSetMedia.setData(valuesMedia);
+        dataSetMedia.setLabel("Média por dia (" + intervalo + " dias)");
+        dataSetMedia.setFill(false);
+        dataSetMedia.setBorderDash((List) Arrays.asList(new Integer[]{10, 5}));
+        dataSetMedia.setBorderColor(Charts.COLOR_SERIE_2);
+        dataSetMedia.setBackgroundColor(Charts.COLOR_WHITE);
+
+        data.addChartDataSet(dataSetMedia);
+        data.addChartDataSet(dataSetQuantidade);
+
+        data.setLabels(labels);
+
+        barChartModel.setData(data);
+
+        //Options
+        BarChartOptions options = new BarChartOptions();
+        CartesianScales cScales = new CartesianScales();
+
+        CartesianLinearAxes linearAxes = new CartesianLinearAxes();
+        linearAxes.setId("quantidade");
+        CartesianLinearTicks ticks = new CartesianLinearTicks();
+        ticks.setBeginAtZero(true);
+        linearAxes.setTicks(ticks);
+
+        //essa escala nova sera alinha a direita
+        CartesianLinearAxes linearAxes2 = new CartesianLinearAxes();
+        linearAxes2.setId("media");
+        linearAxes2.setPosition("right");
+        AxesGridLines axesGridLines = new AxesGridLines();
+        axesGridLines.setDisplay(false);
+        linearAxes2.setGridLines(axesGridLines);
+        CartesianLinearTicks ticks2 = new CartesianLinearTicks();
+        ticks2.setBeginAtZero(true);
+        linearAxes2.setTicks(ticks2);
+
+        cScales.addYAxesData(linearAxes);
+        cScales.addYAxesData(linearAxes2);
+
+        options.setScales(cScales);
+        barChartModel.setOptions(options);
+
+        return barChartModel;
+    }
+
+    /**
      * Utilitario para calcular o melhor tipo de exibicao do grafico, seguindo a
      * seguinte regra:
      *
@@ -80,6 +151,14 @@ public class Charts {
         }
     }
 
+    /**
+     * Metodo que retorna um LineChartDataSet padrao
+     *
+     * @param titulo
+     * @param cor
+     * @param values
+     * @return
+     */
     public static LineChartDataSet getLineChartDataSet(String titulo, String cor, List<Number> values) {
         LineChartDataSet dataSet = new LineChartDataSet();
         dataSet.setData(values);
@@ -87,10 +166,19 @@ public class Charts {
         dataSet.setLabel(titulo);
         dataSet.setBorderColor(cor);
         dataSet.setBackgroundColor(cor);
-        dataSet.setLineTension(0.1);
+        //define line tension
+        //dataSet.setLineTension(0.1);
         return dataSet;
     }
 
+    /**
+     * Metodo que retorna um BarChartDataSet padrao
+     *
+     * @param titulo
+     * @param cor
+     * @param values
+     * @return
+     */
     public static BarChartDataSet getBarChartDataSet(String titulo, String cor, List<Number> values) {
         BarChartDataSet dataSet = new BarChartDataSet();
         dataSet.setBackgroundColor(cor);
@@ -213,6 +301,9 @@ public class Charts {
         BarChartOptions options = new BarChartOptions();
         CartesianScales cScales = new CartesianScales();
         CartesianLinearAxes linearAxes = new CartesianLinearAxes();
+        CartesianLinearTicks ticks = new CartesianLinearTicks();
+        ticks.setAutoSkip(false);
+        linearAxes.setTicks(ticks);
         linearAxes.setStacked(true);
 
         cScales.addXAxesData(linearAxes);

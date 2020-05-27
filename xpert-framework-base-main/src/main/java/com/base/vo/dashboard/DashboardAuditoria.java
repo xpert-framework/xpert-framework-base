@@ -1,5 +1,6 @@
 package com.base.vo.dashboard;
 
+import com.base.vo.audit.TabelaAuditoria;
 import com.base.modelo.controleacesso.Usuario;
 import com.xpert.audit.model.AuditingType;
 import java.util.ArrayList;
@@ -52,11 +53,7 @@ public class DashboardAuditoria {
      * @return
      */
     public List<String> getNomesTabelas() {
-        List<String> nomesTabelas = new ArrayList<>();
-        for (TabelaAuditoria tabela : tabelas) {
-            nomesTabelas.add(tabela.getEntity().getSimpleName());
-        }
-        return nomesTabelas;
+        return TabelaAuditoria.getNomesTabelas(tabelas);
     }
 
     public Date getDataInicial() {

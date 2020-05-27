@@ -3,6 +3,8 @@ package com.base.vo.dashboard;
 import com.base.modelo.controleacesso.Usuario;
 import java.util.Date;
 import java.util.List;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.primefaces.model.charts.bar.BarChartModel;
 import org.primefaces.model.charts.line.LineChartModel;
 
@@ -37,10 +39,23 @@ public class DashboardErroSistema {
     /**
      * Resultado - Graficos
      */
-    private LineChartModel graficoErrosDia;
+    private BarChartModel graficoErrosDia;
     private BarChartModel graficoErrosUsuario;
     private BarChartModel graficoErrosFaixaHorario;
     private BarChartModel graficoErrosFuncionalidade;
+
+    /**
+     * Retorna a quantidade de dias entre a dataInicio e a dataFim
+     *
+     * @return
+     */
+    public Integer getIntervaloDias() {
+
+        DateTime inicio = new DateTime(dataInicial);
+        DateTime fim = new DateTime(dataFinal);
+
+        return Days.daysBetween(inicio, fim).getDays();
+    }
 
     public Date getDataInicial() {
         return dataInicial;
@@ -122,11 +137,11 @@ public class DashboardErroSistema {
         this.errosFuncionalidade = errosFuncionalidade;
     }
 
-    public LineChartModel getGraficoErrosDia() {
+    public BarChartModel getGraficoErrosDia() {
         return graficoErrosDia;
     }
 
-    public void setGraficoErrosDia(LineChartModel graficoErrosDia) {
+    public void setGraficoErrosDia(BarChartModel graficoErrosDia) {
         this.graficoErrosDia = graficoErrosDia;
     }
 

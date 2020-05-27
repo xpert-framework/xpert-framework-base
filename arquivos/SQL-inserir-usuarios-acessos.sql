@@ -5,12 +5,13 @@ Inserts em Usuarios
 **/
 
 INSERT INTO usuario
-SELECT nextval('usuario_id_seq'), trunc(random()*100000000)||'', datacadastro, dataultimoacesso, email, emailcadastroenviado, 
+SELECT nextval('usuario_id_seq'), trunc(random()*100000000)||'', datacadastro, dataultimoacesso, 'USUARIO-'||trunc(random()*100000000)||'@email.com' as email, emailcadastroenviado, 
        matricula, 'USUARIO-'||trunc(random()*100000000)||'', rg, senhacadastrada, situacaousuario, superusuario, 
        'USUARIO-'||trunc(random()*100000000)||'', userpassword, tema
   FROM public.usuario
 
-
+delete from usuario where id > 600;
+select count(1) from usuario;
 /**
 Inserts em AcessoSistema
 **/
@@ -97,9 +98,6 @@ select NOW() - (random() * (interval '30 days'));
 
 select random()*100;
 
-CREATE INDEX auditing_eventdate_idx ON auditing (eventdate);
-
-
 select count(1) from auditing
 select count(1), min(dataHora) from acessosistema
 
@@ -108,10 +106,12 @@ SELECT
 
 
 -- media acessos
-    select horario, avg(total), sum(total), count(1) from (
-select cast(dataHora as date) as data, extract(hour from acessosist0_.dataHora) as horario, count(*) as total 
-from AcessoSistema acessosist0_ 
---where acessosist0_.dataHora>=? and acessosist0_.dataHora<? 
-group by cast(dataHora as date) , extract(hour from acessosist0_.dataHora) 
-order by cast(dataHora as date) , extract(hour from acessosist0_.dataHora)
-) tab group by horario 
+select avg(media) from (
+	    select horario, avg(total) as media, sum(total), count(1) from (
+			select cast(dataHora as date), extract(hour from acessosist0_.dataHora) as horario, count(*) total
+			from AcessoSistema acessosist0_ 
+			where acessosist0_.dataHora>='2020-04-25' and acessosist0_.dataHora<'2020-05-26' 
+			group by cast(dataHora as date) , extract(hour from acessosist0_.dataHora) 
+			order by cast(dataHora as date) , extract(hour from acessosist0_.dataHora)
+	) tab group by horario 
+) tab1

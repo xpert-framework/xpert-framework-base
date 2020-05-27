@@ -19,17 +19,8 @@ import org.joda.time.DateTime;
 import org.primefaces.model.charts.line.LineChartModel;
 import static com.xpert.persistence.query.Sql.*;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Collections;
-import org.primefaces.model.charts.ChartData;
-import org.primefaces.model.charts.axes.AxesGridLines;
-import org.primefaces.model.charts.axes.cartesian.CartesianScales;
-import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
-import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
-import org.primefaces.model.charts.bar.BarChartDataSet;
 import org.primefaces.model.charts.bar.BarChartModel;
-import org.primefaces.model.charts.bar.BarChartOptions;
-import org.primefaces.model.charts.line.LineChartDataSet;
 import org.primefaces.model.charts.pie.PieChartModel;
 
 /**
@@ -246,59 +237,8 @@ public class DashboardAcessoBO {
             valuesMedia.add(((Number) linha[2]).longValue());
         }
 
-        BarChartModel barChartModel = new BarChartModel();
-        ChartData data = new ChartData();
 
-        BarChartDataSet dataSetQuantidade = new BarChartDataSet();
-        dataSetQuantidade.setYaxisID("quantidade");
-        dataSetQuantidade.setData(valuesQuantidade);
-        dataSetQuantidade.setLabel("Quantidade Total");
-        dataSetQuantidade.setBorderColor(Charts.COLOR_SERIE_1);
-        dataSetQuantidade.setBackgroundColor(Charts.COLOR_SERIE_1);
-
-        LineChartDataSet dataSetMedia = new LineChartDataSet();
-        dataSetMedia.setYaxisID("media");
-        dataSetMedia.setData(valuesMedia);
-        dataSetMedia.setLabel("Média por dia (" + (dashboardAcesso.getIntervaloDias()) + " dias)");
-        dataSetMedia.setFill(false);
-        dataSetMedia.setBorderDash((List) Arrays.asList(new Integer[]{10, 5}));
-        dataSetMedia.setBorderColor(Charts.COLOR_SERIE_2);
-        dataSetMedia.setBackgroundColor(Charts.COLOR_WHITE);
-
-        data.addChartDataSet(dataSetMedia);
-        data.addChartDataSet(dataSetQuantidade);
-
-        data.setLabels(labels);
-
-        barChartModel.setData(data);
-
-        //Options
-        BarChartOptions options = new BarChartOptions();
-        CartesianScales cScales = new CartesianScales();
-
-        CartesianLinearAxes linearAxes = new CartesianLinearAxes();
-        linearAxes.setId("quantidade");
-        CartesianLinearTicks ticks = new CartesianLinearTicks();
-        ticks.setBeginAtZero(true);
-        linearAxes.setTicks(ticks);
-
-        CartesianLinearAxes linearAxes2 = new CartesianLinearAxes();
-        linearAxes2.setId("media");
-        linearAxes2.setPosition("right");
-        AxesGridLines axesGridLines = new AxesGridLines();
-        axesGridLines.setDisplay(false);
-        linearAxes2.setGridLines(axesGridLines);
-        CartesianLinearTicks ticks2 = new CartesianLinearTicks();
-        ticks2.setBeginAtZero(true);
-        linearAxes2.setTicks(ticks2);
-
-        cScales.addYAxesData(linearAxes);
-        cScales.addYAxesData(linearAxes2);
-
-        options.setScales(cScales);
-        barChartModel.setOptions(options);
-
-        return barChartModel;
+        return Charts.getGraficoQuantidadeMedia(valuesQuantidade, valuesMedia, labels, dashboardAcesso.getIntervaloDias());
     }
 
     /**
@@ -432,11 +372,11 @@ public class DashboardAcessoBO {
     public void carregarDashboardAcesso(DashboardAcesso dashboardAcesso) throws BusinessException {
 
         if (dashboardAcesso.getDataInicial() == null || dashboardAcesso.getDataFinal() == null) {
-            throw new BusinessException("Informe a data inicial e a data final");
+            throw new BusinessException("required.dataInicialDataFinal");
         }
 
         if (!DateValidation.validateDateRange(dashboardAcesso.getDataInicial(), dashboardAcesso.getDataFinal())) {
-            throw new BusinessException("Intervalo de datas inválido. Data Inicial não pode ser maior que a final");
+            throw new BusinessException("business.intervaloDataInvalido");
         }
 
         /**

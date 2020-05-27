@@ -78,6 +78,9 @@ public class GeracaoPermissao {
         create(new Permissao("solicitacaoRecuperacaoSenha.list", "Consulta Recuperação de Senha", "/view/controleAcesso/solicitacaoRecuperacaoSenha/listSolicitacaoRecuperacaoSenha.jsf", true), "solicitacaoRecuperacaoSenha");
         create(new Permissao("solicitacaoRecuperacaoSenha.audit", "Auditoria de Recuperação de Senha"), "solicitacaoRecuperacaoSenha");
 
+        //Auditoria
+        create(new Permissao("auditoria.list", "Relatório de Auditoria", "/view/controleAcesso/auditoria/listAuditoria.jsf", true, "fas fa-history"), "controleAcesso");
+        
         /*
          * Email
          */
@@ -127,7 +130,7 @@ public class GeracaoPermissao {
         create(new Permissao("municipio.delete", "Exclusão de Municipio"), "municipio");
 
         /**
-         * Dashboardos
+         * Dashboards
          */
         create(new Permissao("dashboards", "Dashboards", true, "fas fa-chart-line"), null);
         create(new Permissao("dashboards.acessos", "Usuários/Acessos", "/view/dahboards/acessosUsuario/dashboardAcessos.jsf", true, "fas fa-users"), "dashboards");

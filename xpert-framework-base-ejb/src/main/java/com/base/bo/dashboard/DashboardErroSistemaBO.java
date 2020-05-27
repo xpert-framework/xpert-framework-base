@@ -8,7 +8,6 @@ import com.xpert.core.validation.DateValidation;
 import static com.xpert.persistence.query.Sql.max;
 import static com.xpert.persistence.query.Sql.min;
 import com.xpert.persistence.query.Restrictions;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -17,9 +16,14 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import org.joda.time.DateTime;
 import org.primefaces.model.charts.bar.BarChartModel;
-import org.primefaces.model.charts.line.LineChartModel;
 import static com.xpert.persistence.query.Sql.*;
+import org.primefaces.model.charts.ChartData;
+import org.primefaces.model.charts.axes.AxesGridLines;
+import org.primefaces.model.charts.axes.cartesian.CartesianScales;
+import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
+import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
 import org.primefaces.model.charts.bar.BarChartDataSet;
+import org.primefaces.model.charts.bar.BarChartOptions;
 import org.primefaces.model.charts.line.LineChartDataSet;
 
 /**
@@ -80,7 +84,7 @@ public class DashboardErroSistemaBO {
 
         return dao.getQueryBuilder()
                 .by(field)
-                .aggregate(count("*"))
+                .aggregate(count("*"), countDistinct("funcionalidade"))
                 .from(ErroSistema.class)
                 .add(getRestrictions(dashboardErroSistema))
                 .getResultList();
@@ -100,7 +104,11 @@ public class DashboardErroSistemaBO {
          */
         List<Object[]> result = dao.getQueryBuilder()
                 .by("HOUR(data)")
-                .aggregate(count("*"))
+                .aggregate(
+                        count("*"),
+                        count("*") + "/" + 30
+                        
+                )
                 .from(ErroSistema.class)
                 .add(getRestrictions(dashboardErroSistema))
                 .getResultList();
@@ -144,7 +152,7 @@ public class DashboardErroSistemaBO {
      */
     public List<Object[]> getErrosFuncionalidade(DashboardErroSistema dashboardErroSistema) {
         return dao.getQueryBuilder()
-                .by("COALESCE(funcionalidade, 'NÃO INFORMADO')")
+                .by("COALESCE(funcionalidade, 'Não Informado')")
                 .aggregate(count("*"), min("data"), max("data"))
                 .from(ErroSistema.class)
                 .orderBy("2")
@@ -158,20 +166,70 @@ public class DashboardErroSistemaBO {
      * @param dashboardErroSistema
      * @return
      */
-    public LineChartModel getGraficoErrosDia(DashboardErroSistema dashboardErroSistema) {
-        List<Number> values = new ArrayList<>();
+    public BarChartModel getGraficoErrosDia(DashboardErroSistema dashboardErroSistema) {
+        List<Number> valuesQuantidade = new ArrayList<>();
+        List<Number> valuesFuncionalidades = new ArrayList<>();
         List<String> labels = new ArrayList<>();
 
         for (Object[] linha : dashboardErroSistema.getErrosDia()) {
-            if (linha[0] instanceof Date) {
-                labels.add(new SimpleDateFormat("dd/MM/yyyy").format((Date) linha[0]));
-            } else {
-                labels.add(linha[0].toString());
-            }
-            values.add(((Number) linha[1]).longValue());
+            labels.add(linha[0].toString());
+            valuesQuantidade.add(((Number) linha[1]).longValue());
+            valuesFuncionalidades.add(((Number) linha[2]).longValue());
         }
 
-        return Charts.getLineChartModel("Quantidade de Erros", Charts.COLOR_SERIE_4, values, labels);
+        BarChartModel barChartModel = new BarChartModel();
+        ChartData data = new ChartData();
+
+
+        LineChartDataSet dataSetQuantidade = new LineChartDataSet();
+        dataSetQuantidade.setYaxisID("quantidade");
+        dataSetQuantidade.setData(valuesQuantidade);
+        dataSetQuantidade.setLabel("Quantidade de Erros");
+        dataSetQuantidade.setFill(false);
+        dataSetQuantidade.setBorderColor(Charts.COLOR_SERIE_4);
+        dataSetQuantidade.setBackgroundColor(Charts.COLOR_SERIE_4);
+
+        BarChartDataSet dataSetFuncionalidade = new BarChartDataSet();
+        dataSetFuncionalidade.setYaxisID("funcionalidade");
+        dataSetFuncionalidade.setData(valuesFuncionalidades);
+        dataSetFuncionalidade.setLabel("Funcionalidades Afetadas");
+        dataSetFuncionalidade.setBorderColor(Charts.COLOR_SERIE_1);
+        dataSetFuncionalidade.setBackgroundColor(Charts.COLOR_SERIE_1);
+        
+        data.addChartDataSet(dataSetQuantidade);
+        data.addChartDataSet(dataSetFuncionalidade);
+
+        data.setLabels(labels);
+
+        barChartModel.setData(data);
+
+        //Options
+        BarChartOptions options = new BarChartOptions();
+        CartesianScales cScales = new CartesianScales();
+
+        CartesianLinearAxes linearAxes = new CartesianLinearAxes();
+        linearAxes.setId("quantidade");
+        CartesianLinearTicks ticks = new CartesianLinearTicks();
+        ticks.setBeginAtZero(true);
+        linearAxes.setTicks(ticks);
+
+        CartesianLinearAxes linearAxes2 = new CartesianLinearAxes();
+        linearAxes2.setId("funcionalidade");
+        linearAxes2.setPosition("right");
+        AxesGridLines axesGridLines = new AxesGridLines();
+        axesGridLines.setDisplay(false);
+        linearAxes2.setGridLines(axesGridLines);
+        CartesianLinearTicks ticks2 = new CartesianLinearTicks();
+        ticks2.setBeginAtZero(true);
+        linearAxes2.setTicks(ticks2);
+
+        cScales.addYAxesData(linearAxes);
+        cScales.addYAxesData(linearAxes2);
+
+        options.setScales(cScales);
+        barChartModel.setOptions(options);
+
+        return barChartModel;
     }
 
     /**
@@ -181,15 +239,18 @@ public class DashboardErroSistemaBO {
      * @return
      */
     public BarChartModel getGraficoErrosFaixaHorario(DashboardErroSistema dashboardErroSistema) {
-        List<Number> values = new ArrayList<>();
+        List<Number> valuesQuantidade = new ArrayList<>();
+        List<Number> valuesMedia = new ArrayList<>();
         List<String> labels = new ArrayList<>();
 
         for (Object[] linha : dashboardErroSistema.getErrosFaixaHorario()) {
             labels.add(linha[0].toString());
-            values.add(((Number) linha[1]).longValue());
+            valuesQuantidade.add(((Number) linha[1]).longValue());
+            valuesMedia.add(((Number) linha[2]).longValue());
         }
 
-        return Charts.getBarChartModel(null, values, labels);
+
+        return Charts.getGraficoQuantidadeMedia(valuesQuantidade, valuesMedia, labels, dashboardErroSistema.getIntervaloDias());
     }
 
     /**
@@ -283,11 +344,11 @@ public class DashboardErroSistemaBO {
     public void carregarDashboardErroSistema(DashboardErroSistema dashboardErroSistema) throws BusinessException {
 
         if (dashboardErroSistema.getDataInicial() == null || dashboardErroSistema.getDataFinal() == null) {
-            throw new BusinessException("Informe a data inicial e a data final");
+            throw new BusinessException("required.dataInicialDataFinal");
         }
 
         if (!DateValidation.validateDateRange(dashboardErroSistema.getDataInicial(), dashboardErroSistema.getDataFinal())) {
-            throw new BusinessException("Intervalo de datas inválido. Data Inicial não pode ser maior que a final");
+            throw new BusinessException("business.intervaloDataInvalido");
         }
 
         /**

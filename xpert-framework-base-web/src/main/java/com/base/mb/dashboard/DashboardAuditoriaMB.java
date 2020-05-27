@@ -1,8 +1,9 @@
 package com.base.mb.dashboard;
 
+import com.base.bo.audit.AuditingBO;
 import com.base.bo.dashboard.DashboardAuditoriaBO;
 import com.base.vo.dashboard.DashboardAuditoria;
-import com.base.vo.dashboard.TabelaAuditoria;
+import com.base.vo.audit.TabelaAuditoria;
 import com.xpert.core.exception.BusinessException;
 import com.xpert.faces.utils.FacesMessageUtils;
 import java.io.Serializable;
@@ -22,6 +23,8 @@ public class DashboardAuditoriaMB implements Serializable {
 
     @EJB
     private DashboardAuditoriaBO dashboardAuditoriaBO;
+    @EJB
+    private AuditingBO auditingBO;
 
     private DashboardAuditoria dashboardAuditoria;
     private List<TabelaAuditoria> tabelas;
@@ -30,7 +33,7 @@ public class DashboardAuditoriaMB implements Serializable {
     public void init() {
         try {
             dashboardAuditoria = dashboardAuditoriaBO.getDashboardAuditoria();
-            tabelas = dashboardAuditoriaBO.getTabelasAuditoria();
+            tabelas = auditingBO.getTabelasAuditoria();
         } catch (BusinessException ex) {
             FacesMessageUtils.error(ex);
         }
