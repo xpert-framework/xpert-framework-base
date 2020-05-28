@@ -23,7 +23,7 @@
                 <p:dataTable id="dataTableErrosFuncionalidade" value="#{dashboardErroSistemaMB.dashboardErroSistema.errosFuncionalidade}" scrollable="true" scrollHeight="300" var="objeto">
                     <p:column sortBy="#{objeto[0]}">
                         <f:facet name="header">
-                            <h:outputText value="Funcionalidade"/>
+                            <h:outputText value="#{msg['erroSistema.funcionalidade']}"/>
                         </f:facet>
                         <h:outputText value="#{objeto[0]}"  />
                         <f:facet name="footer">
@@ -32,7 +32,7 @@
                     </p:column>
                     <p:column  sortBy="#{objeto[2]}" styleClass="text-center">
                         <f:facet name="header">
-                            <h:outputText value="Data do Primeiro Erro no Período"/>
+                            <h:outputText value="#{msg['dashboards.dataPrimeiroErroPeriodo']}"/>
                         </f:facet>
                         <h:outputText value="#{objeto[2]}" >
                             <f:convertDateTime pattern="#{formatMB.format.dataHoraMinutoSegundo}"/>
@@ -41,7 +41,7 @@
                     </p:column>
                     <p:column  sortBy="#{objeto[3]}" styleClass="text-center">
                         <f:facet name="header">
-                            <h:outputText value="Data do Último Erro no Período"/>
+                            <h:outputText value="#{msg['dashboards.dataUltimoErroPeriodo']}"/>
                         </f:facet>
                         <h:outputText value="#{objeto[3]}">
                             <f:convertDateTime pattern="#{formatMB.format.dataHoraMinutoSegundo}"/>
@@ -50,7 +50,7 @@
                     </p:column>
                     <p:column style="text-align: right" sortBy="#{objeto[1]}">
                         <f:facet name="header">
-                            <h:outputText value="Quantidade"/>
+                            <h:outputText value="#{msg['quantidade']}"/>
                         </f:facet>
                         <h:outputText value="#{objeto[1]}">
                             <f:convertNumber/>

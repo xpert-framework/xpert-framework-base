@@ -23,7 +23,7 @@
                 <p:dataTable id="dataTableFaixaHorario" value="#{dashboardAcessoMB.dashboardAcesso.acessosFaixaHorario}" scrollable="true" scrollHeight="200" var="objeto">
                     <p:column sortBy="#{objeto[0]}">
                         <f:facet name="header">
-                            <h:outputText value="Faixa de Horário"/>
+                            <h:outputText value="#{msg['faixaHorario']}"/>
                         </f:facet>
                         <h:outputText value="#{objeto[0]}"  />
                         <f:facet name="footer">
@@ -32,7 +32,7 @@
                     </p:column>
                     <p:column style="text-align: right" sortBy="#{objeto[1]}">
                         <f:facet name="header">
-                            <h:outputText value="Quantidade"/>
+                            <h:outputText value="#{msg['quantidade']}"/>
                         </f:facet>
                         <h:outputText value="#{objeto[1]}">
                             <f:convertNumber />
@@ -45,7 +45,7 @@
                     </p:column>
                     <p:column style="text-align: right" sortBy="#{objeto[2]}">
                         <f:facet name="header">
-                            <h:outputText value="Média por Dia (#{dashboardAcessoMB.dashboardAcesso.intervaloDias} dias)"/>
+                            <h:outputText value="#{msg['mediaDia']} (#{dashboardAcessoMB.dashboardAcesso.intervaloDias} #{msg['dias']})"/>
                         </f:facet>
                         <h:outputText value="#{objeto[2]}">
                             <f:convertNumber />

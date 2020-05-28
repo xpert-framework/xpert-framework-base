@@ -23,7 +23,7 @@
                 <p:dataTable id="dataTableEventosUsuario" value="#{dashboardAuditoriaMB.dashboardAuditoria.eventosUsuario}" scrollable="true" scrollHeight="300" var="objeto">
                     <p:column sortBy="#{objeto[0]}">
                         <f:facet name="header">
-                            <h:outputText value="Usuário"/>
+                            <h:outputText value="#{msg['usuario']}"/>
                         </f:facet>
                         <h:outputText value="#{objeto[0]}"  />
                         <f:facet name="footer">

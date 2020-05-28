@@ -16,7 +16,7 @@
         <h:form id="formDashboardAuditoria" styleClass="dashboard">
 
             <p:panel style="padding: .5em" >
-                <h3>Filtros</h3>
+                <h3>#{msg['filtros']}</h3>
                 <div class="ui-fluid">
                     <div class="ui-g">
                         <div class="ui-g-12 ui-md-6 ui-lg-3">
@@ -76,7 +76,7 @@
 
                     <div class="ui-g-12 ui-md-6 ui-lg-3 card">
                         <p:panel>
-                            <h3>Total de Eventos</h3>
+                            <h3>#{msg['dashboards.totalEventos']}</h3>
                             <h:outputText styleClass="card-value" value="#{dashboardAuditoriaMB.dashboardAuditoria.quantidadeEventos}">
                                 <f:convertNumber/>
                             </h:outputText>
@@ -86,7 +86,7 @@
 
                     <div class="ui-g-12 ui-md-6 ui-lg-3 card">
                         <p:panel>
-                            <h3>Inserções</h3>
+                            <h3>#{msg['dashboards.insercoes']}</h3>
                             <h:outputText styleClass="card-value" value="#{dashboardAuditoriaMB.dashboardAuditoria.quantidadeInsert}">
                                 <f:convertNumber/>
                             </h:outputText>
@@ -95,7 +95,7 @@
                     </div>
                     <div class="ui-g-12 ui-md-6 ui-lg-3 card">
                         <p:panel>
-                            <h3>Alterações</h3>
+                            <h3>#{msg['dashboards.alteracoes']}</h3>
                             <h:outputText styleClass="card-value" value="#{dashboardAuditoriaMB.dashboardAuditoria.quantidadeUpdate}">
                                 <f:convertNumber/>
                             </h:outputText>
@@ -104,7 +104,7 @@
                     </div>
                     <div class="ui-g-12 ui-md-6 ui-lg-3 card">
                         <p:panel>
-                            <h3>Exclusões</h3>
+                            <h3>#{msg['dashboards.exclusoes']}</h3>
                             <h:outputText styleClass="card-value" value="#{dashboardAuditoriaMB.dashboardAuditoria.quantidadeDelete}">
                                 <f:convertNumber/>
                             </h:outputText>
@@ -114,32 +114,32 @@
 
                     <div class="ui-g-12 ui-md-12 ui-lg-12 card">
                         <p:panel>
-                            <h3>Eventos por dia</h3>
+                            <h3>#{msg['dashboards.eventosDia']}</h3>
                             <ui:include src="graficoEventosDia.xhtml"/>
                         </p:panel>
                     </div>
 
                     <div class="ui-g-12 ui-md-6 ui-lg-6 card">
                         <p:panel>
-                            <h3>Eventos por Tipo</h3>
+                            <h3>#{msg['dashboards.eventosTipo']}</h3>
                             <ui:include src="graficoEventosTipo.xhtml"/>
                         </p:panel>
                     </div>
                     <div class="ui-g-12 ui-md-6 ui-lg-6 card">
                         <p:panel>
-                            <h3>Eventos por Faixa de Horário</h3>
+                            <h3>#{msg['dashboards.eventosFaixaHorario']}</h3>
                             <ui:include src="graficoEventosFaixaHorario.xhtml"/>
                         </p:panel>
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-12 card">
                         <p:panel>
-                            <h3>Eventos por Usuário</h3>
+                            <h3>#{msg['dashboards.eventosUsuario']}</h3>
                             <ui:include src="graficoEventosUsuario.xhtml"/>
                         </p:panel>
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-12 card">
                         <p:panel>
-                            <h3>Eventos por Tabela</h3>
+                            <h3>#{msg['dashboards.eventosTabela']}</h3>
                             <ui:include src="graficoEventosTabela.xhtml"/>
                         </p:panel>
                     </div>

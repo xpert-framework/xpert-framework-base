@@ -4,7 +4,8 @@ header{padding: 10px 20px;}
 footer {border-top: 1px solid #ddd;margin: 10px auto 0; padding: 20px; width: 98%;}
 .ui-widget{font-size: 12px;}
 select{padding: 4px;}
-.font-11, .font-11  td, .font-11  th{font-size:  11px;}
+body .ui-widget .font-11,.font-11, .font-11  td, .font-11  th{font-size:  11px;}
+body .ui-widget .font-12,.font-12, .font-12  td, .font-12  th{font-size:  12px;}
 .font-weight-normal, .font-weight-normal  td{font-weight: normal;}
 .grid-detail, grid-form{margin-top: 0;}
 .grid-detail td, grid-form td{padding: 4px 0;}

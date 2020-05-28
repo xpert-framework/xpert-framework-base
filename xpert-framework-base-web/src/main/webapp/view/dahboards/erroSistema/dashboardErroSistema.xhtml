@@ -11,11 +11,12 @@
     <ui:define name="body">
 
         <ui:include src="/template/charts.xhtml"/>
-
+        
         <h:form id="formDashboardErroSistema" styleClass="dashboard">
+            
 
             <p:panel style="padding: .5em" >
-                <h3>Filtros</h3>
+                <h3>#{msg['filtros']}</h3>
                 <div class="ui-fluid">
                     <div class="ui-g">
                         <div class="ui-g-12 ui-md-6 ui-lg-3">
@@ -56,7 +57,7 @@
 
                     <div class="ui-g-12 ui-md-6 ui-lg-4 card">
                         <p:panel>
-                            <h3>Erros no Sistema - Total</h3>
+                            <h3>#{msg['dashboards.quantidadeErrosTotal']}</h3>
                             <h:outputText styleClass="card-value" value="#{dashboardErroSistemaMB.dashboardErroSistema.quantidadaTotalErros}">
                                 <f:convertNumber/>
                             </h:outputText>
@@ -66,7 +67,7 @@
 
                     <div class="ui-g-12 ui-md-6 ui-lg-4 card">
                         <p:panel>
-                            <h3>Erros no Período</h3>
+                            <h3>#{msg['dashboards.quantidadeErrosPeriodo']}</h3>
                             <h:outputText styleClass="card-value" value="#{dashboardErroSistemaMB.dashboardErroSistema.quantidadeErros}">
                                 <f:convertNumber/>
                             </h:outputText>
@@ -76,7 +77,7 @@
 
                     <div class="ui-g-12 ui-md-12 ui-lg-4 card">
                         <p:panel>
-                            <h3>Último Erro</h3>
+                            <h3>#{msg['dashboards.ultimoErro']}</h3>
 
                             <pe:timeAgo  styleClass="card-value" value="#{dashboardErroSistemaMB.dashboardErroSistema.dataUltimoErro}"
                                          titlePattern="#{formatMB.format.dataHora}"/>
@@ -91,25 +92,25 @@
 
                     <div class="ui-g-12 ui-md-12 ui-lg-12 card">
                         <p:panel>
-                            <h3>Erros por dia</h3>
+                            <h3>#{msg['dashboards.errosDia']}</h3>
                             <ui:include src="graficoErrosDia.xhtml"/>
                         </p:panel>
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-12 card">
                         <p:panel>
-                            <h3>Erros por Faixa de Horário</h3>
+                            <h3>#{msg['dashboards.errosFaixaHorario']}</h3>
                             <ui:include src="graficoErrosFaixaHorario.xhtml"/>
                         </p:panel>
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-12 card">
                         <p:panel>
-                            <h3>Erros por Funcionalidade</h3>
+                            <h3>#{msg['dashboards.errosFuncionalidade']}</h3>
                             <ui:include src="graficoErrosFuncionalidade.xhtml"/>
                         </p:panel>
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-12 card">
                         <p:panel>
-                            <h3>Erros por Usuário</h3>
+                            <h3>#{msg['dashboards.errosUsuario']}</h3>
                             <ui:include src="graficoErrosUsuario.xhtml"/>
                         </p:panel>
                     </div>

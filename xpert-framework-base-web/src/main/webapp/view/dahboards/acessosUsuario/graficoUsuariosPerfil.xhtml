@@ -24,13 +24,13 @@
                              scrollable="true" scrollHeight="200" var="usuarioPerfil">
                     <p:column  sortBy="#{usuarioPerfil[0]}">
                         <f:facet name="header">
-                            <h:outputText value="Perfil"/>
+                            <h:outputText value="#{msg['perfil']}"/>
                         </f:facet>
                         <h:outputText value="#{usuarioPerfil[0]}" />
                     </p:column>
                     <p:column style="text-align: right" sortBy="#{usuarioPerfil[1]}">
                         <f:facet name="header">
-                            <h:outputText value="Quantidade"/>
+                            <h:outputText value="#{msg['quantidade']}"/>
                         </f:facet>
                         <h:outputText value="#{usuarioPerfil[1]}">
                             <f:convertNumber/>

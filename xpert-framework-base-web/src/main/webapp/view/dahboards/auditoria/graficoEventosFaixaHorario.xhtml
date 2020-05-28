@@ -23,7 +23,7 @@
                  <p:dataTable id="dataTableFaixaHorario" value="#{dashboardAuditoriaMB.dashboardAuditoria.eventosFaixaHorario}" scrollable="true" scrollHeight="200" var="objeto">
                     <p:column sortBy="#{acessosFaixaHorario[0]}">
                         <f:facet name="header">
-                            <h:outputText value="Faixa de Horário"/>
+                            <h:outputText value="#{msg['faixaHorario']}"/>
                         </f:facet>
                         <h:outputText value="#{objeto[0]}"  />
                         <f:facet name="footer">

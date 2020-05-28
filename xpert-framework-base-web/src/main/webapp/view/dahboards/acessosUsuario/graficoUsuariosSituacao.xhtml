@@ -23,7 +23,7 @@
                 <p:dataTable id="dataTableUsuariosSituacao" value="#{dashboardAcessoMB.dashboardAcesso.usuariosSituacao}" var="usuarioSituacao">
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="Situação"/>
+                            <h:outputText value="#{msg['situacao']}"/>
                         </f:facet>
                         <h:outputText value="#{usuarioSituacao[0].descricao}"/>
                         <f:facet name="footer">
@@ -32,7 +32,7 @@
                     </p:column>
                     <p:column style="text-align: right">
                         <f:facet name="header">
-                            <h:outputText value="Quantidade"/>
+                            <h:outputText value="#{msg['quantidade']}"/>
                         </f:facet>
                         <h:outputText value="#{usuarioSituacao[1]}">
                             <f:convertNumber/>

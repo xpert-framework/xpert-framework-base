@@ -22,10 +22,10 @@
                 <p:dataTable id="dataTableAcessosDia" value="#{dashboardAcessoMB.dashboardAcesso.acessosDia}" scrollable="true" scrollHeight="200" var="objeto">
                     <p:column sortBy="#{objeto[0]}">
                         <f:facet name="header">
-                            <h:outputText value="Data"/>
+                            <h:outputText value="#{msg['data']}"/>
                         </f:facet>
                         <h:outputText value="#{objeto[0]}" rendered="#{objeto[0].class.name.contains('Date')}"  >
-                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            <f:convertDateTime pattern="#{formatMB.format.data}"/>
                         </h:outputText>
                         <h:outputText value="#{objeto[0]}" rendered="#{not objeto[0].class.name.contains('Date')}" />
                         <f:facet name="footer">
@@ -34,7 +34,7 @@
                     </p:column>
                     <p:column style="text-align: right" sortBy="#{objeto[1]}">
                         <f:facet name="header">
-                            <h:outputText value="Quantidade"/>
+                            <h:outputText value="#{msg['quantidade']}"/>
                         </f:facet>
                         <h:outputText value="#{objeto[1]}">
                             <f:convertNumber/>
