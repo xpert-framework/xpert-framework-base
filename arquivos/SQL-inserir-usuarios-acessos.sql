@@ -81,7 +81,24 @@ $do$;
          usuario_id
          from auditing;
 
+/**
+Inserts em Metadata
+**/
 
+DO
+$do$
+BEGIN 
+FOR loop_counter IN 1..random()*1000  LOOP
+    insert into metadata
+
+   SELECT nextval('metadata_id_seq') as id, entity, field, newidentifier, newvalue, oldidentifier, oldvalue, 
+        (SELECT id FROM auditing OFFSET floor(random()*300) LIMIT 1) as auditing_id
+     from metadata   limit random()*1000;
+END LOOP; 
+END
+$do$;
+
+select count(1) from metadata;
 select now()- make_interval(days := (random()*100)::integer);
 delete from auditing where usuario_id >10;
 delete from auditing where eventdate >= '2020-05-23';

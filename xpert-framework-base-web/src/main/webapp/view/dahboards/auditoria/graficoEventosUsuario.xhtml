@@ -20,7 +20,14 @@
 
                 <dashboard:dataTableExporter fileName="Eventos_Usuario" target=":formDashboardAuditoria:tabViewEventosUsuario:dataTableEventosUsuario" />
 
-                <p:dataTable id="dataTableEventosUsuario" value="#{dashboardAuditoriaMB.dashboardAuditoria.eventosUsuario}" scrollable="true" scrollHeight="300" var="objeto">
+                <p:dataTable id="dataTableEventosUsuario" value="#{dashboardAuditoriaMB.dashboardAuditoria.eventosUsuario}" 
+                             scrollRows="50" liveScroll="true" rowIndexVar="index"
+                             scrollable="true" scrollHeight="300" var="objeto"
+                              sortBy="#{objeto[4]}" sortOrder="descending">
+                    <p:column>
+                        <f:facet name="header">-</f:facet>
+                        <h:outputText value="#{index+1}"/>
+                    </p:column>
                     <p:column sortBy="#{objeto[0]}">
                         <f:facet name="header">
                             <h:outputText value="#{msg['usuario']}"/>
@@ -30,7 +37,7 @@
                             <h:outputText value="#{msg['total']}" />
                         </f:facet>
                     </p:column>
-                   <ui:include src="colunasTabelaEventos.xhtml"/>
+                    <ui:include src="colunasTabelaEventos.xhtml"/>
                 </p:dataTable>
             </div>
         </p:tab>

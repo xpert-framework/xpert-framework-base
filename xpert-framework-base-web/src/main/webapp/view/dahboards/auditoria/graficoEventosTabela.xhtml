@@ -20,7 +20,8 @@
 
                 <dashboard:dataTableExporter fileName="Eventos_Tabela" target=":formDashboardAuditoria:tabViewEventosTabela:dataTableEventosTabela" />
 
-                <p:dataTable id="dataTableEventosTabela" value="#{dashboardAuditoriaMB.dashboardAuditoria.eventosTabela}" scrollable="true" scrollHeight="300" var="objeto">
+                <p:dataTable id="dataTableEventosTabela" value="#{dashboardAuditoriaMB.dashboardAuditoria.eventosTabela}" 
+                             scrollable="true" scrollHeight="300" var="objeto" sortBy="#{objeto[4]}" sortOrder="descending">
                     <p:column sortBy="#{objeto[0]}">
                         <f:facet name="header">
                             <h:outputText value="#{msg['tabela']}"/>
