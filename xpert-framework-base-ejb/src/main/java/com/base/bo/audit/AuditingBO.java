@@ -1,5 +1,6 @@
 package com.base.bo.audit;
 
+import com.base.constante.Constantes;
 import com.base.dao.audit.AuditingDAO;
 import com.base.modelo.audit.Auditing;
 import com.base.modelo.audit.Metadata;
@@ -31,7 +32,7 @@ import org.primefaces.model.timeline.TimelineModel;
  */
 @Stateless
 public class AuditingBO {
-
+    
     @EJB
     private AuditingDAO auditingDAO;
 
@@ -116,7 +117,7 @@ public class AuditingBO {
 
         Restrictions restrictions = getRestrictions(consultaAuditoria);
         Long total = auditingDAO.count(restrictions);
-        if (total >= 1000) {
+        if (total >= Constantes.QUANTIDADE_MAXIMA_LISTA_AUDITORIA) {
             throw new BusinessException("Foram encontrados " + total + " registros. É necessário informar mais filtros.");
         }
 
