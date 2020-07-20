@@ -76,7 +76,8 @@
                             <f:facet name="header">
                                 <h:outputText value="#{msg['permissao.icone']}"/>
                             </f:facet>
-                            <i title="#{permissao.icone}" class="#{permissao.icone}"></i> 
+                            <h:outputText title="#{permissao.icone}" styleClass="#{permissao.icone}"/>
+                            <h:outputText value="#{permissao.icone}" style="display: none"/>
                         </p:column>
                         <p:column headerText="#{msg['permissao.url']}" sortBy="#{permissao.url}"
                                   filterBy="#{permissao.url}" >
@@ -84,7 +85,7 @@
                                 <h:outputText value="#{msg['permissao.url']}"/>
                             </f:facet>
                             <h:outputLink value="#{request.contextPath}#{permissao.url}" title="#{permissao.url}" target="_blank" style="font-size: 0.8em">
-                                #{permissao.url}
+                                <h:outputText value="#{permissao.url}"/>
                             </h:outputLink>
                         </p:column>
                         <p:column headerText="#{msg['permissao.ativo']}" sortBy="#{permissao.ativo}"
@@ -128,7 +129,9 @@
                             <i class="#{permissao.icone}"></i>
 
                             <h:outputText value=" #{permissao.descricao}" />  
-
+                            <h:panelGroup rendered="#{not permissao.ativo}" style="color: red;">
+                                (<h:outputText value="#{permissao.ativo}" converter="activeInactiveConverter" />)
+                            </h:panelGroup>
                         </p:column>
                         <p:column headerText="#{msg['permissao.key']}" >
                             <h:outputText value="#{permissao.key}"/>
@@ -145,10 +148,7 @@
                             </h:outputLink>
                         </p:column>
                         <p:column headerText="#{xmsg['actions']}" styleClass="text-center" >  
-                            <h:panelGroup rendered="#{not permissao.ativo}" style="color: red;">
-                                (<h:outputText value="#{permissao.ativo}" converter="activeInactiveConverter" />)
-                            </h:panelGroup>
-                            <p:spacer width="5"/>
+
                             <h:panelGroup style="font-size: 10px;">
                                 <p:commandButton oncomplete="PF('widgetPermissaoDetail').show();"  icon="#{icons.detail}" process="@this" update=":formDetailPermissao"
                                                  title="#{xmsg['detail']}" >
