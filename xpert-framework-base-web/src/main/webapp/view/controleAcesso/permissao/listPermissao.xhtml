@@ -78,6 +78,15 @@
                             </f:facet>
                             <i title="#{permissao.icone}" class="#{permissao.icone}"></i> 
                         </p:column>
+                        <p:column headerText="#{msg['permissao.url']}" sortBy="#{permissao.url}"
+                                  filterBy="#{permissao.url}" >
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['permissao.url']}"/>
+                            </f:facet>
+                            <h:outputLink value="#{request.contextPath}#{permissao.url}" title="#{permissao.url}" target="_blank" style="font-size: 0.8em">
+                                #{permissao.url}
+                            </h:outputLink>
+                        </p:column>
                         <p:column headerText="#{msg['permissao.ativo']}" sortBy="#{permissao.ativo}"
                                   filterBy="#{permissao.ativo}" filterOptions="#{booleanSelectItensEmptyOption}"
                                   styleClass="text-center">
@@ -114,10 +123,28 @@
                 </p:tab>
                 <p:tab title="#{msg['permissao.verNaArvore']}">
 
-                    <p:treeTable value="#{permissaoMB.permissoes}" id="treeTablePermissao" var="permissao">  
+                    <p:treeTable value="#{permissaoMB.permissoes}" id="treeTablePermissao" var="permissao" style="font-size: 0.9em" resizableColumns="true">  
                         <p:column headerText="#{msg['permissao']}">  
                             <i class="#{permissao.icone}"></i>
-                            <h:outputText value=" #{permissao.descricao}"  style="font-size: 12px;" />  
+
+                            <h:outputText value=" #{permissao.descricao}" />  
+
+                        </p:column>
+                        <p:column headerText="#{msg['permissao.key']}" >
+                            <h:outputText value="#{permissao.key}"/>
+                        </p:column>
+                        <p:column headerText="#{msg['permissao.possuiMenu']}" styleClass="text-center">
+                            <h:outputText value="#{permissao.possuiMenu}" converter="yesNoConverter"/>
+                        </p:column>
+                        <p:column headerText="#{msg['permissao.global']}" styleClass="text-center">
+                            <h:outputText value="#{permissao.global}" converter="yesNoConverter"/>
+                        </p:column>
+                        <p:column headerText="#{msg['permissao.url']}">
+                            <h:outputLink value="#{request.contextPath}#{permissao.url}" title="#{permissao.url}" target="_blank" style="font-size: 0.8em">
+                                #{permissao.url}
+                            </h:outputLink>
+                        </p:column>
+                        <p:column headerText="#{xmsg['actions']}" styleClass="text-center" >  
                             <h:panelGroup rendered="#{not permissao.ativo}" style="color: red;">
                                 (<h:outputText value="#{permissao.ativo}" converter="activeInactiveConverter" />)
                             </h:panelGroup>
