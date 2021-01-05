@@ -145,7 +145,8 @@ public class Charts {
         if (Years.yearsBetween(inicio, fim).getYears() > 2) {
             return "YEAR(" + campo + ")";
         } else if (Months.monthsBetween(inicio, fim).getMonths() > 2) {
-            return "TO_CHAR(" + campo + ", 'MM/YYYY')";
+            //utilizando ano/mes para manter a ordenacao correta, pois o campo se torna string
+            return "TO_CHAR(" + campo + ", 'YYYY/MM')";
         } else {
             return "cast(" + campo + " as date)";
         }
