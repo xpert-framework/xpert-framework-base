@@ -4,7 +4,7 @@
     <parent>
         <artifactId>xpert-framework-base</artifactId>
         <groupId>com.xpert.base</groupId>
-        <version>1.4</version>
+        <version>1.5</version>
     </parent>
 
     <groupId>com.xpert.base</groupId>
