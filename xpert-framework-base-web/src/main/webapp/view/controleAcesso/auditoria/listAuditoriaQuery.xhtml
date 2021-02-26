@@ -19,17 +19,17 @@
             <p:panel header="#{msg['filtros']}"  >
                 <div class="ui-fluid">
                     <div class="ui-g">
-                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                        <div class="ui-g-12 ui-md-6 ui-lg-2">
                             <h:outputLabel value="* #{msg['dataInicio']}:" />
                             <p:calendar  value="#{queryAuditingMB.consultaAuditoria.dataInicial}" maxlength="255" 
                                          pattern="dd/MM/yyyy" mask="true" showOn="button" showButtonPanel="true" navigator="true"/>
                         </div>
-                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                        <div class="ui-g-12 ui-md-6 ui-lg-2">
                             <h:outputLabel value="* #{msg['dataFinal']}:" />
                             <p:calendar  value="#{queryAuditingMB.consultaAuditoria.dataFinal}" maxlength="255" 
                                          pattern="dd/MM/yyyy" mask="true" showOn="button" showButtonPanel="true" navigator="true"/>
                         </div>
-                        <div class="ui-g-12 ui-md-12 ui-lg-6">
+                        <div class="ui-g-12 ui-md-12 ui-lg-4">
                             <h:outputLabel value="#{msg['usuarios']}:" />
                             <p:selectCheckboxMenu  value="#{queryAuditingMB.consultaAuditoria.usuarios}" multiple="true" 
                                                    filter="true" filterMatchMode="contains" converter="entityConverter">
@@ -37,7 +37,7 @@
                                                itemValue="#{usuario}" itemLabel="#{usuario.nome}"/>
                             </p:selectCheckboxMenu>
                         </div>
-                        <div class="ui-g-12 ui-md-12 ui-lg-6">
+                        <div class="ui-g-12 ui-md-6 ui-lg-4">
                             <h:outputLabel value="#{msg['tiposAuditoria']}:" />
                             <p:selectCheckboxMenu  value="#{queryAuditingMB.consultaAuditoria.tipos}" multiple="true" 
                                                    filter="true" filterMatchMode="contains" converter="omnifaces.GenericEnumConverter" >
@@ -45,13 +45,77 @@
                                                itemValue="#{auditingType}" itemLabel="#{xmsg[auditingType.description]}"/>
                             </p:selectCheckboxMenu>
                         </div>
-                        <div class="ui-g-12 ui-md-12 ui-lg-6">
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
                             <h:outputLabel value="#{msg['tabelas']}:" />
                             <p:selectCheckboxMenu  value="#{queryAuditingMB.consultaAuditoria.tabelas}" multiple="true" 
                                                    filter="true" filterMatchMode="contains" converter="omnifaces.SelectItemsIndexConverter">
                                 <f:selectItems value="#{queryAuditingMB.tabelas}" var="tabela"
                                                itemValue="#{tabela}" itemLabel="#{tabela.nome}"/>
                             </p:selectCheckboxMenu>
+                             <h:outputText value="Tabelas usadas na consulta (Em algumas consultas o nome da tabela nao está disponível, nesse caso tentar filtar no campo 'SQL')" styleClass="help-block"/>
+                        </div>
+
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <h:outputLabel value="#{msg['queryAuditing.identifier']}:" />
+                            <p:inputMask mask="9?9999999999999" slotChar="" value="#{queryAuditingMB.consultaAuditoria.identificador}" maxlength="200"   />
+                            <h:outputText value="Identificador do registro (apenas para o tipo 'Consulta por Id')" styleClass="help-block"/>
+                        </div>
+                        
+                          <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <h:outputLabel value=" #{msg['queryAuditing.ip']}:" />
+                            <p:inputText value="#{queryAuditingMB.consultaAuditoria.ip}" maxlength="200"   />
+                            <h:outputText value="IP de onde partiu a requisição" styleClass="help-block"/>
+                        </div>
+
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <h:outputLabel value=" #{msg['queryAuditing.hasQueryParameter']}:" />
+                            <p:selectOneMenu value="#{queryAuditingMB.consultaAuditoria.consultaComParametros}"  >
+                                <f:selectItem itemLabel="#{msg['todos']}" />
+                                <f:selectItems value="#{booleanSelectItens}" />
+                            </p:selectOneMenu>
+                            <h:outputText value="Indica se a consulta possui ou não parâmtros (cláusula 'where')" styleClass="help-block"/>
+                        </div>
+
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <h:outputLabel value=" #{msg['queryAuditing.paginatedQuery']}:" />
+                            <p:selectOneMenu value="#{queryAuditingMB.consultaAuditoria.consultaPaginada}"  >
+                                <f:selectItem itemLabel="#{msg['todos']}" />
+                                <f:selectItems value="#{booleanSelectItens}" />
+                            </p:selectOneMenu>
+                            <h:outputText value="Indica se a consulta possui paginação (limitada a alguns registros)" styleClass="help-block"/>
+                        </div>
+
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <h:outputLabel value="#{msg['queryAuditing.rowsTotal']}:" />
+                            <h:panelGrid columns="3" styleClass="w-100p">
+                                <p:inputMask mask="9?9999999999999" slotChar="" value="#{queryAuditingMB.consultaAuditoria.totalLinhasInicial}"    />
+                                <h:outputText value="até"/>
+                                <p:inputMask mask="9?9999999999999" slotChar="" value="#{queryAuditingMB.consultaAuditoria.totalLinhasFinal}"    />
+                            </h:panelGrid>
+                            <h:outputText value="Quantidade total de linhas retornadas na consulta" styleClass="help-block"/>
+                        </div>
+                        
+                        <div class="ui-g-12 ui-md-6 ui-lg-3">
+                            <h:outputLabel value="#{msg['queryAuditing.timeMilliseconds']}:" />
+                            <h:panelGrid columns="3" styleClass="w-100p">
+                                <p:inputMask mask="9?9999999999999" slotChar="" value="#{queryAuditingMB.consultaAuditoria.tempoConsultaInicial}"    />
+                                <h:outputText value="até"/>
+                                <p:inputMask mask="9?9999999999999" slotChar="" value="#{queryAuditingMB.consultaAuditoria.tempoConsultaFinal}"    />
+                            </h:panelGrid>
+                             <h:outputText value="Tempo em milisegundos que a consulta levou para ser executada" styleClass="help-block"/>
+                        </div>
+
+
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <h:outputLabel value=" #{msg['queryAuditing.sqlQuery']}:" />
+                            <p:inputText value="#{queryAuditingMB.consultaAuditoria.sqlQuery}"  maxlength="200" />
+                            <h:outputText value="Instrução SQL da consulta a base de dados" styleClass="help-block"/>
+                        </div>
+
+                        <div class="ui-g-12 ui-md-6 ui-lg-6">
+                            <h:outputLabel value=" #{msg['queryAuditing.sqlParameters']}:" />
+                            <p:inputText value="#{queryAuditingMB.consultaAuditoria.sqlParameters}"  maxlength="200" />
+                            <h:outputText value="Parâmetros do SQL da consulta a base de dados (cláusula 'where')" styleClass="help-block"/>
                         </div>
 
                     </div>
@@ -73,10 +137,10 @@
             <h:panelGroup layout="block" id="panelResultado" styleClass="ui-fluid">
 
                 <div class="uix-table-actions"  >
-                    <x:dataTableExporter target=":forListAuditoria:tabViewAuditing:dataTableAuditing" fileName="Auditing_List" landscape="true"/>
+                    <x:dataTableExporter target=":forListAuditoria:dataTableAuditing" fileName="QueryAuditing_List" landscape="true"/>
                 </div>
 
-                <p:dataTable var="audit" emptyMessage="#{xmsg.noRecordFound}" paginator="true"
+                <p:dataTable var="audit" emptyMessage="#{xmsg.noRecordFound}" paginator="true" styleClass="font-12"
                              rowsPerPageTemplate="10,20,30"  rows="10" paginatorPosition="bottom"
                              currentPageReportTemplate="#{xpert.defaultCurrentPageReportTemplate}"
                              paginatorTemplate="#{xpert.defaultPaginatorTemplate}"
@@ -153,12 +217,6 @@
                             <f:convertNumber/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="#{msg['queryAuditing.parametersSize']}" sortBy="#{audit.parametersSize}" style="text-align: right;">
-                        <f:facet name="header">
-                            <h:outputText value="#{msg['queryAuditing.parametersSize']}"/>
-                        </f:facet>
-                        <h:outputText value="#{audit.parametersSize}"/>
-                    </p:column>
                     <p:column headerText="#{msg['queryAuditing.timeMilliseconds']}" sortBy="#{audit.timeMilliseconds}" style="text-align: right;">
                         <f:facet name="header">
                             <h:outputText value="#{msg['queryAuditing.timeMilliseconds']}"/>
@@ -178,6 +236,12 @@
                             <h:outputText value="#{msg['queryAuditing.hasQueryParameter']}"/>
                         </f:facet>
                         <h:outputText value="#{audit.hasQueryParameter}" converter="yesNoConverter" />
+                    </p:column>
+                    <p:column headerText="#{msg['queryAuditing.parametersSize']}" sortBy="#{audit.parametersSize}" style="text-align: right;">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['queryAuditing.parametersSize']}"/>
+                        </f:facet>
+                        <h:outputText value="#{audit.parametersSize}"/>
                     </p:column>
                     <p:column exportable="false" styleClass="uix-datatable-actions">
                         <p:commandButton process="@this" update=":formDetalheAudit" oncomplete="PF('dialogDetalheAudit').show()"

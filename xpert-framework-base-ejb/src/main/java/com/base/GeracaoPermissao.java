@@ -80,7 +80,7 @@ public class GeracaoPermissao {
 
         //Auditoria
         create(new Permissao("auditoria.list", "Relatório de Auditoria", "/view/controleAcesso/auditoria/listAuditoria.jsf", true, "fas fa-history"), "controleAcesso");
-        create(new Permissao("auditoriaQuery.list", "Relatório de Auditoria de Consultas", "/view/controleAcesso/auditoria/listAuditoriaQuery.jsf", true, "fas fa-history"), "controleAcesso");
+        create(new Permissao("auditoriaQuery.list", "Auditoria de Consultas", "/view/controleAcesso/auditoria/listAuditoriaQuery.jsf", true, "fas fa-history"), "controleAcesso");
         
         /*
          * Email

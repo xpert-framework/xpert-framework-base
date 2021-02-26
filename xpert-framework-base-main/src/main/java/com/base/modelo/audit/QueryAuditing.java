@@ -22,9 +22,11 @@ public class QueryAuditing extends AbstractQueryAuditing implements Serializable
     @ManyToOne
     private Usuario usuario;
 
-
     public String getEntityName() {
-        return I18N.get(StringUtils.getLowerFirstLetter(getEntity()));
+        if (getEntity() != null) {
+            return I18N.get(StringUtils.getLowerFirstLetter(getEntity()));
+        }
+        return null;
     }
 
     public Usuario getUsuario() {

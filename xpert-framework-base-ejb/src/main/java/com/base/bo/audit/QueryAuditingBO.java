@@ -3,12 +3,15 @@ package com.base.bo.audit;
 import com.base.dao.audit.QueryAuditingDAO;
 import com.base.modelo.audit.QueryAuditing;
 import com.base.vo.audit.ConsultaQueryAuditoria;
+import com.base.vo.audit.TabelaAuditoria;
 import com.xpert.core.exception.BusinessException;
 import com.xpert.core.validation.DateValidation;
 import com.xpert.core.validation.Validation;
 import com.xpert.faces.primefaces.LazyDataModelImpl;
 import com.xpert.persistence.query.JoinBuilder;
+import com.xpert.persistence.query.Restriction;
 import com.xpert.persistence.query.Restrictions;
+import com.xpert.persistence.utils.EntityUtils;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import org.joda.time.DateTime;
@@ -31,9 +34,6 @@ public class QueryAuditingBO {
 
         if (!DateValidation.validateDateRange(consultaAuditoria.getDataInicial(), consultaAuditoria.getDataFinal())) {
             throw new BusinessException("business.intervaloDataInvalido");
-        }
-        if (consultaAuditoria.getUsuarios() == null || consultaAuditoria.getUsuarios().isEmpty()) {
-            throw new BusinessException("required.usuario");
         }
 
         Restrictions restrictions = getRestrictions(consultaAuditoria);
@@ -71,8 +71,18 @@ public class QueryAuditingBO {
             restrictions.in("q.auditingType", consultaAuditoria.getTipos());
         }
         //Tabela/Entidade
+        //Nesse ponto pegar pelo campo "entity" ou direto no proprio SQL, ja que em alguns casos o campo "entity" nao estara preenchido
         if (consultaAuditoria.getTabelas() != null && !consultaAuditoria.getTabelas().isEmpty()) {
+            //AND (entity IN (?) OR sqlQuery LIKE '%FROM%tabela' )
+            restrictions.startGroup();
             restrictions.in("q.entity", consultaAuditoria.getNomesTabelas());
+            restrictions.or();
+            for (TabelaAuditoria tabela : consultaAuditoria.getTabelas()) {
+                restrictions.like("q.sqlQuery", "FROM " + EntityUtils.getEntityTableName(tabela.getEntity(), false));
+                restrictions.or();
+                restrictions.like("q.sqlQuery", "FROM " + tabela.getEntity().getName());
+            }
+            restrictions.endGroup();
         }
         //IP
         if (!Validation.isBlank(consultaAuditoria.getIp())) {
@@ -94,19 +104,19 @@ public class QueryAuditingBO {
             restrictions.lessEqualsThan("q.timeMilliseconds", consultaAuditoria.getTempoConsultaFinal());
         }
         //Total de Linhas
-        if (consultaAuditoria.getTotalLinhasInicial()!= null) {
+        if (consultaAuditoria.getTotalLinhasInicial() != null) {
             restrictions.greaterEqualsThan("q.rowsTotal", consultaAuditoria.getTotalLinhasInicial());
         }
-        if (consultaAuditoria.getTotalLinhasFinal()!= null) {
+        if (consultaAuditoria.getTotalLinhasFinal() != null) {
             restrictions.lessEqualsThan("q.rowsTotal", consultaAuditoria.getTotalLinhasFinal());
         }
         //Consulta Paginada
         if (consultaAuditoria.getConsultaPaginada() != null) {
-            restrictions.in("q.paginatedQuery", consultaAuditoria.getConsultaPaginada());
+            restrictions.add("q.paginatedQuery", consultaAuditoria.getConsultaPaginada());
         }
         //Consulta Com Query
-        if (consultaAuditoria.getConsultaPaginada() != null) {
-            restrictions.in("q.hasQueryParameter", consultaAuditoria.getConsultaComParametros());
+        if (consultaAuditoria.getConsultaComParametros() != null) {
+            restrictions.add("q.hasQueryParameter", consultaAuditoria.getConsultaComParametros());
         }
         //Identificador
         if (consultaAuditoria.getIdentificador() != null) {
