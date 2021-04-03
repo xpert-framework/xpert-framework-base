@@ -121,3 +121,4 @@ section.conteudo h1.page-header  span{vertical-align: middle;}
 body .ui-icon {font-size: 1em;}
 .uix-dialog-fluid .ui-dialog-content{height: 100% !important}
 .help-block{font-size: 0.8em}
+.code{background-color: transparent; border: 0}

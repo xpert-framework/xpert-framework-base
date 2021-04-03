@@ -2,7 +2,6 @@ package com.base.mb.audit;
 
 import com.base.bo.audit.AuditingBO;
 import com.base.bo.audit.QueryAuditingBO;
-import com.base.modelo.audit.Auditing;
 import com.base.modelo.audit.QueryAuditing;
 import com.base.vo.audit.ConsultaQueryAuditoria;
 import com.base.vo.audit.TabelaAuditoria;
