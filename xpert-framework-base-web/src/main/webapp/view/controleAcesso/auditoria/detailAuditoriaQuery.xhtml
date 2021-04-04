@@ -100,9 +100,29 @@
                 </div>
                 <div class="ui-g-12 ui-md-12 ui-lg-12">
                     <h:outputLabel value="#{msg['queryAuditing.sqlParameters']}:" /><br/>
-                    <pre>
+                    <pre id="json-parameters">
                             <h:outputText value="#{queryAuditingMB.auditing.sqlParameters}" />
                     </pre>
+                    <table id="table-json-parameters" class="table">
+
+                    </table>
+                    <script>
+                        /*<![CDATA[*/
+                        $(function () {
+                            $("#table-json-parameters").html("");
+                            var jsonString = $("#json-parameters").html();
+                            if (jsonString != undefined && jsonString != null && jsonString != "") {
+                                try {
+                                    var jsonObject = JSON.parse(jsonString);
+                                    JsonToTable.build("table-json-parameters", jsonObject);
+                                } catch (e) {
+                                    //invalid json
+                                }
+
+                            }
+                        });
+                        /*]]>*/
+                    </script>
                 </div>
 
 
