@@ -4,12 +4,13 @@ import com.base.bo.audit.QueryAuditingBO;
 import com.base.constante.Constantes;
 import com.base.dao.DAO;
 import com.base.modelo.audit.QueryAuditing;
+import com.base.util.Dashboards;
 import com.base.vo.dashboard.DashboardAuditoriaConsulta;
 import com.xpert.core.exception.BusinessException;
 import com.xpert.core.validation.DateValidation;
 import com.xpert.i18n.I18N;
 import com.xpert.persistence.query.QueryBuilder;
-import static com.xpert.persistence.query.Sql.count;
+import static com.xpert.persistence.query.Sql.*;
 import com.xpert.utils.StringUtils;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,8 +18,6 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import org.apache.commons.lang.time.DateUtils;
-import org.joda.time.DateTime;
 import org.primefaces.model.charts.ChartModel;
 import org.primefaces.model.charts.bar.BarChartDataSet;
 import org.primefaces.model.charts.bar.BarChartModel;
@@ -185,7 +184,18 @@ public class DashboardAuditoriaConsultaBO {
         //calculo do tipo de intervalo
         String field = Charts.getGroupByTempo("startDate", dashboardAuditoria.getDataInicial(), dashboardAuditoria.getDataFinal());
 
-        return getResultadoAgrupado(field, dashboardAuditoria, false);
+        QueryBuilder queryBuilder = dao.getQueryBuilder()
+                .by(field)
+                .aggregate(
+                        count("*", "total"),
+                        max("rowsTotal"),
+                        avg("rowsTotal"),
+                        max("timeMilliseconds"),
+                        avg("timeMilliseconds"))
+                .from(QueryAuditing.class)
+                .add(queryAuditingBO.getRestrictions(dashboardAuditoria));
+
+        return queryBuilder.getResultList();
     }
 
     /**
@@ -198,7 +208,12 @@ public class DashboardAuditoriaConsultaBO {
         QueryBuilder queryBuilder = dao.getQueryBuilder()
                 .by("COALESCE(usuario.userLogin, 'NÃO INFORMADO')")
                 .aggregate(
-                        count("a", "total"))
+                        count("a", "total"),
+                        max("a.rowsTotal"),
+                        avg("a.rowsTotal"),
+                        max("a.timeMilliseconds"),
+                        avg("a.timeMilliseconds")
+                )
                 .from(QueryAuditing.class, "a")
                 .leftJoin("a.usuario", "usuario")
                 .orderBy("total")
@@ -214,7 +229,21 @@ public class DashboardAuditoriaConsultaBO {
      * @return
      */
     public List<Object[]> getConsultasTabela(DashboardAuditoriaConsulta dashboardAuditoria) {
-        List<Object[]> result = getResultadoAgrupado("entity", dashboardAuditoria, true);
+
+        QueryBuilder queryBuilder = dao.getQueryBuilder()
+                .by("entity")
+                .aggregate(
+                        count("*", "total"),
+                        max("rowsTotal"),
+                        avg("rowsTotal"),
+                        max("timeMilliseconds"),
+                        avg("timeMilliseconds")
+                )
+                .from(QueryAuditing.class)
+                .add(queryAuditingBO.getRestrictions(dashboardAuditoria))
+                .orderBy("total");
+
+        List<Object[]> result = queryBuilder.getResultList();
 
         //tratar nome da classe
         for (Object[] linha : result) {
@@ -224,7 +253,8 @@ public class DashboardAuditoriaConsultaBO {
     }
 
     /**
-     * Retorna a lista de quantidade de consultas por faixa de linhas retornadas na consulta
+     * Retorna a lista de quantidade de consultas por faixa de linhas retornadas
+     * na consulta
      *
      * @param dashboardAuditoria
      * @return
@@ -241,7 +271,9 @@ public class DashboardAuditoriaConsultaBO {
                         + " ELSE '7. Acima de 100.001 linhas' END "
                 )
                 .aggregate(
-                        count("*")
+                        count("*"),
+                        max("timeMilliseconds"),
+                        avg("timeMilliseconds")
                 )
                 .from(QueryAuditing.class)
                 .add(queryAuditingBO.getRestrictions(dashboardAuditoria))
@@ -249,8 +281,10 @@ public class DashboardAuditoriaConsultaBO {
 
         return result;
     }
+
     /**
-     * Retorna a lista de quantidade de consultas por faixa de linhas retornadas na consulta
+     * Retorna a lista de quantidade de consultas por faixa de linhas retornadas
+     * na consulta
      *
      * @param dashboardAuditoria
      * @return
@@ -268,7 +302,9 @@ public class DashboardAuditoriaConsultaBO {
                         + " ELSE '8. Acima de 5 minutos' END "
                 )
                 .aggregate(
-                        count("*")
+                        count("*"),
+                        max("rowsTotal"),
+                        avg("rowsTotal")
                 )
                 .from(QueryAuditing.class)
                 .add(queryAuditingBO.getRestrictions(dashboardAuditoria))
@@ -350,6 +386,7 @@ public class DashboardAuditoriaConsultaBO {
     public PieChartModel getGraficoConsultasParametros(DashboardAuditoriaConsulta dashboardAuditoria) {
         return getGraficoGenerico(null, dashboardAuditoria.getConsultasParametros(), PieChartModel.class);
     }
+
     /**
      * Retorna o grafico de consultas por faixa de linhas retornadas
      *
@@ -359,6 +396,7 @@ public class DashboardAuditoriaConsultaBO {
     public BarChartModel getGraficoConsultasFaixaLinhas(DashboardAuditoriaConsulta dashboardAuditoria) {
         return getGraficoGenerico(null, dashboardAuditoria.getConsultasFaixaLinhas(), BarChartModel.class);
     }
+
     /**
      * Retorna o grafico de consultas por faixa de linhas retornadas
      *

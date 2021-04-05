@@ -100,11 +100,7 @@
                     <div class="ui-g-12 ui-md-6 ui-lg-3 card">
                         <p:panel>
                             <h3>#{msg['dashboards.consultaComMaiorTempo']}</h3>
-                            <h:outputText styleClass="card-value" value="#{dashboardAuditoriaConsultaMB.dashboardAuditoria.consultaComMaiorTempo}"> 
-                                <f:convertNumber/>
-                            </h:outputText>
-                            <h:outputText value="-" rendered="#{empty dashboardAuditoriaConsultaMB.dashboardAuditoria.consultaComMaiorTempo}" />
-                            (miliseg.)
+                            <h:outputText styleClass="card-value" value="#{dashboardAuditoriaConsultaMB.dashboardAuditoria.consultaComMaiorTempoFormatada}" escape="false" />
                             <i class="far fa-hourglass card-icon" ></i>
                             <h6>#{msg['dashboards.consultaComMaiorTempoDetalhe']}</h6>
                         </p:panel>

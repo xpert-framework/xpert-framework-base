@@ -7,6 +7,7 @@ import com.base.modelo.controleacesso.Perfil;
 import com.base.modelo.controleacesso.Permissao;
 import com.base.modelo.controleacesso.SituacaoUsuario;
 import com.base.modelo.controleacesso.Usuario;
+import com.base.util.Dashboards;
 import com.base.vo.dashboard.DashboardAcesso;
 import com.xpert.core.exception.BusinessException;
 import com.xpert.core.validation.DateValidation;

@@ -1,5 +1,6 @@
 package com.base.vo.dashboard;
 
+import com.base.util.Dashboards;
 import com.base.vo.audit.ConsultaQueryAuditoria;
 import java.util.List;
 import org.joda.time.DateTime;
@@ -45,6 +46,14 @@ public class DashboardAuditoriaConsulta extends ConsultaQueryAuditoria {
     private BarChartModel graficoConsultasFaixaLinhas;
     private BarChartModel graficoConsultasFaixaHorario;
     private BarChartModel graficoConsultasUsuario;
+    
+    public String getConsultaComMaiorTempoFormatada(){
+        
+        if(consultaComMaiorTempo != null){
+            return Dashboards.getDuracao(consultaComMaiorTempo);
+        }
+        return "-";
+    }
 
     /**
      * Retorna a quantidade de dias entre a dataInicio e a dataFim

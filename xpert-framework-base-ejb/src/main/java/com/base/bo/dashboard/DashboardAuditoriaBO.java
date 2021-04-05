@@ -3,6 +3,7 @@ package com.base.bo.dashboard;
 import com.base.constante.Constantes;
 import com.base.dao.DAO;
 import com.base.modelo.audit.Auditing;
+import com.base.util.Dashboards;
 import com.base.vo.dashboard.DashboardAuditoria;
 import static com.xpert.persistence.query.Sql.*;
 import com.xpert.audit.model.AuditingType;

@@ -3,6 +3,7 @@ package com.base.bo.dashboard;
 import com.base.constante.Constantes;
 import com.base.dao.DAO;
 import com.base.modelo.configuracao.ErroSistema;
+import com.base.util.Dashboards;
 import com.base.vo.dashboard.DashboardErroSistema;
 import com.xpert.core.exception.BusinessException;
 import com.xpert.core.validation.DateValidation;

@@ -22,7 +22,7 @@
 
                 <p:dataTable id="dataTableConsultasFaixaTempo" value="#{dashboardAuditoriaConsultaMB.dashboardAuditoria.consultasFaixaTempo}" 
                              scrollable="true" scrollHeight="200" var="objeto" >
-                    <p:column sortBy="#{objeto[0]}">
+                    <p:column sortBy="#{objeto[0]}" width="200" >
                         <f:facet name="header">
                             <h:outputText value="#{msg['dashboards.faixaTempo']}"/>
                         </f:facet>
@@ -33,7 +33,7 @@
                     </p:column>
                     <p:column style="text-align: right" sortBy="#{objeto[1]}">
                         <f:facet name="header">
-                            <h:outputText value="#{msg['quantidade']}"/>
+                            <h:outputText value="#{msg['dashboards.quantidadeConsultas']}"/>
                         </f:facet>
                         <h:outputText value="#{objeto[1]}">
                             <f:convertNumber/>
@@ -43,6 +43,22 @@
                                 <f:convertNumber/>
                             </h:outputText>
                         </f:facet>
+                    </p:column>
+                    <p:column style="text-align: right" sortBy="#{objeto[2]}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['dashboards.maiorQuantLinhas']}"/>
+                        </f:facet>
+                        <h:outputText value="#{objeto[2]}">
+                            <f:convertNumber/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column style="text-align: right" sortBy="#{objeto[3]}">
+                        <f:facet name="header">
+                            <h:outputText value="#{msg['dashboards.mediaLinhas']}"/>
+                        </f:facet>
+                        <h:outputText value="#{objeto[3]}">
+                            <f:convertNumber maxFractionDigits="0" minFractionDigits="0"/>
+                        </h:outputText>
                     </p:column>
                 </p:dataTable>
             </div>
