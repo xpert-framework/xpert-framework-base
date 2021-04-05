@@ -1,5 +1,6 @@
 package com.base.bo.dashboard;
 
+import com.base.constante.Constantes;
 import com.base.dao.DAO;
 import com.base.modelo.controleacesso.AcessoSistema;
 import com.base.modelo.controleacesso.Perfil;
@@ -24,6 +25,7 @@ import org.primefaces.model.charts.bar.BarChartModel;
 import org.primefaces.model.charts.pie.PieChartModel;
 
 /**
+ * Objeto de Negocio para o Dashboard de acessos
  *
  * @author ayslanms
  */
@@ -237,7 +239,6 @@ public class DashboardAcessoBO {
             valuesMedia.add(((Number) linha[2]).longValue());
         }
 
-
         return Charts.getGraficoQuantidadeMedia(valuesQuantidade, valuesMedia, labels, dashboardAcesso.getIntervaloDias());
     }
 
@@ -354,8 +355,8 @@ public class DashboardAcessoBO {
 
         DashboardAcesso dashboardAcesso = new DashboardAcesso();
         //por padrao ele vem com o ultimo mes carregado
-        dashboardAcesso.setDataInicial(new DateTime().plusMonths(-1).toDate());
-        dashboardAcesso.setDataFinal(new Date());
+        dashboardAcesso.setDataInicial(Dashboards.getDataAtualMenosUmMes());
+        dashboardAcesso.setDataFinal(Dashboards.getDataAtual());
 
         //montar indicadores
         carregarDashboardAcesso(dashboardAcesso);
@@ -406,7 +407,7 @@ public class DashboardAcessoBO {
         dashboardAcesso.setGraficoUsuariosPerfil(getGraficoUsuariosPerfil(dashboardAcesso));
         dashboardAcesso.setGraficoAcessosFaixaHorario(getGraficoAcessosFaixaHorario(dashboardAcesso));
         dashboardAcesso.setGraficoAcessosFaixaHorarioMedia(getGraficoAcessosFaixaHorarioMedia(dashboardAcesso));
-        dashboardAcesso.setGraficoAcessosUsuario(getGraficoAcessosUsuario(dashboardAcesso, 20));
+        dashboardAcesso.setGraficoAcessosUsuario(getGraficoAcessosUsuario(dashboardAcesso, Constantes.QUANTIDADE_LIMITE_REGISTROS_GRAFICOS_DASHBOARD));
 
     }
 

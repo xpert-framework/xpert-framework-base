@@ -137,6 +137,7 @@ public class GeracaoPermissao {
         create(new Permissao("dashboards.acessos", "Usuários/Acessos", "/view/dahboards/acessosUsuario/dashboardAcessos.jsf", true, "fas fa-users"), "dashboards");
         create(new Permissao("dashboards.erroSistema", "Erros do Sistema", "/view/dahboards/erroSistema/dashboardErroSistema.jsf", true, "fas fa-exclamation-circle"), "dashboards");
         create(new Permissao("dashboards.auditoria", "Auditoria", "/view/dahboards/auditoria/dashboardAuditoria.jsf", true, "fas fa-history"), "dashboards");
+        create(new Permissao("dashboards.auditoriaConsulta", "Auditoria de Consultas", "/view/dahboards/auditoriaConsulta/dashboardAuditoriaConsulta.jsf", true, "fas fa-history"), "dashboards");
 
         /**
          * Permissoes Globais (essas permissoes todos terao acessos)

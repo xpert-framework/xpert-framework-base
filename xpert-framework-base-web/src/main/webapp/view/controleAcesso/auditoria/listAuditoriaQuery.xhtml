@@ -180,7 +180,7 @@
                         <f:facet name="header">
                             <h:outputText value="#{xmsg.table}"/>
                         </f:facet>
-                        <h:outputText value="#{audit.entityName}" />
+                        <h:outputText value="#{audit.entityName}" /> (<h:outputText value="#{audit.entity}" />)
                     </p:column>
                     <p:column headerText="#{xmsg.id}" sortBy="#{audit.identifier}">
                         <f:facet name="header">

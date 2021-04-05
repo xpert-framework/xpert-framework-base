@@ -1,8 +1,8 @@
 package com.base.vo.audit;
 
 import com.base.modelo.controleacesso.Usuario;
-import com.xpert.audit.model.AuditingType;
 import com.xpert.audit.model.QueryAuditingType;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class ConsultaQueryAuditoria {
 
     private String sqlQuery;
     private String sqlParameters;
-    
+
     private Long identificador;
 
     /**
@@ -43,7 +43,13 @@ public class ConsultaQueryAuditoria {
      * @return
      */
     public List<String> getNomesTabelas() {
-        return TabelaAuditoria.getNomesTabelas(tabelas);
+        //copiar e cocnverter para uppercase
+        List<String> entidades = TabelaAuditoria.getNomesTabelas(tabelas);
+        List<String> entidadesUpper = new ArrayList<>();
+        for (String entidade : entidades) {
+            entidadesUpper.add(entidade.toUpperCase());
+        }
+        return entidadesUpper;
     }
 
     public Long getIdentificador() {
@@ -53,8 +59,6 @@ public class ConsultaQueryAuditoria {
     public void setIdentificador(Long identificador) {
         this.identificador = identificador;
     }
-    
-    
 
     public Date getDataInicial() {
         return dataInicial;

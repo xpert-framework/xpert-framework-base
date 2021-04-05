@@ -98,6 +98,39 @@ END LOOP;
 END
 $do$;
 
+
+/**
+Inserts em QueryAuditing
+**/
+
+DO
+$do$
+BEGIN 
+FOR loop_counter IN 1..random()*10  LOOP
+    insert into queryauditing
+  SELECT
+          nextval('queryauditing_id_seq') as id, auditingtype, enddate, entity, firstresult, hasqueryparameter, 
+          identifier, ip, maxresults, paginatedquery, parameterssize, random()*100000 as rowstotal, 
+          sqlparameters, sqlquery, NOW() - (random()*10 * (interval '30 days')) as startdate, random()*1000000 as timemilliseconds, 
+          (select id from usuario order by random() limit 1) as usuario_id
+         
+         from queryauditing order by random() limit random()*100;
+END LOOP; 
+END
+$do$;
+
+select random()*100000;
+
+
+/*dobrar tamaho da auditing */
+ insert into auditing
+  SELECT nextval('auditing_id_seq') as id, 
+         auditingtype, entity, eventdate, 
+         identifier, 
+         ip, 
+         usuario_id
+         from auditing;
+
 select count(1) from metadata;
 select now()- make_interval(days := (random()*100)::integer);
 delete from auditing where usuario_id >10;
