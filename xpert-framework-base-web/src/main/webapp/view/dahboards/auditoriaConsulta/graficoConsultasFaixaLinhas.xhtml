@@ -21,7 +21,7 @@
                 <dashboard:dataTableExporter fileName="Auditoria_Consultas_FaixaLinhas" target=":formDashboardAuditoria:tabViewConsultasFaixaLinhas:dataTableConsultasFaixaLinhas" />
 
                 <p:dataTable id="dataTableConsultasFaixaLinhas" value="#{dashboardAuditoriaConsultaMB.dashboardAuditoria.consultasFaixaLinhas}" 
-                             scrollable="true" scrollHeight="200" var="objeto" >
+                             scrollable="true" scrollHeight="150" var="objeto" >
                     <p:column sortBy="#{objeto[0]}" width="200" >
                         <f:facet name="header">
                             <h:outputText value="#{msg['dashboards.faixaLinhas']}"/>
