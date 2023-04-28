@@ -5,6 +5,8 @@ CREATE INDEX auditing_usuario_id_idx ON auditing (usuario_id);
 CREATE INDEX auditing_entity_idx ON auditing (entity);
 CREATE INDEX auditing_auditingtype_idx ON auditing (auditingtype);
 CREATE INDEX auditing_eventdate_auditingtype_idx ON auditing (eventdate, auditingtype);
+CREATE INDEX auditing_identifier_entity_idx ON auditing (identifier, entity);
+
 
 --metadata
 CREATE INDEX metadata_auditing_id_idx ON metadata (auditing_id);
